@@ -1,15 +1,14 @@
 import { Component, inject } from '@angular/core';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatCardModule} from '@angular/material/card';
-import { MatToolbarModule } from '@angular/material/toolbar';
-import {MatGridListModule} from '@angular/material/grid-list';
 import { Group } from '../app/interfaces';
 import { GroupsService } from '../app/groups.service';
+import { FlexLayoutModule } from '@angular/flex-layout'
 
 @Component({
   selector: 'app-groups',
   standalone: true,
-  imports: [MatSlideToggleModule,MatCardModule, MatToolbarModule, MatGridListModule ],
+  imports: [MatSlideToggleModule,MatCardModule, FlexLayoutModule],
   templateUrl: './groups.component.html',
   styleUrl: './groups.component.scss'
 })

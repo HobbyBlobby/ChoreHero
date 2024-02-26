@@ -4,6 +4,12 @@
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
+.content {
+    max-width: 1000px;
+    margin: auto;
+    border: 2px black;
+}
+
 /**
 * Generated theme by Material Theme Generator
 * https://materialtheme.arcsine.dev
