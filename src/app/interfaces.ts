@@ -4,7 +4,7 @@ export interface Hero {
 }
 
 export interface Group {
-    id: number,
-    name: string,
-    members: Array<Hero>
+    group_id: number,
+    group_name: string
+    // members: Array<Hero>
  }

@@ -14,10 +14,12 @@ import { FlexLayoutModule } from '@angular/flex-layout'
 })
 export class GroupsComponent {
   groupList: Group[] = [];
-  groupService: GroupsService = inject(GroupsService);
-  constructor() {
+  // groupService: GroupsService = inject(GroupsService);
+  constructor(private groupService: GroupsService) {
     // this.groupService.getAllGroups().then((groups: Group[]) => this.groupList = groups);
-    this.groupList = this.groupService.getAllGroups();
+  }
+  ngOnInit(): void {
+    this.groupService.getAllGroups().subscribe(groups => { console.log(groups); this.groupList = groups;} );
   }
 
 }
