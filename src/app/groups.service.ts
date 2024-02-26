@@ -1,37 +1,26 @@
 import { Injectable } from '@angular/core';
 import { Group } from './interfaces';
 
+import * as JSONgroups from './data/groups.json';
+
 @Injectable({
   providedIn: 'root'
 })
 export class GroupsService {
-  groupList: Group[] = [
-    { "id": 1,
-      "name": "FamilyLemke",
-      "members": []
-    },
-    { "id": 2,
-      "name": "FamilyZwo",
-      "members": []
-    },
-    { "id": 3,
-      "name": "FamilyLemke",
-      "members": []
-    },
-    { "id": 4,
-      "name": "FamilyZwo",
-      "members": []
-    }
-  ]
-
-  constructor() { }
+  groupList: Group[] = []
+  
+  constructor() { 
+    // this.getAllGroups().then((groupList: Group[]) => this.groupList = groupList);
+  }
 
   getAllGroups(): Group[] {
-    return this.groupList;
+    return JSONgroups.groups;
+    // const data = await fetch('./data/groups.json');
+    // return await data.json() ?? [];
   }
 
   getGroupById(search_id: number): Group | undefined {
-    return this.groupList.find(group => search_id == group.id);
+    return JSONgroups.groups.find(group => search_id == group.id);
   }
 
 }
