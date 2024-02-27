@@ -1,6 +1,7 @@
-<div class="content" fxLayout="col wrap" fxLayoutAlign="center center">
+<div color="accent">
+<div class="content" fxLayout="col wrap" fxLayoutAlign="center space-between">
     @for (group of this.groupList; track group) {
-    <mat-card fxFlex style="width: 50%; padding: 5px;">
+    <mat-card style="padding: 5px;width: 45%; margin:20px">
         <mat-card-header>{{group.group_name}}</mat-card-header>
         <img mat-card-image src="https://material.angular.io/assets/img/examples/shiba2.jpg" alt="Photo of a Shiba Inu" >
         <mat-card-content>
@@ -12,4 +13,5 @@
         <mat-card-footer>ID: {{group.group_id}}</mat-card-footer>
     </mat-card>
     }
+</div>
 </div>
