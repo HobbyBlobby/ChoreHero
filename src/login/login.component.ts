@@ -5,6 +5,7 @@ import { MatSidenavModule } from '@angular/material/sidenav'
 import {MatInputModule} from '@angular/material/input';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatButtonModule} from '@angular/material/button';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -19,12 +20,16 @@ export class LoginComponent {
     passphrase: new FormControl('')
   })
 
-  constructor(private loginService: LoginService) {}
+  constructor(private loginService: LoginService, private activatedRoute: ActivatedRoute, private router: Router) {}
 
   submitLogin() {
     this.loginService.submitLogin(
       this.loginForm.value.account ?? '',
       this.loginForm.value.passphrase ?? ''
     );
+  }
+
+  clickCreateAccount() {
+    this.router.navigate(['createAccount'], {relativeTo: this.activatedRoute});
   }
 }

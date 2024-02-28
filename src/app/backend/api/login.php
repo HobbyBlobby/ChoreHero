@@ -1,5 +1,8 @@
 <?php
-// basic script returning all data from table Groups
+// login script
+// 1. read table Accounts with accountname and hash
+// 2. if successful: generate token and enter token in Table 
+
 require 'database.php';
 
 $groups = [];
