@@ -21,7 +21,7 @@ export class GroupsComponent {
     // this.groupService.getAllGroups().then((groups: Group[]) => this.groupList = groups);
   }
   ngOnInit(): void {
-    this.groupService.getAllGroups().subscribe(groups => { console.log(groups); this.groupList = groups;} );
+    this.groupService.getAllGroups().subscribe(groups => this.groupList = groups );
   }
 
 }

@@ -1,9 +1,9 @@
-import { Injectable, NgModule } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { Group } from './interfaces';
 import { HttpClient } from '@angular/common/http';
 
 // import * as JSONgroups from './data/groups.json';
-import { Observable, of } from 'rxjs';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'

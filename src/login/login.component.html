@@ -1,0 +1,20 @@
+<div class="content">
+    <mat-sidenav-container class="sidenav-container">
+        <mat-sidenav-content>
+            <section class="formBox">
+                <h2 class="section-heading">Login</h2>
+                <form [formGroup]="loginForm" (submit)="submitLogin()" class="loginForm">
+                    <mat-form-field>
+                        <mat-label for="account">Account Name</mat-label>
+                        <input matInput id="acount" type="text" formControlName="account">
+                    </mat-form-field>
+                    <mat-form-field>
+                        <mat-label for="passphrase">Passwort</mat-label>
+                        <input matInput id="passphrase" type="password" formControlName="passphrase">
+                    </mat-form-field>
+                    <button mat-raised-button color="primary" type="submit">Login</button>
+                </form>
+                </section>
+        </mat-sidenav-content>
+    </mat-sidenav-container>
+</div>
