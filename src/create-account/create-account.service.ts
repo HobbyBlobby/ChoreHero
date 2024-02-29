@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { SHA256 } from 'crypto-js';
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 @Injectable({
@@ -13,11 +13,7 @@ export class CreateAccountService {
 
   createAccount(account: string, passphrase: string): Observable<string> {
     let hash = this.createHash(account, passphrase);
-    let params = new HttpParams();
-    params.append("account", account);
-    params.append("hash", hash);
-    let url = this.createAccountURL + "?account=" + account + "&hash=" + hash;
-    return this.http.get<string>(url);
+    return this.http.get<string>(this.createAccountURL, {params: {"account": account, "hash": hash}});
   }
 
   createHash(account: string, passphrase: string) : string {

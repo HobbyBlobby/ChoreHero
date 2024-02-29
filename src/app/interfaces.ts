@@ -8,3 +8,8 @@ export interface Group {
     group_name: string
     // members: Array<Hero>
  }
+
+export interface LoginResponse {
+    status: string,
+    data: {token: string, expire_on: string}
+}

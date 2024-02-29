@@ -5,6 +5,14 @@
 require 'database.php';
 
 $returnVal = [];
+
+if(empty($_GET["account"]) || empty($_GET["hash"]) ) {
+    $returnVal["status"] = "err_param";
+    // $returnVal["param"] = $_GET;
+    echo json_encode($returnVal);
+    exit();
+}
+
 $sql = "SELECT * FROM `Accounts` WHERE `account_name` = '$_GET[account]'";
 
 if($result = mysqli_query($con,$sql))

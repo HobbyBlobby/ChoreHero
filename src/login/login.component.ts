@@ -6,6 +6,9 @@ import {MatInputModule} from '@angular/material/input';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatButtonModule} from '@angular/material/button';
 import { ActivatedRoute, Router } from '@angular/router';
+import { LoginResponse } from '../app/interfaces';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-login',
@@ -20,12 +23,41 @@ export class LoginComponent {
     passphrase: new FormControl('')
   })
 
-  constructor(private loginService: LoginService, private activatedRoute: ActivatedRoute, private router: Router) {}
+  constructor(
+    private loginService: LoginService, 
+    private activatedRoute: ActivatedRoute, 
+    private router: Router,
+    private snackBar: MatSnackBar) {}
 
   submitLogin() {
     this.loginService.submitLogin(
       this.loginForm.value.account ?? '',
       this.loginForm.value.passphrase ?? ''
+    ).subscribe({
+        next: value => this.handleLoginResponse(value, this.loginForm.value.account ?? ''),      
+        error: err =>  this.handleServerError(err)
+    });
+  }
+
+  handleLoginResponse(response: LoginResponse, account: string): void {
+    if(response.status == "success") {
+      localStorage.setItem("loginToken", response.data.token);
+      this.snackBar.open('Willkommen ' + account + "!", undefined, {duration: 3000});
+      this.router.navigate(['groupList'], {relativeTo: this.activatedRoute});
+      return;
+    }
+    if(response.status == "err_failed") {
+      this.snackBar.open('Nutzer/Passwort falsch ', undefined, {duration: 3000});
+      return;
+    }
+  }
+
+  handleServerError(error: HttpErrorResponse): void {
+    console.warn(error.statusText)
+    this.snackBar.open(
+      'Internen Fehler, bitte später erneut probieren. (Fehler ' + error.status + ": " + error.statusText + ')', 
+      undefined, 
+      {duration: 3000}
     );
   }
 
