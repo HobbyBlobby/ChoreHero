@@ -47,7 +47,10 @@ export class LoginComponent {
       return;
     }
     if(response.status == "err_failed") {
-      this.snackBar.open('Nutzer/Passwort falsch ', undefined, {duration: 3000});
+      this.snackBar.open('Nutzer/Passwort falsch ', undefined,
+      { duration: 3000,
+        panelClass: ['snack_bar']
+      });
       return;
     }
   }
@@ -55,9 +58,10 @@ export class LoginComponent {
   handleServerError(error: HttpErrorResponse): void {
     console.warn(error.statusText)
     this.snackBar.open(
-      'Internen Fehler, bitte später erneut probieren. (Fehler ' + error.status + ": " + error.statusText + ')', 
+      'Internen Fehler, bitte später erneut probieren.\n(Fehler ' + error.status + ": " + error.statusText + ')', 
       undefined, 
-      {duration: 3000}
+      {duration: 3000,
+       panelClass: ['snack_bar']} // this class allows to use \n for line breaks in snack bar messages
     );
   }
 
