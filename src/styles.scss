@@ -3,12 +3,16 @@
 @import '@angular/material/prebuilt-themes/purple-green.css';
 
 html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
-
-.content {
-    max-width: 1000px;
-    margin: auto;
+body { 
+    margin: 0;
+    font-family: Roboto, "Helvetica Neue", sans-serif; 
+    // max-width: 1000px;
 }
+
+// .content {
+    // max-width: 1000px;
+    // margin: auto;
+// }
 
 .snack_bar {
     white-space: pre-wrap
