@@ -1,6 +1,14 @@
 <?php
 // basic script returning all data from table Groups
+
+if (require 'handleCors.php') {return 200;}
 require 'database.php';
+require 'checkLogin.php';
+
+if($validLogin == False) {
+  http_response_code(401);
+  die();
+}
 
 $groups = [];
 $sql = "SELECT * FROM Groups";

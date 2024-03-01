@@ -4,6 +4,7 @@
 // 2a. if successful: generate token and enter token in Table 
 // 2b. else: return status err_failed
 
+if (require 'handleCors.php') {return 200;}
 require 'database.php';
 
 $returnVal = [];

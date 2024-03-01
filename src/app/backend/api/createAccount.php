@@ -2,6 +2,7 @@
 
 // 1. Check, if account exists
 // 2. if not: add entry into Accounts
+if (require 'handleCors.php') {return 200;}
 require 'database.php';
 
 $returnVal = [];

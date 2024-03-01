@@ -22,7 +22,12 @@ export class GroupsService {
   getAllGroups(): Observable<Group[]> {
     // return JSONgroups.groups;
     // console.warn("Call get");
-    return this.http.get<Group[]>(this.groupURL);
+    let loginToken = localStorage.getItem("loginToken") ?? '';
+    if(!loginToken) {
+      // TODO: implement the case, that no token is available
+    }
+    return this.http.get<Group[]>(this.groupURL, {
+      headers: {'login-token': loginToken}});
     // const data = await fetch('./data/groups.json');
     // return await data.json() ?? [];
   }
