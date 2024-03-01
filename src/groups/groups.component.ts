@@ -2,7 +2,7 @@ import { Component, inject } from '@angular/core';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatCardModule} from '@angular/material/card';
 import { Group } from '../app/interfaces';
-import { GroupsService } from '../app/groups.service';
+import { GroupsService } from './groups.service';
 import { FlexLayoutModule } from '@angular/flex-layout'
 import { MatSidenavModule } from '@angular/material/sidenav'
 

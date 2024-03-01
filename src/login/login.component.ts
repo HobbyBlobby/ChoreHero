@@ -39,9 +39,17 @@ export class LoginComponent {
     });
   }
 
+  submitLogout() {
+    const account = localStorage.getItem("account");
+    localStorage.clear();
+    this.snackBar.open('Auf wiedersehen ' + account + "!", undefined, {duration: 3000});
+    this.router.navigate([''], {relativeTo: this.activatedRoute});
+}
+
   handleLoginResponse(response: LoginResponse, account: string): void {
     if(response.status == "success") {
       localStorage.setItem("loginToken", response.data.token);
+      localStorage.setItem("account", account);
       this.snackBar.open('Willkommen ' + account + "!", undefined, {duration: 3000});
       this.router.navigate(['groupList'], {relativeTo: this.activatedRoute});
       return;
