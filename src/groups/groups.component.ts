@@ -5,6 +5,7 @@ import { Group } from '../app/interfaces';
 import { GroupsService } from './groups.service';
 import { FlexLayoutModule } from '@angular/flex-layout'
 import { MatSidenavModule } from '@angular/material/sidenav'
+import { ActivatedRoute, Router } from '@angular/router';
 
 
 @Component({
@@ -16,12 +17,16 @@ import { MatSidenavModule } from '@angular/material/sidenav'
 })
 export class GroupsComponent {
   groupList: Group[] = [];
-  // groupService: GroupsService = inject(GroupsService);
-  constructor(private groupService: GroupsService) {
-    // this.groupService.getAllGroups().then((groups: Group[]) => this.groupList = groups);
-  }
+  constructor(
+    private groupService: GroupsService,
+    private activatedRoute: ActivatedRoute, 
+    private router: Router,
+) {}
   ngOnInit(): void {
-    this.groupService.getAllGroups().subscribe(groups => this.groupList = groups );
+    this.groupService.getAllGroups().subscribe({
+      next: groups => {this.groupList = groups},
+      error: err => {console.log(err); this.router.navigate([''], {relativeTo: this.activatedRoute});}
+    });
   }
 
 }

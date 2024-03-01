@@ -20,6 +20,7 @@ export class GroupsService {
     const account = localStorage.getItem("account") ?? '';
     const loginToken = localStorage.getItem("loginToken") ?? '';
     if(!loginToken) {
+      return new Observable(observer => {observer.error('noToken'); return observer.unsubscribe()})
       // TODO: implement the case, that no token is available
     }
     return this.http.get<Group[]>(this.groupURL, {

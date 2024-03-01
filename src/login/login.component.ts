@@ -39,13 +39,6 @@ export class LoginComponent {
     });
   }
 
-  submitLogout() {
-    const account = localStorage.getItem("account");
-    localStorage.clear();
-    this.snackBar.open('Auf wiedersehen ' + account + "!", undefined, {duration: 3000});
-    this.router.navigate([''], {relativeTo: this.activatedRoute});
-}
-
   handleLoginResponse(response: LoginResponse, account: string): void {
     if(response.status == "success") {
       localStorage.setItem("loginToken", response.data.token);
