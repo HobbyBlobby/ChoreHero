@@ -1,7 +1,8 @@
 import { Routes } from '@angular/router';
 import { GroupsComponent } from '../groups/groups.component';
 import { LoginComponent } from '../login/login.component';
-import { CreateAccountComponent } from '../create-account/create-account.component'
+import { CreateAccountComponent } from '../create-account/create-account.component';
+import { GroupDetailsComponent } from '../group-details/group-details.component';
 
 export const routes: Routes = [
     {
@@ -19,4 +20,9 @@ export const routes: Routes = [
         component: CreateAccountComponent,
         title: 'Create Account'
     },
+    {
+        path: 'groupDetails/:id',
+        component: GroupDetailsComponent,
+        title: 'Group Details'
+    }
 ];

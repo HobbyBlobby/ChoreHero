@@ -4,15 +4,14 @@
 
 html, body { height: 100%; }
 body { 
-    margin: 0;
+    margin: 0 auto;
     font-family: Roboto, "Helvetica Neue", sans-serif; 
-    // max-width: 1000px;
+    max-width: 1000px;
 }
 
-// .content {
-    // max-width: 1000px;
-    // margin: auto;
-// }
+mat-sidenav {
+    width: 400px;
+}
 
 .snack_bar {
     white-space: pre-wrap

@@ -4,14 +4,15 @@ import { MatCardModule} from '@angular/material/card';
 import { Group } from '../app/interfaces';
 import { GroupsService } from './groups.service';
 import { FlexLayoutModule } from '@angular/flex-layout'
+import { MatIconModule } from  '@angular/material/icon';
+import {MatButtonModule} from '@angular/material/button';
 import { MatSidenavModule } from '@angular/material/sidenav'
 import { ActivatedRoute, Router } from '@angular/router';
-
 
 @Component({
   selector: 'app-groups',
   standalone: true,
-  imports: [MatSlideToggleModule,MatCardModule, FlexLayoutModule, MatSidenavModule],
+  imports: [MatSlideToggleModule,MatCardModule, FlexLayoutModule, MatSidenavModule, MatIconModule, MatButtonModule],
   templateUrl: './groups.component.html',
   styleUrl: './groups.component.scss'
 })
@@ -22,6 +23,7 @@ export class GroupsComponent {
     private activatedRoute: ActivatedRoute, 
     private router: Router,
 ) {}
+
   ngOnInit(): void {
     this.groupService.getAllGroups().subscribe({
       next: groups => {this.groupList = groups},
@@ -29,4 +31,7 @@ export class GroupsComponent {
     });
   }
 
+  onToGroupDetails(group_id: number): void {
+    this.router.navigate(['groupDetails', group_id]);
+  }
 }
