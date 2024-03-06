@@ -2,11 +2,12 @@
 @use '@angular/material' as mat;
 @import '@angular/material/prebuilt-themes/purple-green.css';
 
-html, body { height: 100%; }
+html, body { height: 100%;}
 body { 
     margin: 0 auto;
     font-family: Roboto, "Helvetica Neue", sans-serif; 
     max-width: 1000px;
+    background-color: color-mix( in lch, var(--mat-sidenav-content-background-color) 80%, white );
 }
 
 mat-sidenav {

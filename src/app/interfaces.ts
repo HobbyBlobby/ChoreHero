@@ -13,3 +13,9 @@ export interface LoginResponse {
     status: string,
     data: {token: string, expire_on: string}
 }
+
+export interface GroupMember {
+    group_id: string
+    account_name: string,
+    group_role: string
+}

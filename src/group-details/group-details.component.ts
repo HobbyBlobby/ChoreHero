@@ -1,7 +1,10 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import {MatTabsModule} from '@angular/material/tabs';
 import { MatListModule } from '@angular/material/list';
 import { MatIconModule } from '@angular/material/icon';
+import { GroupDetailsService } from './group-details.service';
+import { GroupMember } from '../app/interfaces';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-group-details',
@@ -14,28 +17,22 @@ import { MatIconModule } from '@angular/material/icon';
   styleUrl: './group-details.component.scss'
 })
 export class GroupDetailsComponent {
-  groupMembers = [{
-    HeroName: 'Romy',
-    Role: 'Founder'
-  }, {
-    HeroName: 'Felix',
-    Role: 'Leader'
-  }, {
-    HeroName: 'Louis',
-    Role: 'Member'
-  }, {
-    HeroName: 'Leopold',
-    Role: 'Member'
-  }, {
-    HeroName: 'Greta',
-    Role: 'Member'
-  }]
+  groupMembers: GroupMember[] = [];
+  groupId = '';
+  route: ActivatedRoute = inject(ActivatedRoute);
 
-  constructor() {}
+  constructor(
+    private groupDetailService: GroupDetailsService
+  ) {
+    this.groupId = this.route.snapshot.params['id']
+  }
 
   ngOnInit(): void {
     //Called after the constructor, initializing input properties, and the first call to ngOnChanges.
     //Add 'implements OnInit' to the class.
-    
+    this.groupDetailService.getGroupMembers(this.groupId).subscribe({
+      next: members => this.groupMembers = members,
+      error: err => console.warn(err)
+    });
   }
 }

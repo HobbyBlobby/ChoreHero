@@ -4,8 +4,8 @@
             @for (hero of this.groupMembers; track hero) {
                 <mat-list-item>
                     <mat-icon matListItemIcon>person_3</mat-icon>
-                    <h4 matListItemTitle>{{hero.HeroName}}</h4>
-                    <p matListItemLine>{{hero.Role}}</p>
+                    <h4 matListItemTitle>{{hero.account_name}}</h4>
+                    <p matListItemLine>{{hero.group_role}}</p>
                 </mat-list-item>
                 <!-- <mat-divider [inset]="true"></mat-divider> -->
             }   

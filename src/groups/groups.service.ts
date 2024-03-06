@@ -1,31 +1,22 @@
 import { Injectable } from '@angular/core';
 import { Group } from '../app/interfaces';
 import { HttpClient } from '@angular/common/http';
-
-// import * as JSONgroups from './data/groups.json';
 import { Observable } from 'rxjs';
+import { WebService } from '../app/web.service';
 
 @Injectable({
   providedIn: 'root'
 })
 
-export class GroupsService {
+export class GroupsService extends WebService {
   groupList: Group[] = []
   private groupURL = 'http://localhost:8080/api/getGroups.php'
   
-  constructor( 
-    private http: HttpClient){ }
+  constructor(http: HttpClient){
+    super(http);
+   }
 
   getAllGroups(): Observable<Group[]> {
-    const account = localStorage.getItem("account") ?? '';
-    const loginToken = localStorage.getItem("loginToken") ?? '';
-    if(!loginToken) {
-      return new Observable(observer => {observer.error('noToken'); return observer.unsubscribe()})
-      // TODO: implement the case, that no token is available
-    }
-    return this.http.get<Group[]>(this.groupURL, {
-      headers: {'login-token': loginToken},
-      params:  {'account': account}
-    });
+    return this.fetch_data<Group>(this.groupURL);
   }
 }
