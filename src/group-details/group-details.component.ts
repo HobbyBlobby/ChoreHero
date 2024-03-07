@@ -2,9 +2,13 @@ import { Component, inject } from '@angular/core';
 import {MatTabsModule} from '@angular/material/tabs';
 import { MatListModule } from '@angular/material/list';
 import { MatIconModule } from '@angular/material/icon';
+import { MatButtonModule } from '@angular/material/button'
 import { GroupDetailsService } from './group-details.service';
 import { GroupMember } from '../app/interfaces';
 import { ActivatedRoute } from '@angular/router';
+import { DialogGroupInviteComponent } from './dialog-group-invite/dialog-group-invite.component';
+import { MatDialog } from '@angular/material/dialog';
+
 
 @Component({
   selector: 'app-group-details',
@@ -12,7 +16,8 @@ import { ActivatedRoute } from '@angular/router';
   imports: [
     MatTabsModule,
     MatListModule,
-    MatIconModule],
+    MatIconModule,
+    MatButtonModule],
   templateUrl: './group-details.component.html',
   styleUrl: './group-details.component.scss'
 })
@@ -22,7 +27,8 @@ export class GroupDetailsComponent {
   route: ActivatedRoute = inject(ActivatedRoute);
 
   constructor(
-    private groupDetailService: GroupDetailsService
+    private groupDetailService: GroupDetailsService,
+    private inviteDialog: MatDialog
   ) {
     this.groupId = this.route.snapshot.params['id']
   }
@@ -34,5 +40,9 @@ export class GroupDetailsComponent {
       next: members => this.groupMembers = members,
       error: err => console.warn(err)
     });
+  }
+
+  openInviteDialog() {
+    this.inviteDialog.open(DialogGroupInviteComponent);
   }
 }
