@@ -19,3 +19,8 @@ export interface GroupMember {
     account_name: string,
     group_role: string
 }
+
+export interface inviteData {
+    inviteToken: string,
+    inviteAccount: string
+  }
