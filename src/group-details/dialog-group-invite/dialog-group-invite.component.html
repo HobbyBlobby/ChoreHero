@@ -1,9 +1,15 @@
-<h2 mat-dialog-title>Dialog with elements</h2>
+<h2 mat-dialog-title>Send Ivitation</h2>
 <mat-dialog-content>
   <mat-form-field>
     <mat-label>Search for Account</mat-label>
-    <input matInput [(ngModel)]="data.inviteAccount">
-  </mat-form-field>
+    <input matInput [(ngModel)]="data.inviteAccount" 
+          [matAutocomplete]="auto"
+          [formControl]="accountForm">
+      <mat-autocomplete #auto="matAutocomplete">
+        @for (account of filteredAccounts | async; track account) {
+          <mat-option [value]="account.account_name">{{account.account_name}}</mat-option>
+        }
+    </mat-autocomplete>  </mat-form-field>
 </mat-dialog-content>
 <mat-dialog-actions>
   <button mat-button mat-dialog-close>Close</button>

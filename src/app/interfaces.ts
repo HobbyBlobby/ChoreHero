@@ -3,6 +3,10 @@ export interface Hero {
     name: string
 }
 
+export interface Account {
+    account_name: string
+}
+
 export interface Group {
     group_id: number,
     group_name: string

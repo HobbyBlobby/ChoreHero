@@ -43,6 +43,6 @@ export class GroupDetailsComponent {
   }
 
   openInviteDialog() {
-    this.inviteDialog.open(DialogGroupInviteComponent);
+    this.inviteDialog.open(DialogGroupInviteComponent, {data: this.groupMembers});
   }
 }
