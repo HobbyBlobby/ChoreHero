@@ -6,6 +6,7 @@ import {MatButtonModule} from '@angular/material/button';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { CreateAccountService } from './create-account.service';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-create-account',
@@ -21,9 +22,11 @@ export class CreateAccountComponent {
     passphrase_confirm: new FormControl('')
   })
 
-  constructor(private snackBar: MatSnackBar, private createAccount: CreateAccountService) {
-    
-  }
+  constructor(
+    private snackBar: MatSnackBar, 
+    private router: Router,
+    private activatedRoute: ActivatedRoute,
+    private createAccount: CreateAccountService) {}
 
   submitCreate() {
     if (this.createForm.value.passphrase != this.createForm.value.passphrase_confirm) {
@@ -37,6 +40,14 @@ export class CreateAccountComponent {
     this.createAccount.createAccount(
       this.createForm.value.account ?? '',
       this.createForm.value.passphrase ?? ''
-    ).subscribe( retString => console.log(retString));
+    ).subscribe({
+      next: value => {
+        this.snackBar.open(
+          'Account' + value.data.newAccount + 'successfully created.', 
+          undefined, {duration: 3000, panelClass: ['snack_bar']});
+        this.router.navigate([''], {relativeTo: this.activatedRoute}); // TODO: navigate to route with account name
+      },
+      error: err => console.error(err)
+    });
   }
 }

@@ -8,6 +8,7 @@ import { GroupMember } from '../app/interfaces';
 import { ActivatedRoute } from '@angular/router';
 import { DialogGroupInviteComponent } from './dialog-group-invite/dialog-group-invite.component';
 import { MatDialog } from '@angular/material/dialog';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 
 @Component({
@@ -27,6 +28,7 @@ export class GroupDetailsComponent {
   route: ActivatedRoute = inject(ActivatedRoute);
 
   constructor(
+    private snackBar: MatSnackBar,
     private groupDetailService: GroupDetailsService,
     private inviteDialog: MatDialog
   ) {
@@ -34,8 +36,6 @@ export class GroupDetailsComponent {
   }
 
   ngOnInit(): void {
-    //Called after the constructor, initializing input properties, and the first call to ngOnChanges.
-    //Add 'implements OnInit' to the class.
     this.groupDetailService.getGroupMembers(this.groupId).subscribe({
       next: members => this.groupMembers = members,
       error: err => console.warn(err)
@@ -45,7 +45,26 @@ export class GroupDetailsComponent {
   openInviteDialog() {
     const dialogRef = this.inviteDialog.open(DialogGroupInviteComponent, {data: this.groupMembers});
     dialogRef.afterClosed().subscribe(result => {
-      console.log("Add account", result, "to group", this.groupId);
+      this.createInvitation(this.groupId, result.inviteAccount);
+    });
+  }
+  createInvitation(groupId: string, account_name: string) {
+    this.groupDetailService.createInvitation(groupId, account_name).subscribe({
+      next: result => {
+        console.log(result);
+        this.snackBar.open(
+          'Invitation with code ' + result.data.invitation_code + ' sent', 
+          undefined, {duration: 3000, panelClass: ['snack_bar']});
+      },
+      error: err => {
+        if(err.error.status == 'err_exists') {
+          this.snackBar.open(
+            'Invitation already exists for this account', 
+            undefined, {duration: 3000, panelClass: ['snack_bar']});
+          } else {
+          this.groupDetailService.handleServerError(err); 
+        }
+      }
     });
   }
 }

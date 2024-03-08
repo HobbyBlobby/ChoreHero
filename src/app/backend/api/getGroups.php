@@ -3,7 +3,7 @@
 
 if (require 'handleCors.php') {return 200;}
 require 'database.php';
-require 'checkLogin.php';
+if (!require 'checkLogin.php') {http_response_code(403); return;}
 
 if($validLogin == False) {
   http_response_code(401);
@@ -11,7 +11,10 @@ if($validLogin == False) {
 }
 
 $groups = [];
-$sql = "SELECT * FROM Groups";
+// $sql = "SELECT * FROM Groups" ;
+$sql = "SELECT * FROM angular.Groups as gr 
+        INNER JOIN angular.GroupMembers as gm on gm.group_id = gr.group_id 
+        WHERE gm.account_name = '$_GET[account]'";
 
 if($result = mysqli_query($con,$sql))
 {

@@ -3,6 +3,7 @@ import { Group } from '../app/interfaces';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { WebService } from '../app/web.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Injectable({
   providedIn: 'root'
@@ -10,13 +11,13 @@ import { WebService } from '../app/web.service';
 
 export class GroupsService extends WebService {
   groupList: Group[] = []
-  private groupURL = 'http://localhost:8080/api/getGroups.php'
+  private groupURL = this.baseURL + 'getGroups.php';
   
-  constructor(http: HttpClient){
-    super(http);
+  constructor(http: HttpClient, snackBar: MatSnackBar){
+    super(http, snackBar);
    }
 
   getAllGroups(): Observable<Group[]> {
-    return this.fetch_data<Group>(this.groupURL);
+    return this.fetch_data<Group[]>(this.groupURL);
   }
 }

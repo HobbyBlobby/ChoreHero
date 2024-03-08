@@ -11,7 +11,8 @@ if(empty($_GET["account"]) || empty($_GET["hash"]) ) {
     $returnVal["status"] = "err_param";
     // $returnVal["param"] = $_GET;
     echo json_encode($returnVal);
-    exit();
+    http_response_code(404);
+    return;
 }
 
 $sql = "SELECT * FROM `Accounts` WHERE `account_name` = '$_GET[account]'";
@@ -25,18 +26,17 @@ if($result = mysqli_query($con,$sql))
             $returnVal["data"] = ["newAccount" => $_GET["account"]];
         } else {
             http_response_code(404);
+            return;
         }     
     } else {
         $returnVal["status"] = "err_exists";
+        echo json_encode($returnVal);
+        http_response_code(404);
+        return;
     }
-//   $i = 0;
-//   while($row = mysqli_fetch_assoc($result))
-//   {
-//     $groups[$i] = $row;
-//     $i++;
-//   }
-
   echo json_encode($returnVal);
+  http_response_code(200);
+  return;
 }
 else
 {

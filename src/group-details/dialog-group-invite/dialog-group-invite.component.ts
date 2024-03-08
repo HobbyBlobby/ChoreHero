@@ -60,7 +60,7 @@ export class DialogGroupInviteComponent {
 
   invite(): void {
     if(this.accounts.find(account => account.account_name == this.data.inviteAccount)) {
-      this.dialogRef.close(this.data.inviteAccount);
+      this.dialogRef.close(this.data);
       return;
     }
     this.snackBar.open(

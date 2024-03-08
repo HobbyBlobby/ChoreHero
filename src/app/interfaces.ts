@@ -18,6 +18,11 @@ export interface LoginResponse {
     data: {token: string, expire_on: string}
 }
 
+export interface CreateAccoutResponse {
+    status: string,
+    data: {newAccount: string}
+}
+
 export interface GroupMember {
     group_id: string
     account_name: string,
@@ -27,4 +32,13 @@ export interface GroupMember {
 export interface inviteData {
     inviteToken: string,
     inviteAccount: string
+  }
+
+  export interface InvitationResponse {
+    status: string,
+    data:  {
+        account_name: string, 
+        group_ip: string, 
+        invitation_code: string
+    }
   }
