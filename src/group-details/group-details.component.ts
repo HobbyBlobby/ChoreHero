@@ -43,6 +43,9 @@ export class GroupDetailsComponent {
   }
 
   openInviteDialog() {
-    this.inviteDialog.open(DialogGroupInviteComponent, {data: this.groupMembers});
+    const dialogRef = this.inviteDialog.open(DialogGroupInviteComponent, {data: this.groupMembers});
+    dialogRef.afterClosed().subscribe(result => {
+      console.log("Add account", result, "to group", this.groupId);
+    });
   }
 }

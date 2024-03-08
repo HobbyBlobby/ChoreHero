@@ -17,7 +17,7 @@ import { Account, inviteData } from '../../app/interfaces';
 import { CreateAccountService } from '../../create-account/create-account.service';
 import { Observable, map, startWith } from 'rxjs';
 import { GroupMember } from '../../app/interfaces';
-import { group } from '@angular/animations';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-dialog-group-invite',
@@ -44,17 +44,30 @@ export class DialogGroupInviteComponent {
   filteredAccounts: Observable<Account[]> = new Observable();
 
   constructor(
+    private snackBar: MatSnackBar,
     public dialogRef: MatDialogRef<DialogGroupInviteComponent>,
     private accountService: CreateAccountService,
     @Inject(MAT_DIALOG_DATA) public groupMembers: GroupMember[]
     ) {}
 
   ngOnInit(): void {
-    console.log("already has", this.groupMembers);
     this.accountService.getExistingAccounts().subscribe(res => this.accounts = res);
     this.filteredAccounts = this.accountForm.valueChanges.pipe(
       startWith(''),
       map(value => this._filter(value || ''))
+    );
+  }
+
+  invite(): void {
+    if(this.accounts.find(account => account.account_name == this.data.inviteAccount)) {
+      this.dialogRef.close(this.data.inviteAccount);
+      return;
+    }
+    this.snackBar.open(
+      'Account ' + this.data.inviteAccount + " does not exists.\nPlease search again.", 
+      undefined, 
+      {duration: 3000,
+       panelClass: ['snack_bar']} // this class allows to use \n for line breaks in snack bar messages
     );
   }
 

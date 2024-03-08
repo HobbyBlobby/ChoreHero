@@ -12,5 +12,6 @@
     </mat-autocomplete>  </mat-form-field>
 </mat-dialog-content>
 <mat-dialog-actions>
-  <button mat-button mat-dialog-close>Close</button>
+  <button mat-button mat-dialog-close>Cancel</button>
+  <button mat-button (click)="this.invite()" cdkFocusInitial>Invite</button>
 </mat-dialog-actions>
