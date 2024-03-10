@@ -13,10 +13,9 @@ import {MatInputModule} from '@angular/material/input';
 import {MatAutocompleteModule} from '@angular/material/autocomplete';
 import {AsyncPipe} from '@angular/common';
 import {MatFormFieldModule} from '@angular/material/form-field';
-import { Account, inviteData } from '../../app/interfaces';
+import { Account, Invitation, GroupMember } from '../../app/interfaces';
 import { CreateAccountService } from '../../create-account/create-account.service';
 import { Observable, map, startWith } from 'rxjs';
-import { GroupMember } from '../../app/interfaces';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
@@ -39,7 +38,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 })
 export class DialogGroupInviteComponent {
   accountForm = new FormControl('');
-  data: inviteData = { inviteAccount: '', inviteToken: ''};
+  data: Invitation = { account_name: '', group_id: 0, invitation_code: '' };
   accounts: Account[] = [];
   filteredAccounts: Observable<Account[]> = new Observable();
 
@@ -59,12 +58,12 @@ export class DialogGroupInviteComponent {
   }
 
   invite(): void {
-    if(this.accounts.find(account => account.account_name == this.data.inviteAccount)) {
+    if(this.accounts.find(account => account.account_name == this.data.account_name)) {
       this.dialogRef.close(this.data);
       return;
     }
     this.snackBar.open(
-      'Account ' + this.data.inviteAccount + " does not exists.\nPlease search again.", 
+      'Account ' + this.data.account_name + " does not exists.\nPlease search again.", 
       undefined, 
       {duration: 3000,
        panelClass: ['snack_bar']} // this class allows to use \n for line breaks in snack bar messages

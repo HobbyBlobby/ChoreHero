@@ -4,7 +4,8 @@ import { MatListModule } from '@angular/material/list';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button'
 import { GroupDetailsService } from './group-details.service';
-import { GroupMember } from '../app/interfaces';
+import { GroupsService } from '../groups/groups.service';
+import { GroupMember, Invitation } from '../app/interfaces';
 import { ActivatedRoute } from '@angular/router';
 import { DialogGroupInviteComponent } from './dialog-group-invite/dialog-group-invite.component';
 import { MatDialog } from '@angular/material/dialog';
@@ -24,12 +25,14 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 })
 export class GroupDetailsComponent {
   groupMembers: GroupMember[] = [];
-  groupId = '';
+  groupInvitations: Invitation[] = [];
+  groupId = -1;
   route: ActivatedRoute = inject(ActivatedRoute);
 
   constructor(
     private snackBar: MatSnackBar,
     private groupDetailService: GroupDetailsService,
+    private groupsService: GroupsService,
     private inviteDialog: MatDialog
   ) {
     this.groupId = this.route.snapshot.params['id']
@@ -40,15 +43,19 @@ export class GroupDetailsComponent {
       next: members => this.groupMembers = members,
       error: err => console.warn(err)
     });
+    this.groupsService.getAllInvitations(this.groupId).subscribe({
+      next: invitations => this.groupInvitations = invitations,
+      error: err => this.groupsService.handleServerError(err)
+    });
   }
 
   openInviteDialog() {
     const dialogRef = this.inviteDialog.open(DialogGroupInviteComponent, {data: this.groupMembers});
     dialogRef.afterClosed().subscribe(result => {
-      this.createInvitation(this.groupId, result.inviteAccount);
+      this.createInvitation(this.groupId, result.account_name);
     });
   }
-  createInvitation(groupId: string, account_name: string) {
+  createInvitation(groupId: number, account_name: string) {
     this.groupDetailService.createInvitation(groupId, account_name).subscribe({
       next: result => {
         console.log(result);

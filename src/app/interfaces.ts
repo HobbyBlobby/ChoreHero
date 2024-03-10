@@ -29,16 +29,18 @@ export interface GroupMember {
     group_role: string
 }
 
-export interface inviteData {
-    inviteToken: string,
-    inviteAccount: string
+export interface Invitation {
+    account_name: string,
+    group_id: number,
+    group_name?: string,
+    invitation_code: string
   }
 
   export interface InvitationResponse {
     status: string,
     data:  {
         account_name: string, 
-        group_ip: string, 
+        group_ip: number, 
         invitation_code: string
     }
   }

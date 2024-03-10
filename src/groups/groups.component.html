@@ -1,24 +1,45 @@
-<!-- <div class="content"> -->
-    <!-- <mat-sidenav-container class="sidenav-container"> -->
-        <!-- <mat-sidenav-content> -->
-            <div fxLayout="col wrap" fxLayoutAlign="center space-between">
-                @for (group of this.groupList; track group) {
-                <mat-card fxFlex style="padding: 5px;width: 45%; margin:20px">
-                    <mat-card-header>{{group.group_name}}</mat-card-header>
-                    <mat-card-content>
-                        <div color="accent">
-                            <span>Mitglieder</span>
-                        </div>
-                    </mat-card-content>
-                    <mat-card-actions>
-                        <button color="primary" mat-fab aria-label="Button to open group details" (click)="this.onToGroupDetails(group.group_id)">
-                            <mat-icon>arrow_forward</mat-icon>
-                        </button>
-                    </mat-card-actions>
-                    <mat-card-footer>ID: {{group.group_id}}</mat-card-footer>
-                </mat-card>
-                }
-            </div>
-        <!-- </mat-sidenav-content> -->
-    <!-- </mat-sidenav-container> -->
-<!-- </div> -->
+<h2>My Groups</h2>
+<div fxLayout="col wrap" fxLayoutAlign="center space-between">
+    @for (group of this.groupList; track group) {
+    <mat-card fxFlex style="padding: 5px;width: 45%; margin:20px" [routerLink]="['/groupDetails', group.group_id]">
+        <mat-card-header>{{group.group_name}}</mat-card-header>
+        <mat-card-content>
+            <!-- <div color="accent">
+                <span>Mitglieder</span>
+            </div> -->
+        </mat-card-content>
+        <mat-card-actions>
+            <button color="accent" mat-button aria-label="Button to open group details"
+                (click)="this.onToGroupDetails(group.group_id)">
+                <span>Open Group</span>
+                <mat-icon>arrow_forward</mat-icon>
+            </button>
+        </mat-card-actions>
+        <mat-card-footer>ID: {{group.group_id}}</mat-card-footer>
+    </mat-card>
+    }
+</div>
+<h2>My Invitations</h2>
+<div fxLayout="col wrap" fxLayoutAlign="center space-between">
+    @for (invite of this.invitations; track invite) {
+    <mat-card fxFlex style="padding: 5px;width: 45%; margin:20px">
+        <mat-card-header>You are invited to {{invite.group_name}}</mat-card-header>
+        <mat-card-content>
+            <span>Token: {{invite.invitation_code}}</span>
+        </mat-card-content>
+        <mat-card-actions>
+            <button color="accent" mat-button aria-label="Button to accept invitation"
+                (click)="this.onInviteAccept(invite.invitation_code)">
+                <span>Accept Invite</span>
+                <mat-icon>arrow_forward</mat-icon>
+            </button>
+            <button color="warn" mat-button aria-label="Button to reject invitation"
+                (click)="this.onInviteReject(invite.invitation_code)">
+                <mat-icon>arrow_forward</mat-icon>
+                <span>Reject Invite</span>
+            </button>
+        </mat-card-actions>
+        <mat-card-footer></mat-card-footer>
+    </mat-card>
+    }
+</div>

@@ -1,17 +1,32 @@
 <mat-tab-group>
     <mat-tab label="Members">
-        <mat-list>
-            @for (hero of this.groupMembers; track hero) {
+        <section>
+            <h2>Members</h2>
+            <mat-list>
+                @for (hero of this.groupMembers; track hero) {
                 <mat-list-item>
                     <mat-icon matListItemIcon>person_3</mat-icon>
                     <h4 matListItemTitle>{{hero.account_name}}</h4>
                     <p matListItemLine>{{hero.group_role}}</p>
                 </mat-list-item>
                 <!-- <mat-divider [inset]="true"></mat-divider> -->
-            }   
-        </mat-list>
-        <button mat-button color="accent" (click)="this.openInviteDialog()">Add Member</button>
+                }
+            </mat-list>
+            <button mat-button color="accent" (click)="this.openInviteDialog()">Add Member</button>
+        </section>
+        <section>
+            <h2>Open Invitations</h2>
+            <mat-list>
+                @for (invite of this.groupInvitations; track invite) {
+                <mat-list-item>
+                    <mat-icon matListItemIcon>person_3</mat-icon>
+                    <h4 matListItemTitle>{{invite.account_name}}</h4>
+                    <p matListItemLine>{{invite.invitation_code}}</p>
+                </mat-list-item>
+                <!-- <mat-divider [inset]="true"></mat-divider> -->
+                }
+            </mat-list>
+        </section>
     </mat-tab>
     <mat-tab label="Tasks"> Content 2 </mat-tab>
-  </mat-tab-group>
-  
+</mat-tab-group>

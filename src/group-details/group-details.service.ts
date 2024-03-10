@@ -16,11 +16,11 @@ export class GroupDetailsService extends WebService {
     super(http, snackBar);
    }
 
-  getGroupMembers(groupId: string): Observable<GroupMember[]> {
+  getGroupMembers(groupId: number): Observable<GroupMember[]> {
     return this.fetch_data<GroupMember[]>(this.membersURL, {groupId: groupId});
    }
 
-   createInvitation(group_id: string, accout_name: string = ''): Observable<InvitationResponse> {
+   createInvitation(group_id: number, accout_name: string = ''): Observable<InvitationResponse> {
       return this.fetch_data<InvitationResponse>(this.createInvitationURL, {group_id: group_id, account_name: accout_name});
    }
 }
