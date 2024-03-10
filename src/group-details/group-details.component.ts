@@ -10,7 +10,7 @@ import { ActivatedRoute } from '@angular/router';
 import { DialogGroupInviteComponent } from './dialog-group-invite/dialog-group-invite.component';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
-
+import {MatMenuModule} from '@angular/material/menu';
 
 @Component({
   selector: 'app-group-details',
@@ -19,7 +19,8 @@ import { MatSnackBar } from '@angular/material/snack-bar';
     MatTabsModule,
     MatListModule,
     MatIconModule,
-    MatButtonModule],
+    MatButtonModule,
+    MatMenuModule],
   templateUrl: './group-details.component.html',
   styleUrl: './group-details.component.scss'
 })
@@ -39,6 +40,10 @@ export class GroupDetailsComponent {
   }
 
   ngOnInit(): void {
+    this.loadData();
+  }
+
+  loadData(): void {
     this.groupDetailService.getGroupMembers(this.groupId).subscribe({
       next: members => this.groupMembers = members,
       error: err => console.warn(err)
@@ -46,6 +51,12 @@ export class GroupDetailsComponent {
     this.groupsService.getAllInvitations(this.groupId).subscribe({
       next: invitations => this.groupInvitations = invitations,
       error: err => this.groupsService.handleServerError(err)
+    });
+  }
+
+  removeMember(member: GroupMember): void {
+    this.groupsService.removeMember(member).subscribe({
+      next: res => this.loadData()
     });
   }
 
@@ -58,7 +69,7 @@ export class GroupDetailsComponent {
   createInvitation(groupId: number, account_name: string) {
     this.groupDetailService.createInvitation(groupId, account_name).subscribe({
       next: result => {
-        console.log(result);
+        this.loadData();
         this.snackBar.open(
           'Invitation with code ' + result.data.invitation_code + ' sent', 
           undefined, {duration: 3000, panelClass: ['snack_bar']});

@@ -8,6 +8,12 @@
                     <mat-icon matListItemIcon>person_3</mat-icon>
                     <h4 matListItemTitle>{{hero.account_name}}</h4>
                     <p matListItemLine>{{hero.group_role}}</p>
+                    <button matListItemMeta mat-mini-fab color="primary" [matMenuTriggerFor]="memberMenu">
+                        <mat-icon>menu</mat-icon>
+                    </button>
+                    <mat-menu #memberMenu>
+                        <button mat-menu-item (click)="this.removeMember(hero)">Remove</button>
+                    </mat-menu>
                 </mat-list-item>
                 <!-- <mat-divider [inset]="true"></mat-divider> -->
                 }
