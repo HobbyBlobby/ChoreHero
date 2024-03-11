@@ -9,6 +9,7 @@ import {MatSidenavModule, MatSidenav} from '@angular/material/sidenav';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
 import { LoginService } from '../login/login.service';
+import { Location } from '@angular/common';
 
 
 @Component({
@@ -34,11 +35,15 @@ export class AppComponent {
     private snackBar: MatSnackBar,
     private activatedRoute: ActivatedRoute, 
     private router: Router,
-    private loginService: LoginService
+    private loginService: LoginService,
+    private location: Location
 ) {}
 
   toggleMenu(): void {
     this.sidenav.toggle();
+  }
+  navBack(): void {
+    this.location.back();
   }
 
   submitLogout() {
