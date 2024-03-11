@@ -8,6 +8,7 @@ import {MatListModule} from '@angular/material/list'
 import {MatSidenavModule, MatSidenav} from '@angular/material/sidenav';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
+import { LoginService } from '../login/login.service';
 
 
 @Component({
@@ -33,6 +34,7 @@ export class AppComponent {
     private snackBar: MatSnackBar,
     private activatedRoute: ActivatedRoute, 
     private router: Router,
+    private loginService: LoginService
 ) {}
 
   toggleMenu(): void {
@@ -40,11 +42,15 @@ export class AppComponent {
   }
 
   submitLogout() {
-    const account = localStorage.getItem("account");
-    localStorage.clear();
-    this.snackBar.open('Auf wiedersehen ' + account + "!", undefined, {duration: 3000});
-    this.sidenav.close();
-    this.router.navigate([''], {relativeTo: this.activatedRoute});
+    this.loginService.submitLogout().subscribe({
+      next: res => {
+        localStorage.clear();
+        this.snackBar.open('Auf wiedersehen ' + res.data.account_name + "!", undefined, {duration: 3000});
+        this.sidenav.close();
+        this.router.navigate([''], {relativeTo: this.activatedRoute});
+      },
+      error: err => this.loginService.handleServerError(err)
+    })
   }
 
 }

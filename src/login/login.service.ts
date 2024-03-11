@@ -2,20 +2,31 @@ import { Injectable } from '@angular/core';
 import { CreateAccountService } from '../create-account/create-account.service';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { LoginResponse } from '../app/interfaces';
+import { LoginResponse, LogoutResponse } from '../app/interfaces';
+import { WebService } from '../app/web.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
 })
-export class LoginService {
-  private loginURL = 'http://localhost:8080/api/login.php'
-  constructor(private accountService: CreateAccountService, private http: HttpClient) { }
+export class LoginService extends WebService {
+  private loginURL = this.baseURL + '/login.php';
+  private logoutURL = this.baseURL + '/logout.php';
+  constructor(private accountService: CreateAccountService, 
+    http: HttpClient,
+    snackBar: MatSnackBar,
+    router: Router) { 
+      super(http, snackBar, router);
+    }
 
   submitLogin(account: string, passphrase: string): Observable<LoginResponse> {
     let hash = this.accountService.createHash(account, passphrase);
-    return this.http.get<LoginResponse>(
-      this.loginURL, 
-      {params: {"account": account, "hash": hash}});
+    return this.fetch_data<LoginResponse>(
+      this.loginURL, {"account": account, "hash": hash}, true);
   }
 
+  submitLogout(): Observable<LogoutResponse> {
+    return this.fetch_data<LogoutResponse>(this.logoutURL);
+  }
 }

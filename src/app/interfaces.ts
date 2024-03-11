@@ -18,6 +18,11 @@ export interface LoginResponse {
     data: {token: string, expire_on: string}
 }
 
+export interface LogoutResponse {
+    status: string,
+    data: {account_name: string}
+}
+
 export interface CreateAccoutResponse {
     status: string,
     data: {newAccount: string}

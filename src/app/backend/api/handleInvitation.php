@@ -1,13 +1,7 @@
 <?php
-if (require 'handleCors.php') {
-  http_response_code(200);
-  return;
-}
+if (require 'handleCors.php') {http_response_code(200); return;}
 require 'database.php';
-if (!require 'checkLogin.php') {
-  http_response_code(403);
-  return;
-}
+if (!require 'checkLogin.php') {http_response_code(403); return;}
 
 if ($_GET['accept']) {
   // Accept:
