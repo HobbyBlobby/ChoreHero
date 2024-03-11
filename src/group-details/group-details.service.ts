@@ -16,8 +16,8 @@ export class GroupDetailsService extends WebService {
     super(http, snackBar);
    }
 
-  getGroupMembers(groupId: number): Observable<GroupMember[]> {
-    return this.fetch_data<GroupMember[]>(this.membersURL, {groupId: groupId});
+  getGroupMembers(group_id: number): Observable<GroupMember[]> {
+    return this.fetch_data<GroupMember[]>(this.membersURL, {group_id: group_id});
    }
 
    createInvitation(group_id: number, accout_name: string = ''): Observable<InvitationResponse> {

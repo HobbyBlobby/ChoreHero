@@ -1,16 +1,12 @@
 <?php
-
-// 1. Check, if account exists
-// 2. if not: add entry into Accounts
-if (require 'handleCors.php') {return 200;}
+if (require 'handleCors.php') {http_response_code(200); return;}
 require 'database.php';
+if (!require 'checkLogin.php') {http_response_code(403); return;}
 
 $returnVal = [];
 
 if(empty($_GET["account"]) || empty($_GET["hash"]) ) {
-    $returnVal["status"] = "err_param";
-    // $returnVal["param"] = $_GET;
-    echo json_encode($returnVal);
+    echo json_encode(['status' => 'err_param']);
     http_response_code(404);
     return;
 }

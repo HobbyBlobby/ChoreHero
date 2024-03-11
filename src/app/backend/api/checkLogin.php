@@ -1,12 +1,20 @@
 <?php
-if (require 'handleCors.php') {return 200;}
+if (require 'handleCors.php') {http_response_code(200); return;}
 
-$validLogin = False;
 $headers = getallheaders();
 
+$now = date('Y-m-d h:m:s');
+$sql = "DELETE FROM AccountLogins WHERE expiration_date < '$now'";
+_doDelete($sql);
+
 if(array_key_exists("login-token", $headers) && !empty($headers["login-token"])) {
-    // TODO: check, if token is in Token table
-    $validLogin = True;
+    if(db_select("AccountLogins", [
+        "account_name" => $_GET["account"],
+        "login_token" => $headers["login-token"]
+    ])) {
+        //TODO: extend expiration_date
+        return TRUE;
+    }
 }
-return $validLogin;
+return FALSE;
 ?>

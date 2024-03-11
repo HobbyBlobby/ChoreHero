@@ -4,30 +4,43 @@
 // 2a. if successful: generate token and enter token in Table 
 // 2b. else: return status err_failed
 
-if (require 'handleCors.php') {return 200;}
+if (require 'handleCors.php') {http_response_code(200); return;}
 require 'database.php';
 
 $returnVal = [];
 
 if(empty($_GET["account"]) || empty($_GET["hash"]) ) {
-    $returnVal["status"] = "err_param";
-    echo json_encode($returnVal);
-    exit();
+    echo json_encode(["status" => "err_param"]);
+    http_response_code(500);
+    return;
 }
 
-$sql = "SELECT * FROM `Accounts` WHERE `account_name` = '$_GET[account]' AND `login_hash` = '$_GET[hash]'";
-if($result = mysqli_query($con,$sql)) {
-  if(mysqli_fetch_assoc($result)) { # account exists with matching hash
-    $returnVal["status"] = "success";
-    $returnVal["data"] = [
-      "token"=> bin2hex(random_bytes(16)),
-      "expire_on" => date('Y-m-d h:m:s', strtotime('now +2 hour')),
-      ];
-  } else {
-    $returnVal["status"] = "err_failed";
-  }
-  echo json_encode($returnVal);
+if($output = db_select("Accounts",
+  ['account_name' => $_GET["account"],
+   'login_hash' => $_GET["hash"]])) {
+
+    // cleanup old logins for the same account
+    db_delete("AccountLogins", [
+      'account_name' => $_GET['account']
+    ]);
+
+    $token = bin2hex(random_bytes(16));
+    $expiration = date('Y-m-d h:m:s', strtotime('now +2 hour'));
+    if(db_insert("AccountLogins", [
+      "account_name" => $_GET["account"],
+      "login_token" => $token,
+      "expiration_date" => $expiration
+    ])) {
+      echo json_encode([
+        "status" => "success",
+        "data" => [
+          "token"=> $token,
+          "expire_on" => $expiration]
+      ]);
+    } else {
+      echo json_encode(["status"=> "err_insert_token"]);
+    }
 } else {
-  http_response_code(500); # DB read error, return server error
+  echo json_encode(["status" => "err_failed"]);
 }
-
+?>

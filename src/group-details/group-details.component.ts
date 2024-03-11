@@ -69,6 +69,7 @@ export class GroupDetailsComponent {
   createInvitation(groupId: number, account_name: string) {
     this.groupDetailService.createInvitation(groupId, account_name).subscribe({
       next: result => {
+        console.log(result);
         this.loadData();
         this.snackBar.open(
           'Invitation with code ' + result.data.invitation_code + ' sent', 
