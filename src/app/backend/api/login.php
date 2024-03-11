@@ -25,7 +25,7 @@ if($output = db_select("Accounts",
     ]);
 
     $token = bin2hex(random_bytes(16));
-    $expiration = date('Y-m-d h:m:s', strtotime('now +2 hour'));
+    $expiration = date('Y-m-d h:i:s', strtotime('now +30minutes'));
     if(db_insert("AccountLogins", [
       "account_name" => $_GET["account"],
       "login_token" => $token,

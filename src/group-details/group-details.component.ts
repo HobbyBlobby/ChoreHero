@@ -63,7 +63,9 @@ export class GroupDetailsComponent {
   openInviteDialog() {
     const dialogRef = this.inviteDialog.open(DialogGroupInviteComponent, {data: this.groupMembers});
     dialogRef.afterClosed().subscribe(result => {
-      this.createInvitation(this.groupId, result.account_name);
+      if(result.account_name) {
+        this.createInvitation(this.groupId, result.account_name);
+      }
     });
   }
   createInvitation(groupId: number, account_name: string) {

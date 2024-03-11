@@ -4,6 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { GroupMember, InvitationResponse } from '../app/interfaces';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
@@ -12,8 +13,8 @@ export class GroupDetailsService extends WebService {
   private membersURL = this.baseURL + 'groupMembers.php';
   private createInvitationURL = this.baseURL + 'createInvitation.php';
     
-  constructor(http: HttpClient, snackBar: MatSnackBar){
-    super(http, snackBar);
+  constructor(http: HttpClient, snackBar: MatSnackBar, router: Router){
+    super(http, snackBar, router);
    }
 
   getGroupMembers(group_id: number): Observable<GroupMember[]> {

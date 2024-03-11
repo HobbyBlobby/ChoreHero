@@ -9,6 +9,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { LoginResponse } from '../app/interfaces';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { HttpErrorResponse } from '@angular/common/http';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-login',
@@ -22,12 +23,18 @@ export class LoginComponent {
     account: new FormControl(''),
     passphrase: new FormControl('')
   })
+  returnTo : string = '';
 
   constructor(
     private loginService: LoginService, 
     private activatedRoute: ActivatedRoute, 
     private router: Router,
-    private snackBar: MatSnackBar) {}
+    private snackBar: MatSnackBar,
+    private location: Location) {}
+
+  ngOnInit(): void {
+    this.activatedRoute.paramMap.subscribe(map => this.returnTo = map.get("returnTo") || '');
+  }
 
   submitLogin() {
     this.loginService.submitLogin(
@@ -44,7 +51,11 @@ export class LoginComponent {
       localStorage.setItem("loginToken", response.data.token);
       localStorage.setItem("account", account);
       this.snackBar.open('Willkommen ' + account + "!", undefined, {duration: 3000});
-      this.router.navigate(['groupList'], {relativeTo: this.activatedRoute});
+      if(this.returnTo) {
+        this.location.back();
+        return;
+      }
+      this.router.navigate(['groupList']);
       return;
     }
     if(response.status == "err_failed") {
@@ -67,6 +78,6 @@ export class LoginComponent {
   }
 
   clickCreateAccount() {
-    this.router.navigate(['createAccount'], {relativeTo: this.activatedRoute});
+    this.router.navigate(['createAccount']);
   }
 }

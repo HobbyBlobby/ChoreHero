@@ -11,6 +11,11 @@ export const routes: Routes = [
         title: 'Login'
     },
     {
+        path: 'login/:returnTo',
+        component: LoginComponent,
+        title: 'Login'
+    },
+    {
         path: 'groupList',
         component: GroupsComponent,
         title: 'Groups Page'

@@ -1,12 +1,12 @@
 import { HttpClient, HttpErrorResponse } from "@angular/common/http";
-import { Component } from "@angular/core";
 import { MatSnackBar } from "@angular/material/snack-bar";
+import { Router } from "@angular/router";
 import { Observable } from "rxjs";
 
 export abstract class WebService {
     protected baseURL = 'http://localhost:8080/api/';
 
-    constructor(private http: HttpClient, private snackBar: MatSnackBar) {
+    constructor(private http: HttpClient, private snackBar: MatSnackBar, private router: Router) {
     }
 
     fetch_data<Type>(url: string, data: object = {}, noToken: boolean = false): Observable<Type> {
@@ -29,6 +29,11 @@ export abstract class WebService {
     }
 
     handleServerError(error: HttpErrorResponse): void {
+      if(error.status == 403) {
+        console.log("Need to re-login");
+        this.router.navigate(['/login', 'previous']);
+        return;
+      }
       console.warn(error.statusText)
       this.snackBar.open(
         'Internen Fehler, bitte später erneut probieren.\n(Fehler ' + error.status + ": " + error.statusText + ')', 
