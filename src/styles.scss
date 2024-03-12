@@ -8,6 +8,8 @@ body {
     font-family: Roboto, "Helvetica Neue", sans-serif; 
     max-width: 1000px;
     background-color: color-mix( in lch, var(--mat-sidenav-content-background-color) 80%, white );
+    top: 0;
+    bottom: 0;
 }
 
 mat-sidenav {
@@ -21,6 +23,8 @@ mat-sidenav {
 .toolbar-spacer {
     flex: 1 1 auto;
 }
+
+
 /**
 * Generated theme by Material Theme Generator
 * https://materialtheme.arcsine.dev

@@ -1,4 +1,5 @@
 <main class="body">
+  <!-- <div class="app-hight"></div> -->
     <mat-toolbar color="primary" >
       <button mat-icon-button aria-label="Button to navigate back" (click)="this.navBack()">
         <mat-icon>arrow_back</mat-icon>
@@ -26,4 +27,13 @@
     </section>
     </mat-sidenav-content>
   </mat-sidenav-container>
+  <mat-toolbar color="primary" class="bottom-toolbar">
+    <button mat-icon-button aria-label="Button to navigate back">
+      <mat-icon>arrow_back</mat-icon>
+    </button>        
+    <span class="toolbar-spacer"></span>
+      <button mat-icon-button aria-label="Button to open Menu">
+        <mat-icon>menu</mat-icon>
+      </button>        
+  </mat-toolbar>
 </main>
