@@ -6,7 +6,7 @@ import { MatButtonModule } from '@angular/material/button'
 import { GroupDetailsService } from './group-details.service';
 import { GroupsService } from '../groups/groups.service';
 import { GroupMember, Invitation, bottomAction } from '../app/interfaces';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { DialogGroupInviteComponent } from './dialog-group-invite/dialog-group-invite.component';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -40,7 +40,8 @@ export class GroupDetailsComponent {
     private groupDetailService: GroupDetailsService,
     private groupsService: GroupsService,
     private inviteDialog: MatDialog,
-    private appService: AppService
+    private appService: AppService,
+    private router: Router
   ) {
     this.groupId = this.route.snapshot.params['id']
     this.appService.emitChangeActions(this.menuEntries);
@@ -62,7 +63,7 @@ export class GroupDetailsComponent {
   }
 
   createGroupChallenge() {
-
+    this.router.navigate(['challengeCreate']);
   }
 
   removeMember(member: GroupMember): void {

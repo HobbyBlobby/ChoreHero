@@ -3,6 +3,8 @@ import { GroupsComponent } from '../groups/groups.component';
 import { LoginComponent } from '../login/login.component';
 import { CreateAccountComponent } from '../create-account/create-account.component';
 import { GroupDetailsComponent } from '../group-details/group-details.component';
+import { ChallengeCreateComponent } from '../challenge-create/challenge-create.component';
+
 
 export const routes: Routes = [
     {
@@ -28,6 +30,11 @@ export const routes: Routes = [
     {
         path: 'groupDetails/:id',
         component: GroupDetailsComponent,
+        title: 'Group Details'
+    },
+    {
+        path: 'challengeCreate',
+        component: ChallengeCreateComponent,
         title: 'Group Details'
     }
 ];
