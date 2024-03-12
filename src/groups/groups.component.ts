@@ -1,13 +1,14 @@
-import { Component, inject } from '@angular/core';
+import { Component, EventEmitter, Output, inject } from '@angular/core';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatCardModule} from '@angular/material/card';
-import { Group, Invitation } from '../app/interfaces';
+import { Group, Invitation, bottomAction } from '../app/interfaces';
 import { GroupsService } from './groups.service';
 import { FlexLayoutModule } from '@angular/flex-layout'
 import { MatIconModule } from  '@angular/material/icon';
 import {MatButtonModule} from '@angular/material/button';
 import { MatSidenavModule } from '@angular/material/sidenav'
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
+import { AppService } from '../app.service';
 
 @Component({
   selector: 'app-groups',
@@ -26,15 +27,25 @@ import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 export class GroupsComponent {
   groupList: Group[] = [];
   invitations: Invitation[] = [];
+  public menuEntries : bottomAction[] = [
+    {text: "New Group", action: this.newGroup.bind(this), icon: 'add'}
+  ];
 
   constructor(
     private groupService: GroupsService,
     private activatedRoute: ActivatedRoute, 
     private router: Router,
-) {}
+    private appService: AppService
+) {
+  this.appService.emitChangeActions(this.menuEntries);
+}
 
   ngOnInit(): void {
     this.loadData();
+    }
+
+  newGroup() {
+    console.log("Create a new group!");
   }
 
   loadData(): void {

@@ -1,6 +1,10 @@
 :host {
-    height: 100vh;
+    height: 100%;
     display: block;
+}
+
+mat-sidenav {
+    width: 400px;
 }
 
 .body {
@@ -9,12 +13,9 @@
     background-color: var(--mat-sidenav-content-background-color);
 }
 
-// .app-height {
-//     height: 100vh;
-// }
-
 .bottom-toolbar {
     bottom: 0;
     position: fixed;
     max-width: 1000px;
+    // height: fit-content;
 }

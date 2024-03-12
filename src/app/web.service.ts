@@ -4,7 +4,7 @@ import { Router } from "@angular/router";
 import { Observable } from "rxjs";
 
 export abstract class WebService {
-    protected baseURL = 'http://localhost:8080/api/';
+    protected baseURL = 'http://' + window.location.hostname + ':8080/api/';
 
     constructor(private http: HttpClient, private snackBar: MatSnackBar, private router: Router) {
     }

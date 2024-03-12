@@ -6,10 +6,11 @@ import {MatInputModule} from '@angular/material/input';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatButtonModule} from '@angular/material/button';
 import { ActivatedRoute, Router } from '@angular/router';
-import { LoginResponse } from '../app/interfaces';
+import { LoginResponse, bottomAction } from '../app/interfaces';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Location } from '@angular/common';
+import { AppService } from '../app.service';
 
 @Component({
   selector: 'app-login',
@@ -24,13 +25,17 @@ export class LoginComponent {
     passphrase: new FormControl('')
   })
   returnTo : string = '';
+  public menuEntries : bottomAction[] = [];
 
   constructor(
     private loginService: LoginService, 
     private activatedRoute: ActivatedRoute, 
     private router: Router,
     private snackBar: MatSnackBar,
-    private location: Location) {}
+    private location: Location,
+    private appService: AppService) {
+      this.appService.emitChangeActions(this.menuEntries);
+    }
 
   ngOnInit(): void {
     this.activatedRoute.paramMap.subscribe(map => this.returnTo = map.get("returnTo") || '');
@@ -48,6 +53,7 @@ export class LoginComponent {
 
   handleLoginResponse(response: LoginResponse, account: string): void {
     if(response.status == "success") {
+      console.log("Login successful", response);
       localStorage.setItem("loginToken", response.data.token);
       localStorage.setItem("account", account);
       this.snackBar.open('Willkommen ' + account + "!", undefined, {duration: 3000});

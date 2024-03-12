@@ -1,39 +1,43 @@
 <main class="body">
   <!-- <div class="app-hight"></div> -->
-    <mat-toolbar color="primary" >
-      <button mat-icon-button aria-label="Button to navigate back" (click)="this.navBack()">
-        <mat-icon>arrow_back</mat-icon>
-      </button>        
-      <span>House Heros</span>
-        <span class="toolbar-spacer"></span>
-        <button mat-icon-button aria-label="Button to open Menu" (click)="this.toggleMenu()">
-          <mat-icon>menu</mat-icon>
-        </button>        
-    </mat-toolbar>
-<mat-sidenav-container autosize class="sidenav-container">
-      <mat-sidenav #sidenav mode="side" position="end">
-        <mat-nav-list>
-          <a mat-list-item (click)="this.submitLogout()">
-            <span class="entry">
-              <mat-icon>logout</mat-icon>
-              <span>Logout</span>
-            </span>
-          </a>
-        </mat-nav-list>
-      </mat-sidenav>
-      <mat-sidenav-content >
-        <section class="content">
-          <router-outlet></router-outlet>
-    </section>
+  <mat-toolbar color="primary">
+    <button mat-icon-button aria-label="Button to navigate back" (click)="this.navBack()">
+      <mat-icon>arrow_back</mat-icon>
+    </button>
+    <span>House Heros</span>
+    <span class="toolbar-spacer"></span>
+    <button mat-icon-button aria-label="Button to open Menu" (click)="this.toggleMenu()">
+      <mat-icon>menu</mat-icon>
+    </button>
+  </mat-toolbar>
+  <mat-sidenav-container autosize class="sidenav-container">
+    <mat-sidenav #sidenav mode="side" position="end">
+      <mat-nav-list>
+        <a mat-list-item (click)="this.submitLogout()">
+          <span class="entry">
+            <mat-icon>logout</mat-icon>
+            <span>Logout</span>
+          </span>
+        </a>
+      </mat-nav-list>
+    </mat-sidenav>
+    <mat-sidenav-content>
+      <section class="content">
+        <router-outlet></router-outlet>
+      </section>
     </mat-sidenav-content>
   </mat-sidenav-container>
   <mat-toolbar color="primary" class="bottom-toolbar">
-    <button mat-icon-button aria-label="Button to navigate back">
-      <mat-icon>arrow_back</mat-icon>
-    </button>        
     <span class="toolbar-spacer"></span>
-      <button mat-icon-button aria-label="Button to open Menu">
-        <mat-icon>menu</mat-icon>
-      </button>        
+    @for (item of this.bottomActions; track item) {
+      <div style="display: flex; flex-direction: column; align-items: center; margin-top: -1.5em;">
+      <button (click)="this.callFunction(item.action)" mat-fab color="primary">
+        <!-- <div style="display: flex; flex-direction: row;"> -->
+        <mat-icon>{{item.icon}}</mat-icon>
+      </button>
+      <span>{{item.text}}</span>
+    </div>
+      <span class="toolbar-spacer"></span>
+    }
   </mat-toolbar>
 </main>

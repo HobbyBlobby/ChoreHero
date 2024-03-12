@@ -5,12 +5,13 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button'
 import { GroupDetailsService } from './group-details.service';
 import { GroupsService } from '../groups/groups.service';
-import { GroupMember, Invitation } from '../app/interfaces';
+import { GroupMember, Invitation, bottomAction } from '../app/interfaces';
 import { ActivatedRoute } from '@angular/router';
 import { DialogGroupInviteComponent } from './dialog-group-invite/dialog-group-invite.component';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import {MatMenuModule} from '@angular/material/menu';
+import { AppService } from '../app.service';
 
 @Component({
   selector: 'app-group-details',
@@ -29,14 +30,20 @@ export class GroupDetailsComponent {
   groupInvitations: Invitation[] = [];
   groupId = -1;
   route: ActivatedRoute = inject(ActivatedRoute);
+  public menuEntries : bottomAction[] = [
+    {text: 'Create Challenge', action: this.createGroupChallenge.bind(this), icon: 'add'}
+  ];
+
 
   constructor(
     private snackBar: MatSnackBar,
     private groupDetailService: GroupDetailsService,
     private groupsService: GroupsService,
-    private inviteDialog: MatDialog
+    private inviteDialog: MatDialog,
+    private appService: AppService
   ) {
     this.groupId = this.route.snapshot.params['id']
+    this.appService.emitChangeActions(this.menuEntries);
   }
 
   ngOnInit(): void {
@@ -52,6 +59,10 @@ export class GroupDetailsComponent {
       next: invitations => this.groupInvitations = invitations,
       error: err => this.groupsService.handleServerError(err)
     });
+  }
+
+  createGroupChallenge() {
+
   }
 
   removeMember(member: GroupMember): void {

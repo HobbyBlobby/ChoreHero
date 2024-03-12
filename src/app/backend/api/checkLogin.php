@@ -3,7 +3,7 @@ if (require 'handleCors.php') {http_response_code(200); return;}
 
 $headers = getallheaders();
 
-$now = date('Y-m-d h:i:s');
+$now = date('Y-m-d H:i:s');
 $sql = "DELETE FROM AccountLogins WHERE expiration_date < '$now'";
 _doDelete($sql);
 

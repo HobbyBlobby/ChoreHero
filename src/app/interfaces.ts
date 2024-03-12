@@ -49,3 +49,9 @@ export interface Invitation {
         invitation_code: string
     }
   }
+
+  export interface bottomAction {
+    text: string,
+    icon: string,
+    action: Function
+  }
