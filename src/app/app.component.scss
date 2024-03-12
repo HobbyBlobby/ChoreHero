@@ -3,8 +3,8 @@
     display: block;
 }
 
-mat-sidenav {
-    width: 400px;
+mat-sidenav > .entry {
+    margin:30px;
 }
 
 .body {
@@ -17,5 +17,11 @@ mat-sidenav {
     bottom: 0;
     position: fixed;
     max-width: 1000px;
-    // height: fit-content;
+}
+
+.buttom-toolbar-action {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: -1.5em;
 }

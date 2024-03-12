@@ -11,7 +11,7 @@
     </button>
   </mat-toolbar>
   <mat-sidenav-container autosize class="sidenav-container">
-    <mat-sidenav #sidenav mode="side" position="end">
+    <mat-sidenav #sidenav mode="over" position="end">
       <mat-nav-list>
         <a mat-list-item (click)="this.submitLogout()">
           <span class="entry">
@@ -30,9 +30,8 @@
   <mat-toolbar color="primary" class="bottom-toolbar">
     <span class="toolbar-spacer"></span>
     @for (item of this.bottomActions; track item) {
-      <div style="display: flex; flex-direction: column; align-items: center; margin-top: -1.5em;">
+      <div class="buttom-toolbar-action">
       <button (click)="this.callFunction(item.action)" mat-fab color="primary">
-        <!-- <div style="display: flex; flex-direction: row;"> -->
         <mat-icon>{{item.icon}}</mat-icon>
       </button>
       <span>{{item.text}}</span>
