@@ -1,1 +1,42 @@
-<p>challenge-create works!</p>
+<mat-vertical-stepper linear="true" #stepper verti>
+    <mat-step [stepControl]="createForm">
+        <div class="formContent">
+            <section class="formBox">
+                <h2 class="section-heading">Create Challenge</h2>
+                <form [formGroup]="createForm" (submit)="submitCreate()" class="formContent">
+                    <ng-template matStepLabel>Challenge description</ng-template>
+                    <mat-form-field class="formInput_fullWidth">
+                        <mat-label for="challenge_name">Challenge Name</mat-label>
+                        <input matInput id="challenge_name" type="text" formControlName="challenge_name" required>
+                    </mat-form-field>
+                    <mat-form-field class="formInput_fullWidth">
+                        <mat-label for="description">Description</mat-label>
+                        <textarea matInput id="description" type="text" [maxLength]="256" rows="5"
+                            formControlName="description"></textarea>
+                    </mat-form-field>
+
+                    <button mat-raised-button color="accent" type="submit" matStepperNext>
+                        <mat-icon>arrow_right</mat-icon>
+                        <span>Next</span>
+                    </button>
+                </form>
+            </section>
+        </div>
+    </mat-step>
+    <mat-step>
+        <ng-template matStepLabel>Define Schedule</ng-template>
+        <section class="formBox">
+            <h2 class="section-heading">Create Challenge</h2>
+            <button mat-raised-button color="accent" type="submit" matStepperNext>
+                <mat-icon>arrow_right</mat-icon>
+                <span>Next</span>
+            </button>
+        </section>
+    </mat-step>
+    <mat-step>
+        <ng-template matStepLabel>Save</ng-template>
+        <section class="formBox">
+            <h2 class="section-heading">Confirm Challenge</h2>
+        </section>
+    </mat-step>
+</mat-vertical-stepper>

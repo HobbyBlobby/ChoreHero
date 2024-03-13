@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { MatSidenavModule } from '@angular/material/sidenav'
 import {MatInputModule} from '@angular/material/input';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatButtonModule} from '@angular/material/button';
@@ -11,7 +10,11 @@ import { ActivatedRoute, Router } from '@angular/router';
 @Component({
   selector: 'app-create-account',
   standalone: true,
-  imports: [MatSidenavModule,MatInputModule,MatFormFieldModule,MatButtonModule,ReactiveFormsModule],
+  imports: [
+    MatInputModule,
+    MatFormFieldModule,
+    MatButtonModule,
+    ReactiveFormsModule],
   templateUrl: 'create-account.component.html',
   styleUrl: './create-account.component.scss'
 })
