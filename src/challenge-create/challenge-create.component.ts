@@ -11,6 +11,7 @@ import {MatButtonToggleModule} from '@angular/material/button-toggle';
 import { CommonModule } from '@angular/common';
 import {MatSelectModule} from '@angular/material/select';
 import { ActivatedRoute, Router } from '@angular/router';
+import { ChallengeService } from './challenge.service';
 
 @Component({
   selector: 'app-challenge-create',
@@ -49,15 +50,17 @@ export class ChallengeCreateComponent {
 
   constructor(
     private appService: AppService,
-    private router: Router
+    private router: Router,
+    private challengeService: ChallengeService
   ) {
     this.appService.emitChangeActions(this.menuEntries);
     this.groupId = this.route.snapshot.params['group_id']
   }
 
   submitCreate() {
-    console.log("Create Challenge", this.createForm.value, this.scheduleForm.value);
-    this.router.navigate(['groupDetails', this.groupId]);
+    this.challengeService.createChallenge(Object.assign(this.createForm.value, this.scheduleForm.value)).subscribe(
+      value => this.router.navigate(['groupDetails', this.groupId])
+    );
   }
 
   loadTemplate() {
