@@ -27,6 +27,20 @@
         <ng-template matStepLabel>Define Schedule</ng-template>
         <section class="formBox">
             <h2 class="section-heading">Create Challenge</h2>
+            <form [formGroup]="scheduleForm" class="formContent" (submit)="submitCreate()">
+                <mat-button-toggle-group formControlName="schedule_mode">
+                    <mat-button-toggle value="OneTime">One Time</mat-button-toggle>
+                    <mat-button-toggle value="Daily">Daily</mat-button-toggle>
+                    <mat-button-toggle value="Weekly">Weekly</mat-button-toggle>
+                    <mat-button-toggle value="Monthly">Monthly</mat-button-toggle>
+                </mat-button-toggle-group>
+                <div *ngIf="this.scheduleForm.value.schedule_mode == 'OneTime'" style="margin-top: 1em;">
+                <mat-form-field>
+                    <mat-label for="schedule_date">Date</mat-label>
+                    <input matInput id="schedule_date" type="date" formControlName="schedule_date" required>
+                </mat-form-field>
+            </div>
+            </form>
             <button mat-raised-button color="accent" type="submit" matStepperNext>
                 <mat-icon>arrow_right</mat-icon>
                 <span>Next</span>

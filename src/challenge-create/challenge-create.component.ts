@@ -7,13 +7,17 @@ import { bottomAction } from '../app/interfaces';
 import { AppService } from '../app.service';
 import { MatIconModule } from '@angular/material/icon';
 import {MatStepperModule} from '@angular/material/stepper';
+import {MatButtonToggleModule} from '@angular/material/button-toggle';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-challenge-create',
   standalone: true,
   imports: [
+    CommonModule,
     MatInputModule,
     MatStepperModule,
+    MatButtonToggleModule,
     MatFormFieldModule,
     MatButtonModule,
     ReactiveFormsModule,
@@ -25,6 +29,10 @@ export class ChallengeCreateComponent {
   createForm = new FormGroup({
     challenge_name: new FormControl(''),
     description: new FormControl('')
+  })
+  scheduleForm = new FormGroup({
+    schedule_mode: new FormControl('OneTime'),
+    schedule_date: new FormControl(Date())
   })
   public menuEntries : bottomAction[] = [{
     text: 'from Template',
