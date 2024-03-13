@@ -63,7 +63,7 @@ export class GroupDetailsComponent {
   }
 
   createGroupChallenge() {
-    this.router.navigate(['challengeCreate']);
+    this.router.navigate(['challengeCreate', this.groupId]);
   }
 
   removeMember(member: GroupMember): void {

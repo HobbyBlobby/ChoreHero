@@ -3,7 +3,7 @@
         <div class="formContent">
             <section class="formBox">
                 <h2 class="section-heading">Create Challenge</h2>
-                <form [formGroup]="createForm" (submit)="submitCreate()" class="formContent">
+                <form [formGroup]="createForm" class="formContent">
                     <ng-template matStepLabel>Challenge description</ng-template>
                     <mat-form-field class="formInput_fullWidth">
                         <mat-label for="challenge_name">Challenge Name</mat-label>
@@ -27,7 +27,7 @@
         <ng-template matStepLabel>Define Schedule</ng-template>
         <section class="formBox">
             <h2 class="section-heading">Create Challenge</h2>
-            <form [formGroup]="scheduleForm" class="formContent" (submit)="submitCreate()">
+            <form [formGroup]="scheduleForm" class="formContent">
                 <mat-button-toggle-group formControlName="schedule_mode">
                     <mat-button-toggle value="OneTime">One Time</mat-button-toggle>
                     <mat-button-toggle value="Daily">Daily</mat-button-toggle>
@@ -35,11 +35,53 @@
                     <mat-button-toggle value="Monthly">Monthly</mat-button-toggle>
                 </mat-button-toggle-group>
                 <div *ngIf="this.scheduleForm.value.schedule_mode == 'OneTime'" style="margin-top: 1em;">
-                <mat-form-field>
-                    <mat-label for="schedule_date">Date</mat-label>
-                    <input matInput id="schedule_date" type="date" formControlName="schedule_date" required>
-                </mat-form-field>
-            </div>
+                    <mat-form-field>
+                        <mat-label for="schedule_date">Date</mat-label>
+                        <input matInput id="schedule_date" type="date" formControlName="schedule_date" required>
+                    </mat-form-field>
+                </div>
+                <div *ngIf="this.scheduleForm.value.schedule_mode == 'Daily'" style="margin-top: 1em;" class="formInput_fullWidth">
+                    <h4>Repetition</h4>
+                    Repeat every
+                    <mat-form-field>
+                        <input matInput type="number" min=1 formControlName="schedule_period">
+                    </mat-form-field>
+                    day(s).
+                </div>
+                <div *ngIf="this.scheduleForm.value.schedule_mode == 'Weekly'" style="margin-top: 1em;" class="formInput_fullWidth">
+                    <h4>Repetition</h4>
+                    Repeat every
+                    <mat-form-field>
+                        <input matInput type="number" min=1 formControlName="schedule_period">
+                    </mat-form-field>
+                    weeks(s).
+                    <h4>Weekday selection</h4>
+                    <mat-form-field>
+                        <mat-select formControlName="schedule_weekdays" multiple>
+                            <mat-option value="Monday">Monday</mat-option>
+                            <mat-option value="Tuesday">Tuesday</mat-option>
+                            <mat-option value="Wednesday">Wednesday</mat-option>
+                            <mat-option value="Thursday">Thursday</mat-option>
+                            <mat-option value="Friday">Friday</mat-option>
+                            <mat-option value="Saturday">Saturday</mat-option>
+                            <mat-option value="Sunday">Sunday</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+                <div *ngIf="this.scheduleForm.value.schedule_mode == 'Monthly'" style="margin-top: 1em;" class="formInput_fullWidth">
+                    <h4>Repetition</h4>
+                    Repeat every
+                    <mat-form-field>
+                        <input matInput type="number" min=1 formControlName="schedule_period">
+                    </mat-form-field>
+                    month(s).
+                    <h4>Day of month</h4>
+                    <mat-form-field>
+                        <mat-select formControlName="schedule_weekdays" multiple>
+                            <mat-option *ngFor="let item of [].constructor(31); let i=index" [value]="i+1">{{i+1}}</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
             </form>
             <button mat-raised-button color="accent" type="submit" matStepperNext>
                 <mat-icon>arrow_right</mat-icon>
@@ -51,6 +93,10 @@
         <ng-template matStepLabel>Save</ng-template>
         <section class="formBox">
             <h2 class="section-heading">Confirm Challenge</h2>
+            <button mat-raised-button color="accent" (click)="this.submitCreate()">
+                <mat-icon>save</mat-icon>
+                <span>Save</span>
+            </button>
         </section>
     </mat-step>
 </mat-vertical-stepper>

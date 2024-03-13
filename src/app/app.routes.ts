@@ -33,8 +33,8 @@ export const routes: Routes = [
         title: 'Group Details'
     },
     {
-        path: 'challengeCreate',
+        path: 'challengeCreate/:group_id',
         component: ChallengeCreateComponent,
-        title: 'Group Details'
+        title: 'Create a challenge'
     }
 ];
