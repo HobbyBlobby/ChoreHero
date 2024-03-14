@@ -3,7 +3,7 @@ import { GroupsComponent } from '../groups/groups.component';
 import { LoginComponent } from '../login/login.component';
 import { CreateAccountComponent } from '../create-account/create-account.component';
 import { GroupDetailsComponent } from '../group-details/group-details.component';
-import { ChallengeCreateComponent } from '../challenge-create/challenge-create.component';
+import { ChallengeCreateComponent } from '../challenge/challenge-create.component';
 
 
 export const routes: Routes = [

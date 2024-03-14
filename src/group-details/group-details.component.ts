@@ -12,6 +12,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import {MatMenuModule} from '@angular/material/menu';
 import { AppService } from '../app.service';
+import { ChallengeService } from '../challenge/challenge.service';
 
 @Component({
   selector: 'app-group-details',
@@ -28,12 +29,12 @@ import { AppService } from '../app.service';
 export class GroupDetailsComponent {
   groupMembers: GroupMember[] = [];
   groupInvitations: Invitation[] = [];
+  tasks: any = [];
   groupId = -1;
   route: ActivatedRoute = inject(ActivatedRoute);
   public menuEntries : bottomAction[] = [
     {text: 'Create Challenge', action: this.createGroupChallenge.bind(this), icon: 'add'}
   ];
-
 
   constructor(
     private snackBar: MatSnackBar,
@@ -41,6 +42,7 @@ export class GroupDetailsComponent {
     private groupsService: GroupsService,
     private inviteDialog: MatDialog,
     private appService: AppService,
+    private challengeService: ChallengeService,
     private router: Router
   ) {
     this.groupId = this.route.snapshot.params['id']
@@ -54,12 +56,16 @@ export class GroupDetailsComponent {
   loadData(): void {
     this.groupDetailService.getGroupMembers(this.groupId).subscribe({
       next: members => this.groupMembers = members,
-      error: err => console.warn(err)
+      error: err => this.groupDetailService.handleServerError(err)
     });
     this.groupsService.getAllInvitations(this.groupId).subscribe({
       next: invitations => this.groupInvitations = invitations,
       error: err => this.groupsService.handleServerError(err)
     });
+    this.challengeService.getTasks(this.groupId).subscribe({
+      next: tasks => {this.tasks = tasks; console.log(tasks)},
+      error: err => this.challengeService.handleServerError(err)
+    })
   }
 
   createGroupChallenge() {
