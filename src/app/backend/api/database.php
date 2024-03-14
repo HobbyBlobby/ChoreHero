@@ -81,7 +81,7 @@ function _doInsert($sql) {
   if ($result = mysqli_query(connect(), $sql)) {
     return ["status" => "success"];
   } else {
-    $error = ["status" => "err_insert", "data" => $_GET];
+    $error = ["status" => "err_insert", "data" => $_GET, "query" => $sql];
     http_response_code(500);
   }
   return FALSE;

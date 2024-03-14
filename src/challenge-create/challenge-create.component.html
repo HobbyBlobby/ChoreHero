@@ -57,7 +57,7 @@
                     weeks(s).
                     <h4>Weekday selection</h4>
                     <mat-form-field>
-                        <mat-select formControlName="schedule_weekdays" multiple>
+                        <mat-select formControlName="schedule_selection" multiple>
                             <mat-option value="Monday">Monday</mat-option>
                             <mat-option value="Tuesday">Tuesday</mat-option>
                             <mat-option value="Wednesday">Wednesday</mat-option>
@@ -77,7 +77,7 @@
                     month(s).
                     <h4>Day of month</h4>
                     <mat-form-field>
-                        <mat-select formControlName="schedule_weekdays" multiple>
+                        <mat-select formControlName="schedule_selection" multiple>
                             <mat-option *ngFor="let item of [].constructor(31); let i=index" [value]="i+1">{{i+1}}</mat-option>
                         </mat-select>
                     </mat-form-field>

@@ -1,45 +1,43 @@
 <?php
-if (require 'handleCors.php') {http_response_code(200); return;}
-require 'database.php';
-if (!require 'checkLogin.php') {http_response_code(403); return;}
+if (require '../handleCors.php') {http_response_code(200); return;}
+require '../database.php';
+if (!require '../checkLogin.php') {http_response_code(403); return;}
 
-// $returnVal = [];
+$DATA = json_decode(file_get_contents("php://input"), true);
 
-// if(empty($_GET["account"]) || empty($_GET["hash"]) ) {
-//     echo json_encode(['status' => 'err_param']);
-//     http_response_code(404);
-//     return;
-// }
+if(empty($DATA["challenge_name"]) || empty($DATA["schedule_mode"] || empty($DATA["group_id"])) ) {
+    echo json_encode(['status' => 'err_param']);
+    http_response_code(404);
+    return;
+}
 
-// $sql = "SELECT * FROM `Accounts` WHERE `account_name` = '$_GET[account]'";
-
-// if($result = mysqli_query($con,$sql))
-// {
-//     if(!mysqli_fetch_assoc($result)) { # no results > new account to create
-//         $sql = "INSERT INTO `Accounts`(`account_name`,`login_hash`) VALUES ('$_GET[account]','$_GET[hash]')";
-//         if($result = mysqli_query($con,$sql)) {
-//             $returnVal["status"] = "success";
-//             $returnVal["data"] = ["newAccount" => $_GET["account"]];
-//         } else {
-//             http_response_code(404);
-//             return;
-//         }     
-//     } else {
-//         $returnVal["status"] = "err_exists";
-//         echo json_encode($returnVal);
-//         http_response_code(404);
-//         return;
-//     }
-//   echo json_encode($returnVal);
-//   http_response_code(200);
-//   return;
-// }
-// else
-// {
-//   http_response_code(404);
-// }
-    // $lines = [];
-    // $lines[] = "Create Account for";
-    // $lines[] = $_GET;
-    // echo json_encode($lines);
+if(db_insert("Challenges", [
+    "group_id" => $DATA["group_id"],
+    "challenge_name" => $DATA["challenge_name"],
+    "challenge_description" => $DATA["description"],
+    "schedule_mode" => $DATA["schedule_mode"],
+    "schedule_date" => date('Y-m-d H:i:s', strtotime($DATA["schedule_date"])),
+    "schedule_period" => $DATA["schedule_period"],
+    "schedule_selection" => implode(",", $DATA["schedule_selection"]),
+    "needs_scheduling" => 'X',
+    "active" => 'X'
+])) {
+    if($newID = mysqli_insert_id(connect())) {
+        echo json_encode([
+            "status"=>"succes",
+            "data" => ["newID" => $newID]
+        ]);
+        http_response_code(201);
+        return;
+    } else {
+        echo json_encode([
+            "status"=>"succes",
+            "data" => ["newID" => -1]
+        ]);
+        return;
+    }
+} else {
+    echo json_encode($error);
+    return;
+}
 ?>

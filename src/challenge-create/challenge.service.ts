@@ -10,10 +10,11 @@ export class ChallengeService extends WebService {
 
   createChallenge(data: any) : Observable<any>{
     console.log("create a challenge", this.challengeCreateURL, data);
-    return new Observable<any>(observer=> {
-      observer.next('Final');
-      observer.complete();
-      return {unsubscribe() {}}
-    });
+    return this.post_data(this.challengeCreateURL, {}, data);
+    // return new Observable<any>(observer=> {
+    //   observer.next('Final');
+    //   observer.complete();
+    //   return {unsubscribe() {}}
+    // });
   }
 }

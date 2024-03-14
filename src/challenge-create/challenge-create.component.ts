@@ -39,7 +39,7 @@ export class ChallengeCreateComponent {
     schedule_mode: new FormControl('OneTime'),
     schedule_date: new FormControl(Date()),
     schedule_period: new FormControl(1),
-    schedule_weekdays: new FormControl([])
+    schedule_selection: new FormControl([])
   })
   public menuEntries : bottomAction[] = [{
     text: 'from Template',
@@ -58,9 +58,15 @@ export class ChallengeCreateComponent {
   }
 
   submitCreate() {
-    this.challengeService.createChallenge(Object.assign(this.createForm.value, this.scheduleForm.value)).subscribe(
-      value => this.router.navigate(['groupDetails', this.groupId])
-    );
+    let data = Object.assign(this.createForm.value, this.scheduleForm.value);
+    data = Object.assign(data, {group_id: this.groupId})
+    this.challengeService.createChallenge(data).subscribe({
+      next: value => {
+        console.log("Response", value);
+        this.router.navigate(['groupDetails', this.groupId]);
+      },
+      error: err => {console.log(err);}
+  });
   }
 
   loadTemplate() {

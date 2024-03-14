@@ -13,6 +13,20 @@ export abstract class WebService {
     constructor(private http: HttpClient, private snackBar: MatSnackBar, private router: Router) {
     }
 
+    post_data<Type>(url: string, get_data: object = {}, post_data: object = {}) {
+      const account = localStorage.getItem("account") ?? '';
+      const loginToken = localStorage.getItem("loginToken") ?? '';
+      if(!loginToken) {
+        return new Observable(observer => {observer.error('noToken'); return observer.unsubscribe()})
+        // TODO: implement the case, that no token is available
+      }
+      const params = Object.assign(get_data, { account: account });
+      return this.http.post<Type>(url, post_data, {
+        headers: {'login-token': loginToken},
+        params: params
+      });
+    }
+
     fetch_data<Type>(url: string, data: object = {}, noToken: boolean = false): Observable<Type> {
         const account = localStorage.getItem("account") ?? '';
         const loginToken = localStorage.getItem("loginToken") ?? '';
