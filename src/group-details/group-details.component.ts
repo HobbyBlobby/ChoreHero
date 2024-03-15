@@ -13,6 +13,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import {MatMenuModule} from '@angular/material/menu';
 import { AppService } from '../app.service';
 import { ChallengeService } from '../challenge/challenge.service';
+import { MatExpansionModule } from '@angular/material/expansion';
 
 @Component({
   selector: 'app-group-details',
@@ -22,7 +23,8 @@ import { ChallengeService } from '../challenge/challenge.service';
     MatListModule,
     MatIconModule,
     MatButtonModule,
-    MatMenuModule],
+    MatMenuModule,
+    MatExpansionModule],
   templateUrl: './group-details.component.html',
   styleUrl: './group-details.component.scss'
 })

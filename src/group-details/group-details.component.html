@@ -35,28 +35,44 @@
         </section>
     </mat-tab>
     <mat-tab label="Tasks">
-        <mat-list>
         <h2>Todays tasks</h2>
-        @for (task of this.tasks; track $index) {
+        <mat-accordion>
+            @for (task of this.tasks; track $index) {
             @if (task.date == this.today) {
-            <mat-list-item>
-                <h4 matListItemTitle>{{task.task}}</h4>
-                <p matListItemMeta>{{task.date}}</p>
-                <p matListItemLine>Challenge {{task.challenge}}: {{task.description}}</p>
-            </mat-list-item>
+            <mat-expansion-panel>
+                <mat-expansion-panel-header>
+                    <mat-panel-title>{{task.task}}</mat-panel-title>
+                    <mat-panel-description>
+                        <span>{{task.date}}</span>
+                    </mat-panel-description>
+                </mat-expansion-panel-header>
+                <div style="width: 100%; display: flex; flex-direction: row;">
+                    <div style="width: 80%; display: flex; flex-direction: column;">
+                        <span>Challenge {{task.challenge}}</span>
+                        <span>{{task.description}}</span>
+                    </div>
+                    <button mat-mini-fab color="accent" style="margin-left: auto;">
+                        <mat-icon style="color: black;">done</mat-icon>
+                    </button>
+                </div>
+            </mat-expansion-panel>
             }
-        }
+            }
+        </mat-accordion>
         <mat-divider></mat-divider>
         <h2>Upcoming tasks</h2>
-        @for (task of this.tasks; track $index) {
+        <mat-list>
+            @for (task of this.tasks; track $index) {
             @if (task.date > this.today) {
             <mat-list-item>
                 <h4 matListItemTitle>{{task.task}}</h4>
-                <p matListItemMeta>{{task.date}}</p>
-                <p matListItemLine>Challenge {{task.challenge}}: {{task.description}}</p>
+                <p matListItemLine>{{task.date}}; Challenge {{task.challenge}}: {{task.description}}</p>
+                <button mat-mini-fab color="accent" matListItemMeta>
+                    <mat-icon style="color: black;">done</mat-icon>
+                </button>
             </mat-list-item>
             }
-        }
-    </mat-list>
+            }
+        </mat-list>
     </mat-tab>
 </mat-tab-group>
