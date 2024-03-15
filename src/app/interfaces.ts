@@ -1,3 +1,5 @@
+import { InterpolationConfig } from "@angular/compiler"
+
 export interface Hero {
     id: number,
     name: string
@@ -54,4 +56,11 @@ export interface Invitation {
     text: string,
     icon: string,
     action: Function
+  }
+
+  export interface Task {
+    challenge: number,
+    task: string,
+    description: string,
+    date: string
   }

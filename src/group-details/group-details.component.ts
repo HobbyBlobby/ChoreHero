@@ -5,7 +5,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button'
 import { GroupDetailsService } from './group-details.service';
 import { GroupsService } from '../groups/groups.service';
-import { GroupMember, Invitation, bottomAction } from '../app/interfaces';
+import { GroupMember, Invitation, bottomAction, Task } from '../app/interfaces';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DialogGroupInviteComponent } from './dialog-group-invite/dialog-group-invite.component';
 import { MatDialog } from '@angular/material/dialog';
@@ -29,8 +29,9 @@ import { ChallengeService } from '../challenge/challenge.service';
 export class GroupDetailsComponent {
   groupMembers: GroupMember[] = [];
   groupInvitations: Invitation[] = [];
-  tasks: any = [];
+  tasks: Task[] = [];
   groupId = -1;
+  today = '';
   route: ActivatedRoute = inject(ActivatedRoute);
   public menuEntries : bottomAction[] = [
     {text: 'Create Challenge', action: this.createGroupChallenge.bind(this), icon: 'add'}
@@ -54,6 +55,8 @@ export class GroupDetailsComponent {
   }
 
   loadData(): void {
+    const today = new Date();
+    this.today = today.getFullYear() + "-" + (today.getMonth()+1).toString().padStart(2, '0') + "-" + today.getDate().toString().padStart(2, '0');
     this.groupDetailService.getGroupMembers(this.groupId).subscribe({
       next: members => this.groupMembers = members,
       error: err => this.groupDetailService.handleServerError(err)
@@ -63,9 +66,13 @@ export class GroupDetailsComponent {
       error: err => this.groupsService.handleServerError(err)
     });
     this.challengeService.getTasks(this.groupId).subscribe({
-      next: tasks => {this.tasks = tasks; console.log(tasks)},
+      next: tasks => {this.tasks = this._sortTasks(tasks); console.log(tasks)},
       error: err => this.challengeService.handleServerError(err)
     })
+  }
+
+  _sortTasks(tasks: Task[]): Task[] {
+    return tasks.sort((task1, task2) => task1.date < task2.date ? -1 : 1);
   }
 
   createGroupChallenge() {

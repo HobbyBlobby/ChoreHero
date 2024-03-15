@@ -17,6 +17,7 @@ mat-sidenav > .entry {
     bottom: 0;
     position: fixed;
     max-width: 1000px;
+    z-index: 1000;
 }
 
 .buttom-toolbar-action {
