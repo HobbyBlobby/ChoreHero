@@ -50,6 +50,19 @@ function prepare_insert_values($valueMap) {
   return "(" . implode(",", $keys) . ") VALUES (" . implode(", ", $values) . ")";
 }
 
+function prepare_update_values($valueMap) {
+  $pairs = [];
+  foreach ($valueMap as $key=>$value) {
+    if (gettype($value) === 'string') {
+      $pairs[] = "`$key`='$value'";
+    } else {
+      $pairs[] = "`$key`=$value";
+    }
+
+  }
+  return implode(", ", $pairs);
+}
+
 function _doSelect($sql) {
   global $error;
   $output = [];
@@ -83,6 +96,18 @@ function _doInsert($sql) {
     return ["status" => "success"];
   } else {
     $error = ["status" => "err_insert", "data" => $_GET, "query" => $sql];
+    http_response_code(500);
+  }
+  return FALSE;
+}
+
+function _doUpdate($sql) {
+  syslog(LOG_WARNING, "$sql");
+  global $error;
+  if ($result = mysqli_query(connect(), $sql)) {
+    return ["status" => "success"];
+  } else {
+    $error = ["status" => "err_update", "data" => $_GET, "query" => $sql];
     http_response_code(500);
   }
   return FALSE;
@@ -124,6 +149,16 @@ function db_insert($table, $values) {
   }
   $sql = "INSERT INTO `$table`" . prepare_insert_values($values);
   return _doInsert($sql);
+}
+
+function db_update($table, $condition, $values) {
+  global $error;
+  if (empty($table)) {
+    $error = ["status" => "err_notable"];
+    return FALSE;
+  }
+  $sql = "UPDATE `$table` SET " . prepare_update_values($values) . ' WHERE ' . prepare_condition($condition);
+  return _doUpdate($sql);
 }
 
 $con  = connect();

@@ -41,22 +41,40 @@
             @if (task.due_date <= this.today) {
             <mat-expansion-panel>
                 <mat-expansion-panel-header>
-                    <mat-panel-title>{{task.task_name}}</mat-panel-title>
+                    <mat-panel-title>
+                        @if (task.status =="done") {
+                            <mat-icon>done</mat-icon>
+                        }
+                        {{task.task_name}}
+                    </mat-panel-title>
                     <mat-panel-description>
                         <span>{{task.due_date}}</span>
-                        @if (task.due_date < this.today) {
+                        @if (task.due_date < this.today && task.status =="open") {
                             <mat-icon color="warn">priority_high</mat-icon>
                         }
                     </mat-panel-description>
                 </mat-expansion-panel-header>
-                <div style="width: 100%; display: flex; flex-direction: row;">
-                    <div style="width: 80%; display: flex; flex-direction: column;">
-                        <span>Challenge {{task.challenge_id}}</span>
+                <div style="width: 100%; display: flex; flex-direction: row;;">
+                    <div style="width: 50%; display: flex; flex-direction: column;">
+                        <span>Challenge {{task.challenge_id}}, Assigned to {{task.assigned_to}}</span>
                         <span>{{task.task_description}}</span>
                     </div>
-                    <button mat-mini-fab color="accent" style="margin-left: auto;">
-                        <mat-icon style="color: black;">done</mat-icon>
+                    <button mat-button [matMenuTriggerFor]="assignMember">
+                        <mat-icon>assignment</mat-icon>
+                        Assign task
                     </button>
+                    @if (task.status === 'open') {
+                        <button mat-mini-fab color="accent" style="margin-left: auto;" (click)="this.clearTask(task.task_id)">
+                            <mat-icon style="color: black;">done</mat-icon>
+                        </button>
+                    }
+                    <mat-menu #assignMember>
+                        @for (hero of this.groupMembers; track hero) {
+                            <button mat-menu-item (click)="this.assignTask(task.task_id, hero.account_name)">
+                                {{hero.account_name}}
+                            </button>
+                        }
+                    </mat-menu>
                 </div>
             </mat-expansion-panel>
             }

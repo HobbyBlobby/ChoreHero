@@ -74,7 +74,29 @@ export class GroupDetailsComponent {
   }
 
   _sortTasks(tasks: Task[]): Task[] {
+    tasks.forEach(task => task.assigned_to = task.assigned_to || ''); // replace "null" with empty string for assigned_to
     return tasks.sort((task1, task2) => task1.due_date < task2.due_date ? -1 : 1);
+  }
+
+  assignTask(task_id: number, account_name: string): void {
+    let task = this.tasks.find(task => task.task_id === task_id);
+    if(task) {
+      task.assigned_to = account_name;
+      this.challengeService.updateTask(task).subscribe();
+    }
+  }
+  clearTask(task_id: number): void {
+    let task = this.tasks.find(task => task.task_id === task_id);
+    if(task) {
+      if(!task.assigned_to) {
+        this.snackBar.open(
+          'Assign task before clearing it.', 
+          undefined, {duration: 3000, panelClass: ['snack_bar']});
+        return;
+      }
+      task.status = "done";
+      this.challengeService.updateTask(task).subscribe();
+    }
   }
 
   createGroupChallenge() {
