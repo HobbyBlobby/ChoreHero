@@ -71,7 +71,7 @@ function scheduleChallenge($challenge)
         }
     }
 
-    $schedule_start = date('Y-m-d');
+    $schedule_start = date('Y-m-d', strtotime("yesterday"));
     if(!empty($latest)) {
         $schedule_start = $latest["due_date"];
     }
@@ -94,7 +94,9 @@ function scheduleChallenge($challenge)
                 if ($offset % (int) $challenge['schedule_period'] == 0) {
                     $task = prefill_task_from_challenge($challenge);
                     $task["due_date"] = $due_date;
-                    $tasks[] = $task;
+                    if($task["due_date"] > $schedule_start) {
+                        $tasks[] = $task;
+                    }
                 }
                 $offset++;
             }

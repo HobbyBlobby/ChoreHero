@@ -38,12 +38,15 @@
         <h2>Todays tasks</h2>
         <mat-accordion>
             @for (task of this.tasks; track $index) {
-            @if (task.due_date == this.today) {
+            @if (task.due_date <= this.today) {
             <mat-expansion-panel>
                 <mat-expansion-panel-header>
                     <mat-panel-title>{{task.task_name}}</mat-panel-title>
                     <mat-panel-description>
                         <span>{{task.due_date}}</span>
+                        @if (task.due_date < this.today) {
+                            <mat-icon color="warn">priority_high</mat-icon>
+                        }
                     </mat-panel-description>
                 </mat-expansion-panel-header>
                 <div style="width: 100%; display: flex; flex-direction: row;">

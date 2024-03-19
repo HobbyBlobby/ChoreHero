@@ -18,6 +18,11 @@ mat-sidenav > .entry {
     position: fixed;
     max-width: 1000px;
     z-index: 1000;
+    height: 64px;
+}
+
+.sidenav-container {
+    margin-block-end: 64px;
 }
 
 .buttom-toolbar-action {
