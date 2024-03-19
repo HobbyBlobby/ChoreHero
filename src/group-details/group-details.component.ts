@@ -74,7 +74,7 @@ export class GroupDetailsComponent {
   }
 
   _sortTasks(tasks: Task[]): Task[] {
-    return tasks.sort((task1, task2) => task1.date < task2.date ? -1 : 1);
+    return tasks.sort((task1, task2) => task1.due_date < task2.due_date ? -1 : 1);
   }
 
   createGroupChallenge() {

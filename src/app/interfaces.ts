@@ -59,8 +59,12 @@ export interface Invitation {
   }
 
   export interface Task {
-    challenge: number,
-    task: string,
-    description: string,
-    date: string
+    task_id: number,
+    challenge_id: number,
+    group_id: number,
+    assigned_to: string,
+    due_date: string,
+    task_name: string,
+    task_description: string,
+    status: string
   }

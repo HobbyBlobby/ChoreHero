@@ -77,6 +77,7 @@ function _doDelete($sql) {
 }
 
 function _doInsert($sql) {
+  // syslog(LOG_WARNING, "$sql");
   global $error;
   if ($result = mysqli_query(connect(), $sql)) {
     return ["status" => "success"];
