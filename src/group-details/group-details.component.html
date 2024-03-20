@@ -6,15 +6,14 @@
                 @for (hero of this.groupMembers; track hero) {
                 <mat-list-item>
                     <mat-icon matListItemIcon>person_3</mat-icon>
-                    <h4 matListItemTitle>{{hero.account_name}}</h4>
-                    <p matListItemLine>{{hero.group_role}}
+                        <h4 matListItemTitle>{{hero.account_name}}
                         @if(hero.account_name == this.account_name) {
                         <button color="accent" mat-button [routerLink]="['/createHero', this.groupId]">
                             <span>Create your Hero</span>
                             <mat-icon>add</mat-icon>
                         </button>
-                        }
-                    </p>
+                        }</h4>
+                    <p matListItemLine>{{hero.group_role}}</p>
                     <button matListItemMeta mat-mini-fab color="primary" [matMenuTriggerFor]="memberMenu">
                         <mat-icon>menu</mat-icon>
                     </button>
