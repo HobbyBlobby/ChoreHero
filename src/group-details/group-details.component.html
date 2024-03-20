@@ -53,6 +53,53 @@
                             <mat-icon color="warn">priority_high</mat-icon>
                         }
                     </mat-panel-description>
+                    @if(task.assigned_to == '') {
+                        <mat-panel-description color="primary">(not assigend)</mat-panel-description>    
+                    } @else {
+                        <mat-panel-description>Hero: {{task.assigned_to}}</mat-panel-description>
+                    }
+                </mat-expansion-panel-header>
+                <div style="width: 100%; display: flex; flex-direction: row;;">
+                    <div style="width: 40em; display: flex; flex-direction: column;">
+                        <span>{{task.task_description}}</span>
+                    </div>
+                    <button mat-raised-button [matMenuTriggerFor]="assignMember">
+                        <mat-icon>assignment</mat-icon>
+                        Assign task
+                    </button>
+                    @if (task.status === 'open') {
+                        <button mat-mini-fab color="accent" style="margin-left: auto;" (click)="this.clearTask(task.task_id)">
+                            <mat-icon style="color: black;">done</mat-icon>
+                        </button>
+                    }
+                    <mat-menu #assignMember>
+                        @for (hero of this.groupMembers; track hero) {
+                            <button mat-menu-item (click)="this.assignTask(task.task_id, hero.account_name)">
+                                {{hero.account_name}}
+                            </button>
+                        }
+                    </mat-menu>
+                </div>
+            </mat-expansion-panel>
+            }
+            }
+        </mat-accordion>
+        <mat-divider></mat-divider>
+        <h2>Upcoming tasks</h2>
+        <mat-accordion>
+            @for (task of this.tasks; track $index) {
+            @if (task.due_date > this.today) {
+            <mat-expansion-panel>
+                <mat-expansion-panel-header>
+                    <mat-panel-title>
+                        @if (task.status =="done") {
+                            <mat-icon>done</mat-icon>
+                        }
+                        {{task.task_name}}
+                    </mat-panel-title>
+                    <mat-panel-description>
+                        <span>{{task.due_date}}</span>
+                    </mat-panel-description>
                 </mat-expansion-panel-header>
                 <div style="width: 100%; display: flex; flex-direction: row;;">
                     <div style="width: 50%; display: flex; flex-direction: column;">
@@ -80,9 +127,7 @@
             }
             }
         </mat-accordion>
-        <mat-divider></mat-divider>
-        <h2>Upcoming tasks</h2>
-        <mat-list>
+        <!-- <mat-list>
             @for (task of this.tasks; track $index) {
             @if (task.due_date > this.today) {
             <mat-list-item>
@@ -94,6 +139,6 @@
             </mat-list-item>
             }
             }
-        </mat-list>
+        </mat-list> -->
     </mat-tab>
 </mat-tab-group>
