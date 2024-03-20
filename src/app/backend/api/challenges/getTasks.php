@@ -60,9 +60,15 @@ function scheduleChallenge($challenge)
         "group_id" => $challenge["group_id"]
     ])) {
         $latest = $exist_tasks[0];
-        foreach($exist_tasks as $task) {
+        foreach($exist_tasks as $key=>$task) {
+            // first set the latest task
             if($task["due_date"] > $latest["due_date"]) {
                 $latest = $task;
+            }
+            // then remove past done tasks from output
+            if($task["status"] == "done" && $task["due_date"] < date("Y-m-d")) {
+                unset($exist_tasks[$key]);
+                continue;
             }
         }
 // 2. 
