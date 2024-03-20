@@ -5,6 +5,7 @@ import { CreateAccountComponent } from '../create-account/create-account.compone
 import { GroupDetailsComponent } from '../group-details/group-details.component';
 import { ChallengeCreateComponent } from '../challenge/challenge-create.component';
 import { HeroCreateComponent } from './hero/hero-create/hero-create.component';
+import { HeroComponent } from  './hero/hero.component';
 
 export const routes: Routes = [
     {
@@ -41,5 +42,11 @@ export const routes: Routes = [
         path: 'createHero/:group_id',
         component: HeroCreateComponent,
         title: 'Create your Hero'
+    },
+    {
+        path: 'hero',
+        component: HeroComponent,
+        title: 'Your Hero'
     }
+
 ];

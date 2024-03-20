@@ -12,6 +12,11 @@
                             <span>Create your Hero</span>
                             <mat-icon>add</mat-icon>
                         </button>
+                        <button color="accent" mat-button [routerLink]="['/hero']">
+                            <span>Show Hero</span>
+                            <mat-icon>arrow_right</mat-icon>
+                        </button>
+
                         }</h4>
                     <p matListItemLine>{{hero.group_role}}</p>
                     <button matListItemMeta mat-mini-fab color="primary" [matMenuTriggerFor]="memberMenu">
