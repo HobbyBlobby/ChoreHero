@@ -6,7 +6,7 @@ import { MatButtonModule } from '@angular/material/button'
 import { GroupDetailsService } from './group-details.service';
 import { GroupsService } from '../groups/groups.service';
 import { GroupMember, Invitation, bottomAction, Task } from '../app/interfaces';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { DialogGroupInviteComponent } from './dialog-group-invite/dialog-group-invite.component';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -20,6 +20,7 @@ import { MatExpansionModule } from '@angular/material/expansion';
   standalone: true,
   imports: [
     MatTabsModule,
+    RouterModule,
     MatListModule,
     MatIconModule,
     MatButtonModule,
@@ -33,6 +34,7 @@ export class GroupDetailsComponent {
   groupInvitations: Invitation[] = [];
   tasks: Task[] = [];
   groupId = -1;
+  account_name : string;
   today = '';
   route: ActivatedRoute = inject(ActivatedRoute);
   public menuEntries : bottomAction[] = [
@@ -48,7 +50,8 @@ export class GroupDetailsComponent {
     private challengeService: ChallengeService,
     private router: Router
   ) {
-    this.groupId = this.route.snapshot.params['id']
+    this.groupId = this.route.snapshot.params['id'];
+    this.account_name = localStorage.getItem("account") || "";
     this.appService.emitChangeActions(this.menuEntries);
   }
 
