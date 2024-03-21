@@ -1,11 +1,38 @@
-<div style="max-width: 500px; margin:auto;">
-<p-carousel [value]="heroClasses" [numVisible]="1" [circular]="true">
-    <ng-template let-heroClass pTemplate="item">
-        <h2 style="margin:auto; width:fit-content; padding-top: 2em;">{{heroClass.class_name}}</h2>
-        <img [src]="heroClass.img" style="width: 100%;">
-        <div style="width:100%; align-items: center; justify-content: center; display:flex;margin-top: 2em;">
-            <button mat-raised-button color="accent" (click)="this.selectClass(heroClass.class_name)">Select</button>
-        </div>
-    </ng-template>
-</p-carousel>
+<div class="card flex justify-content-center">
+    <p-stepper [linear]="true" class="full-width">
+        <p-stepperPanel header="Hero Class">
+            <ng-template pTemplate="content" let-nextCallback="nextCallback" let-index="index">
+                <div style="max-width: 500px; margin:auto;">
+                    <p-toast></p-toast>
+                    <p-carousel [value]="heroClasses" [numVisible]="1" [circular]="true"
+                        (onPage)="this.selectClass($event)">
+                        <ng-template let-heroClass pTemplate="item">
+                            <h2 style="margin:auto; width:fit-content; padding-top: 2em;">{{heroClass.class_name}}</h2>
+                            <img [src]="heroClass.img" style="width: 100%;">
+                        </ng-template>
+                    </p-carousel>
+                </div>
+                <div class="flex pt-4 justify-content-end">
+                    <p-button label="Next" icon="pi pi-arrow-right" iconPos="right" (onClick)="nextCallback.emit()" />
+                </div>
+            </ng-template>
+        </p-stepperPanel>
+        <p-stepperPanel header="Hero Name">
+            <ng-template pTemplate="content" let-prevCallback="prevCallback" let-nextCallback="nextCallback"
+                let-index="index">
+                <div>
+                    <form [formGroup]="heroFrom">
+                        <p-floatLabel>
+                            <input id="hero_name" type="text" pInputText formControlName="hero_name" />
+                            <label for="hero_name">Hero Name</label>
+                        </p-floatLabel>
+                    </form>
+                </div>
+                <div class="flex pt-4 justify-content-between">
+                    <p-button label="Back" icon="pi pi-arrow-left" (onClick)="prevCallback.emit()" />
+                    <p-button label="Next" icon="pi pi-arrow-right" iconPos="right" (onClick)="nextCallback.emit()" />
+                </div>
+            </ng-template>
+        </p-stepperPanel>
+    </p-stepper>
 </div>

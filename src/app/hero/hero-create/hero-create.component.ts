@@ -1,16 +1,27 @@
 import { Component, inject } from '@angular/core';
-import {CarouselModule } from 'primeng/carousel';
-import {MatButtonModule} from '@angular/material/button';
-import { MatSnackBar } from '@angular/material/snack-bar';
+import {CarouselModule, CarouselPageEvent } from 'primeng/carousel';
+import { MessageService } from 'primeng/api';
 import { ActivatedRoute, Router } from '@angular/router';
+import { StepperModule } from 'primeng/stepper';
+import {ButtonModule} from 'primeng/button';
+import { ToastModule } from 'primeng/toast';
+import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { InputTextModule } from 'primeng/inputtext';
+import { FloatLabelModule } from 'primeng/floatlabel';
 
 @Component({
   selector: 'app-hero',
   standalone: true,
   imports: [
     CarouselModule,
-    MatButtonModule
+    ButtonModule,
+    StepperModule,
+    ToastModule,
+    ReactiveFormsModule,
+    InputTextModule,
+    FloatLabelModule
   ],
+  providers: [MessageService],
   templateUrl: './hero-create.component.html',
   styleUrl: './hero-create.component.scss'
 })
@@ -28,14 +39,25 @@ export class HeroCreateComponent {
     img: "/assets/heros/gunner_upperbody.png" 
   }];
 
+  heroFrom = new FormGroup({
+    hero_name: new FormControl('')
+  })
+
+
   constructor(
-    private snackBar: MatSnackBar,
+    private msgService: MessageService,
     private router: Router) {
       this.group_id = this.route.snapshot.params['group_id'];
     }
-  selectClass(class_name: string): void {
-    this.snackBar.open('Du hast dich für ' + class_name + ' entschieden.', undefined,
-    { duration: 3000, panelClass: ['snack_bar'] });
-    this.router.navigate(["/groupDetails", this.group_id]);
+  selectClass(page: CarouselPageEvent): void {
+    console.log(page);
+    if(page.page != undefined) {
+      this.msgService.add({
+        severity: "success",
+        detail: 'You chose ' + this.heroClasses[page.page].class_name,
+        summary: "Selected"
+      });
+    }
+    // this.router.navigate(["/groupDetails", this.group_id]);
   }
 }
