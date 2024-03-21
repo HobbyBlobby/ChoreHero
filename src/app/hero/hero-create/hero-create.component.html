@@ -1,1 +1,11 @@
-<p>hero works!</p>
+<div style="max-width: 500px; margin:auto;">
+<p-carousel [value]="heroClasses" [numVisible]="1" [circular]="true">
+    <ng-template let-heroClass pTemplate="item">
+        <h2 style="margin:auto; width:fit-content; padding-top: 2em;">{{heroClass.class_name}}</h2>
+        <img [src]="heroClass.img" style="width: 100%;">
+        <div style="width:100%; align-items: center; justify-content: center; display:flex;margin-top: 2em;">
+            <button mat-raised-button color="accent" (click)="this.selectClass(heroClass.class_name)">Select</button>
+        </div>
+    </ng-template>
+</p-carousel>
+</div>
