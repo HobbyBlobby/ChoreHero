@@ -8,6 +8,7 @@ import { ToastModule } from 'primeng/toast';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { InputTextModule } from 'primeng/inputtext';
 import { FloatLabelModule } from 'primeng/floatlabel';
+import { AvatarModule } from 'primeng/avatar';
 
 @Component({
   selector: 'app-hero',
@@ -19,7 +20,8 @@ import { FloatLabelModule } from 'primeng/floatlabel';
     ToastModule,
     ReactiveFormsModule,
     InputTextModule,
-    FloatLabelModule
+    FloatLabelModule,
+    AvatarModule
   ],
   providers: [MessageService],
   templateUrl: './hero-create.component.html',
@@ -30,19 +32,22 @@ export class HeroCreateComponent {
   group_id: number = -1;
   heroClasses = [{
     class_name: "Fortuneteller",
-    img: "/assets/heros/fortuneteller_upperbody.png" 
+    img: "/assets/heros/fortuneteller_upperbody.png",
+    img_head: "/assets/heros/fortuneteller_head.png"
   },{
     class_name: "IT-Pro",
-    img: "/assets/heros/itpro_upperbody.png" 
+    img: "/assets/heros/itpro_upperbody.png",
+    img_head: "/assets/heros/itpro_head.png"
   },{
     class_name: "Gunner",
-    img: "/assets/heros/gunner_upperbody.png" 
+    img: "/assets/heros/gunner_upperbody.png" ,
+    img_head: "/assets/heros/gunner_upperbody.png"
   }];
 
   heroFrom = new FormGroup({
-    hero_name: new FormControl('')
+    hero_name: new FormControl(''),
   })
-
+  selectedClass = this.heroClasses[0];
 
   constructor(
     private msgService: MessageService,
@@ -52,9 +57,10 @@ export class HeroCreateComponent {
   selectClass(page: CarouselPageEvent): void {
     console.log(page);
     if(page.page != undefined) {
+      this.selectedClass = this.heroClasses[page.page];
       this.msgService.add({
         severity: "success",
-        detail: 'You chose ' + this.heroClasses[page.page].class_name,
+        detail: 'You chose ' + this.selectedClass.class_name,
         summary: "Selected"
       });
     }

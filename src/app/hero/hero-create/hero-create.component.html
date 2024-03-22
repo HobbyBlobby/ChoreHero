@@ -20,10 +20,10 @@
         <p-stepperPanel header="Hero Name">
             <ng-template pTemplate="content" let-prevCallback="prevCallback" let-nextCallback="nextCallback"
                 let-index="index">
-                <div>
+                <div class="flex justify-content-center">
                     <form [formGroup]="heroFrom">
                         <p-floatLabel>
-                            <input id="hero_name" type="text" pInputText formControlName="hero_name" />
+                            <input id="hero_name" type="text" pInputText formControlName="hero_name" required="true" />
                             <label for="hero_name">Hero Name</label>
                         </p-floatLabel>
                     </form>
@@ -31,6 +31,33 @@
                 <div class="flex pt-4 justify-content-between">
                     <p-button label="Back" icon="pi pi-arrow-left" (onClick)="prevCallback.emit()" />
                     <p-button label="Next" icon="pi pi-arrow-right" iconPos="right" (onClick)="nextCallback.emit()" />
+                </div>
+            </ng-template>
+        </p-stepperPanel>
+        <p-stepperPanel header="Confirm">
+            <ng-template pTemplate="content" let-prevCallback="prevCallback" let-nextCallback="nextCallback"
+                let-index="index">
+                <h2>Confirm your selection</h2>
+                <div class="flex justify-content-center">
+                    <!-- <div style="flex-direction: column; display: flex;" class="justify-content-center"> -->
+                    <ul style="list-style-type: none;">
+                        <li>
+                            <p-avatar size="xlarge" shape="circle">
+                                <img src="{{this.selectedClass.img_head}}" #heroAvatar>
+                            </p-avatar>
+                        </li>
+                        <li>
+                            <h3>Name: {{this.heroFrom.value.hero_name}}</h3>
+                        </li>
+                        <li>
+                            <h3>Class: {{this.selectedClass.class_name}}</h3>
+                        </li>
+                    </ul>
+                    <!-- </div> -->
+                </div>
+                <div class="flex pt-4 justify-content-between">
+                    <p-button label="Back" icon="pi pi-arrow-left" (onClick)="prevCallback.emit()" />
+                    <p-button label="Confirm" icon="pi pi-arrow-right" iconPos="right" severity="success" (onClick)="nextCallback.emit()" />
                 </div>
             </ng-template>
         </p-stepperPanel>
