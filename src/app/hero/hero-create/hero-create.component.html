@@ -13,7 +13,7 @@
                     </p-carousel>
                 </div>
                 <div class="flex pt-4 justify-content-end">
-                    <p-button label="Next" icon="pi pi-arrow-right" iconPos="right" (onClick)="nextCallback.emit()" />
+                    <p-button i18n-label="Button Next" label="Next" icon="pi pi-arrow-right" iconPos="right" (onClick)="nextCallback.emit()" />
                 </div>
             </ng-template>
         </p-stepperPanel>
@@ -57,7 +57,7 @@
                 </div>
                 <div class="flex pt-4 justify-content-between">
                     <p-button label="Back" icon="pi pi-arrow-left" (onClick)="prevCallback.emit()" />
-                    <p-button label="Confirm" icon="pi pi-arrow-right" iconPos="right" severity="success" (onClick)="nextCallback.emit()" />
+                    <p-button label="Confirm" icon="pi pi-check" iconPos="right" severity="success" (onClick)="nextCallback.emit()" />
                 </div>
             </ng-template>
         </p-stepperPanel>
