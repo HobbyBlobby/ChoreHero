@@ -4,7 +4,6 @@ import { Hero, HeroClass } from '../hero';
 import { HeroCreateComponent } from './hero-create/hero-create.component';
 import { ActivatedRoute } from '@angular/router';
 import { HeroService } from './hero.service';
-import { find } from 'rxjs';
 
 @Component({
   selector: 'app-hero',
