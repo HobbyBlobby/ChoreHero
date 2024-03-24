@@ -5,7 +5,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button'
 import { GroupDetailsService } from './group-details.service';
 import { GroupsService } from '../groups/groups.service';
-import { GroupMember, Invitation, bottomAction, Task } from '../app/interfaces';
+import { GroupMember, Invitation, bottomAction, Task, groupHero } from '../app/interfaces';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { DialogGroupInviteComponent } from './dialog-group-invite/dialog-group-invite.component';
 import { MatDialog } from '@angular/material/dialog';
@@ -14,6 +14,8 @@ import {MatMenuModule} from '@angular/material/menu';
 import { AppService } from '../app.service';
 import { ChallengeService } from '../challenge/challenge.service';
 import { MatExpansionModule } from '@angular/material/expansion';
+import { Hero } from '../app/hero';
+import { HeroService } from '../app/hero/hero.service';
 
 @Component({
   selector: 'app-group-details',
@@ -32,6 +34,8 @@ import { MatExpansionModule } from '@angular/material/expansion';
 export class GroupDetailsComponent {
   groupMembers: GroupMember[] = [];
   groupInvitations: Invitation[] = [];
+  heros: Hero[] = [];
+  groupHeros: groupHero[] = [];
   tasks: Task[] = [];
   groupId = -1;
   account_name : string;
@@ -48,6 +52,7 @@ export class GroupDetailsComponent {
     private inviteDialog: MatDialog,
     private appService: AppService,
     private challengeService: ChallengeService,
+    private heroService: HeroService,
     private router: Router
   ) {
     this.groupId = this.route.snapshot.params['id'];
@@ -63,7 +68,7 @@ export class GroupDetailsComponent {
     const today = new Date();
     this.today = today.getFullYear() + "-" + (today.getMonth()+1).toString().padStart(2, '0') + "-" + today.getDate().toString().padStart(2, '0');
     this.groupDetailService.getGroupMembers(this.groupId).subscribe({
-      next: members => this.groupMembers = members,
+      next: members => {this.groupMembers = members; this._loadAndMergeHeros()},
       error: err => this.groupDetailService.handleServerError(err)
     });
     this.groupsService.getAllInvitations(this.groupId).subscribe({
@@ -74,6 +79,23 @@ export class GroupDetailsComponent {
       next: tasks => {this.tasks = this._sortTasks(tasks); console.log(tasks)},
       error: err => this.challengeService.handleServerError(err)
     })
+  }
+
+  _loadAndMergeHeros() {
+    this.heroService.getHeros(this.groupId).subscribe({
+      next: heros => {this.heros = heros, this._mergeHeros()},
+      error: err => this.heroService.handleServerError(err)
+    });
+  }
+
+  _mergeHeros() {
+    this.groupHeros = [];
+    this.groupMembers.forEach(member => {
+      let groupHero: groupHero = {member: member};
+      groupHero.hero = this.heros.find(hero => member.account_name === hero.account_name);
+      this.groupHeros.push(groupHero);
+    });
+    console.log(this.groupHeros);
   }
 
   _sortTasks(tasks: Task[]): Task[] {

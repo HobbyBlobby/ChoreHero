@@ -1,9 +1,9 @@
-import { InterpolationConfig } from "@angular/compiler"
+import { Hero } from './hero';
 
-export interface Hero {
-    id: number,
-    name: string
-}
+// export interface Hero {
+//     id: number,
+//     name: string
+// }
 
 export interface Account {
     account_name: string
@@ -67,4 +67,9 @@ export interface Invitation {
     task_name: string,
     task_description: string,
     status: string
+  }
+
+  export interface groupHero {
+    member: GroupMember,
+    hero?: Hero
   }

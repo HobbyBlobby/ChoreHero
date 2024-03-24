@@ -1,10 +1,10 @@
 <div class="card flex justify-content-center">
     <p-stepper [linear]="true" class="full-width">
-        <p-stepperPanel header="Hero Class">
+        <p-stepperPanel i18n-header header="Hero Class">
             <ng-template pTemplate="content" let-nextCallback="nextCallback" let-index="index">
                 <div style="max-width: 500px; margin:auto;">
                     <p-toast></p-toast>
-                    <p-carousel [value]="heroClasses" [numVisible]="1" [circular]="true"
+                    <p-carousel [value]="this.getHeroClasses()" [numVisible]="1" [circular]="true"
                         (onPage)="this.selectClass($event)">
                         <ng-template let-heroClass pTemplate="item">
                             <h2 style="margin:auto; width:fit-content; padding-top: 2em;">{{heroClass.class_name}}</h2>
@@ -17,27 +17,27 @@
                 </div>
             </ng-template>
         </p-stepperPanel>
-        <p-stepperPanel header="Hero Name">
+        <p-stepperPanel i18n-header header="Hero Name">
             <ng-template pTemplate="content" let-prevCallback="prevCallback" let-nextCallback="nextCallback"
                 let-index="index">
                 <div class="flex justify-content-center">
                     <form [formGroup]="heroFrom">
                         <p-floatLabel>
-                            <input id="hero_name" type="text" pInputText formControlName="hero_name" required="true" />
-                            <label for="hero_name">Hero Name</label>
+                            <input id="hero_name" type="text" pInputText formControlName="hero_name" required #heroName/>
+                            <label for="hero_name" i18n>Hero Name</label>
                         </p-floatLabel>
                     </form>
                 </div>
                 <div class="flex pt-4 justify-content-between">
-                    <p-button label="Back" icon="pi pi-arrow-left" (onClick)="prevCallback.emit()" />
-                    <p-button label="Next" icon="pi pi-arrow-right" iconPos="right" (onClick)="nextCallback.emit()" />
+                    <p-button i18m-label label="Back" icon="pi pi-arrow-left" (onClick)="prevCallback.emit()" />
+                    <p-button [disabled]="!heroName.validity.valid" i18m-label label="Next" icon="pi pi-arrow-right" iconPos="right" (onClick)="nextCallback.emit()" />
                 </div>
             </ng-template>
         </p-stepperPanel>
-        <p-stepperPanel header="Confirm">
+        <p-stepperPanel i18-header header="Confirm">
             <ng-template pTemplate="content" let-prevCallback="prevCallback" let-nextCallback="nextCallback"
                 let-index="index">
-                <h2>Confirm your selection</h2>
+                <h2 i18n>Confirm your selection</h2>
                 <div class="flex justify-content-center">
                     <!-- <div style="flex-direction: column; display: flex;" class="justify-content-center"> -->
                     <ul style="list-style-type: none;">
@@ -47,17 +47,17 @@
                             </p-avatar>
                         </li>
                         <li>
-                            <h3>Name: {{this.heroFrom.value.hero_name}}</h3>
+                            <h3 i18n>Name: {{this.heroFrom.value.hero_name}}</h3>
                         </li>
                         <li>
-                            <h3>Class: {{this.selectedClass.class_name}}</h3>
+                            <h3 i18n>Class: {{this.selectedClass.class_name}}</h3>
                         </li>
                     </ul>
                     <!-- </div> -->
                 </div>
                 <div class="flex pt-4 justify-content-between">
-                    <p-button label="Back" icon="pi pi-arrow-left" (onClick)="prevCallback.emit()" />
-                    <p-button label="Confirm" icon="pi pi-check" iconPos="right" severity="success" (onClick)="nextCallback.emit()" />
+                    <p-button i18n-label label="Back" icon="pi pi-arrow-left" (onClick)="prevCallback.emit()" />
+                    <p-button i18n-label label="Confirm" icon="pi pi-check" iconPos="right" severity="success" (onClick)="this.confirmHero()" />
                 </div>
             </ng-template>
         </p-stepperPanel>

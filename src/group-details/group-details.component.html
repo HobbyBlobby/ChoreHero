@@ -3,27 +3,28 @@
         <section>
             <h2>Members</h2>
             <mat-list>
-                @for (hero of this.groupMembers; track hero) {
+                @for (hero of this.groupHeros; track hero) {
                 <mat-list-item>
                     <mat-icon matListItemIcon>person_3</mat-icon>
-                        <h4 matListItemTitle>{{hero.account_name}}
-                        @if(hero.account_name == this.account_name) {
+                        <h4 matListItemTitle>{{hero.member.account_name}}
+                        @if(!hero.hero && hero.member.account_name == this.account_name) {
                         <button color="accent" mat-button [routerLink]="['/createHero', this.groupId]">
                             <span>Create your Hero</span>
                             <mat-icon>add</mat-icon>
                         </button>
-                        <button color="accent" mat-button [routerLink]="['/hero']">
+                        }
+                        @if (hero.hero) {
+                        <button color="accent" mat-button [routerLink]="['/hero',this.groupId, hero.hero.hero_id]">
                             <span>Show Hero</span>
                             <mat-icon>arrow_right</mat-icon>
                         </button>
-
                         }</h4>
-                    <p matListItemLine>{{hero.group_role}}</p>
+                    <p matListItemLine>{{hero.member.group_role}}</p>
                     <button matListItemMeta mat-mini-fab color="primary" [matMenuTriggerFor]="memberMenu">
                         <mat-icon>menu</mat-icon>
                     </button>
                     <mat-menu #memberMenu>
-                        <button mat-menu-item (click)="this.removeMember(hero)">Remove</button>
+                        <button mat-menu-item (click)="this.removeMember(hero.member)">Remove</button>
                     </mat-menu>
                 </mat-list-item>
                 <!-- <mat-divider [inset]="true"></mat-divider> -->

@@ -44,7 +44,7 @@ export const routes: Routes = [
         title: 'Create your Hero'
     },
     {
-        path: 'hero',
+        path: 'hero/:group_id/:hero_id',
         component: HeroComponent,
         title: 'Your Hero'
     }

@@ -5,10 +5,12 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { StepperModule } from 'primeng/stepper';
 import {ButtonModule} from 'primeng/button';
 import { ToastModule } from 'primeng/toast';
-import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { InputTextModule } from 'primeng/inputtext';
 import { FloatLabelModule } from 'primeng/floatlabel';
 import { AvatarModule } from 'primeng/avatar';
+import { Hero, HeroClass } from '../../hero';
+import { HeroService } from '../hero.service';
 
 @Component({
   selector: 'app-hero',
@@ -30,34 +32,57 @@ import { AvatarModule } from 'primeng/avatar';
 export class HeroCreateComponent {
   route: ActivatedRoute = inject(ActivatedRoute);
   group_id: number = -1;
-  heroClasses = [{
+  static heroClasses: HeroClass[] = [{
+    class_id: 1,
     class_name: "Fortuneteller",
     img: "/assets/heros/fortuneteller_upperbody.png",
     img_head: "/assets/heros/fortuneteller_head.png"
   },{
+    class_id: 2,
     class_name: "IT-Pro",
     img: "/assets/heros/itpro_upperbody.png",
     img_head: "/assets/heros/itpro_head.png"
   },{
+    class_id: 3,
     class_name: "Gunner",
     img: "/assets/heros/gunner_upperbody.png" ,
     img_head: "/assets/heros/gunner_upperbody.png"
   }];
 
   heroFrom = new FormGroup({
-    hero_name: new FormControl(''),
+    hero_name: new FormControl('', [Validators.required]),
   })
-  selectedClass = this.heroClasses[0];
+  selectedClass = HeroCreateComponent.heroClasses[0];
 
   constructor(
     private msgService: MessageService,
+    private heroService: HeroService,
     private router: Router) {
       this.group_id = this.route.snapshot.params['group_id'];
     }
+
+  confirmHero(): void {
+    let newHero : Hero =  {
+      account_name: localStorage.getItem("account") || '',
+      group_id: this.group_id,
+      class_id: this.selectedClass.class_id,
+      hero_name: this.heroFrom.value.hero_name || '',
+      hero_id: -1
+    }
+    this.heroService.createHero(newHero).subscribe({
+      next: () => this.router.navigate(["/groupDetails", this.group_id]),
+      error: err => this.heroService.handleServerError(err)
+    });
+  }
+
+  getHeroClasses(): HeroClass[] {
+    return HeroCreateComponent.heroClasses;
+  }
+
   selectClass(page: CarouselPageEvent): void {
     console.log(page);
     if(page.page != undefined) {
-      this.selectedClass = this.heroClasses[page.page];
+      this.selectedClass = HeroCreateComponent.heroClasses[page.page];
       this.msgService.add({
         severity: "success",
         detail: 'You chose ' + this.selectedClass.class_name,
