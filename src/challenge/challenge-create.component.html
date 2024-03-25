@@ -108,9 +108,9 @@
                             <h2 class="section-heading" i18n>Assign Skills</h2>
                             <form [formGroup]="skillForm">
                                 @for (skill of this.skills; track $index) {
-                                <div style="margin:3ex">
+                                <div style="margin:3ex; flex-direction: row;" class="flex justify-content-between">
                                     <label >{{skill.skill_name}} ({{this._getSkillValue(skill.skill_id)}})</label>
-                                    <p-slider [formControlName]="skill.skill_id" [step]="5"></p-slider>
+                                    <p-slider class="formInput_fullWidth" [formControlName]="skill.skill_id" [step]="5"></p-slider>
                                 </div>
                                 }
                             </form>
