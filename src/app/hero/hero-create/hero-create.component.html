@@ -8,7 +8,7 @@
                         (onPage)="this.selectClass($event)">
                         <ng-template let-heroClass pTemplate="item">
                             <h2 style="margin:auto; width:fit-content; padding-top: 2em;">{{heroClass.class_name}}</h2>
-                            <img [src]="heroClass.img" style="width: 100%;">
+                            <img [src]="heroClass.img_full" style="width: 100%;">
                         </ng-template>
                     </p-carousel>
                 </div>

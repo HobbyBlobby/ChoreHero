@@ -10,5 +10,6 @@ export interface HeroClass {
     class_id: number,
     class_name: string,
     img: string,
-    img_head: string
+    img_head: string,
+    img_full: string
 }

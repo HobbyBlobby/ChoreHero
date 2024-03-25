@@ -1,4 +1,4 @@
-import { Hero } from './hero';
+import { Hero, HeroClass } from './hero';
 
 // export interface Hero {
 //     id: number,
@@ -71,5 +71,6 @@ export interface Invitation {
 
   export interface groupHero {
     member: GroupMember,
-    hero?: Hero
+    hero?: Hero,
+    heroClass?: HeroClass
   }

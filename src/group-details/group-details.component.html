@@ -5,7 +5,13 @@
             <mat-list>
                 @for (hero of this.groupHeros; track hero) {
                 <mat-list-item>
-                    <mat-icon matListItemIcon>person_3</mat-icon>
+                    @if (hero.heroClass) {
+                        <p-avatar shape="circle" matListItemIcon>
+                            <img [src]="hero.heroClass.img_head">
+                        </p-avatar>
+                    } @else {
+                        <mat-icon matListItemIcon>person_3</mat-icon>
+                    }
                         <h4 matListItemTitle>{{hero.member.account_name}}
                         @if(!hero.hero && hero.member.account_name == this.account_name) {
                         <button color="accent" mat-button [routerLink]="['/createHero', this.groupId]">

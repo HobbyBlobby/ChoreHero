@@ -14,8 +14,10 @@ import {MatMenuModule} from '@angular/material/menu';
 import { AppService } from '../app.service';
 import { ChallengeService } from '../challenge/challenge.service';
 import { MatExpansionModule } from '@angular/material/expansion';
-import { Hero } from '../app/hero';
+import { Hero, HeroClass } from '../app/hero';
 import { HeroService } from '../app/hero/hero.service';
+import { AvatarModule } from 'primeng/avatar';
+import HeroClassData from '../app/data/heroClasses.json';
 
 @Component({
   selector: 'app-group-details',
@@ -27,6 +29,7 @@ import { HeroService } from '../app/hero/hero.service';
     MatIconModule,
     MatButtonModule,
     MatMenuModule,
+    AvatarModule,
     MatExpansionModule],
   templateUrl: './group-details.component.html',
   styleUrl: './group-details.component.scss'
@@ -36,6 +39,7 @@ export class GroupDetailsComponent {
   groupInvitations: Invitation[] = [];
   heros: Hero[] = [];
   groupHeros: groupHero[] = [];
+  heroClasses: HeroClass[] = HeroClassData.heroClasses;
   tasks: Task[] = [];
   groupId = -1;
   account_name : string;
@@ -93,6 +97,7 @@ export class GroupDetailsComponent {
     this.groupMembers.forEach(member => {
       let groupHero: groupHero = {member: member};
       groupHero.hero = this.heros.find(hero => member.account_name === hero.account_name);
+      groupHero.heroClass = this.heroClasses.find(heroClass => heroClass.class_id == groupHero.hero?.class_id);
       this.groupHeros.push(groupHero);
     });
     console.log(this.groupHeros);

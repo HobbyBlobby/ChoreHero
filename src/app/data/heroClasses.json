@@ -3,16 +3,26 @@
     "class_id": 1,
     "class_name": "Fortuneteller",
     "img": "/assets/heros/fortuneteller_upperbody.png",
-    "img_head": "/assets/heros/fortuneteller_head.png"
+    "img_head": "/assets/heros/fortuneteller_head.png",
+    "img_full": "/assets/heros/fortuneteller_full.png"
   },{
     "class_id": 2,
     "class_name": "IT-Pro",
     "img": "/assets/heros/itpro_upperbody.png",
-    "img_head": "/assets/heros/itpro_head.png"
+    "img_head": "/assets/heros/itpro_head.png",
+    "img_full": "/assets/heros/itpro_full.png"
   },{
     "class_id": 3,
     "class_name": "Gunner",
     "img": "/assets/heros/gunner_upperbody.png" ,
-    "img_head": "/assets/heros/gunner_upperbody.png"
+    "img_head": "/assets/heros/gunner_upperbody.png",
+    "img_full": "/assets/heros/gunner_upperbody.png"
+  },{
+    "class_id": 4,
+    "class_name": "Magician",
+    "img": "/assets/heros/magician_upperbody.png" ,
+    "img_head": "/assets/heros/magician_head.png",
+    "img_full": "/assets/heros/magician_full.png"
   }]
 }
+
