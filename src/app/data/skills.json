@@ -1,0 +1,15 @@
+{
+"skills": [{
+    "skill_id": 1,
+    "skill_name": "Strength"
+  },{
+    "skill_id": 2,
+    "skill_name": "Dexterity"
+  },{
+    "skill_id": 3,
+    "skill_name": "Stamina"
+    },{
+      "skill_id": 4,
+      "skill_name": "Precision"
+    }]
+}

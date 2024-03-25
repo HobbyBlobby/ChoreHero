@@ -1,4 +1,162 @@
-<mat-vertical-stepper linear="true" #stepper verti>
+<div class="card flex justify-content-center">
+    <p-stepper [linear]="true" class="full-width" orientation="vertical">
+        <p-stepperPanel i18n-header header="Challenge description">
+            <ng-template pTemplate="content" let-nextCallback="nextCallback" let-index="index">
+                <section class="formBox">
+                    <div class="flex justify-content-center" style="flex-direction: column;">
+                        <h2 class="section-heading" i18n>Create Challenge</h2>
+                        <form [formGroup]="createForm">
+                            <p-floatLabel class="formInput_fullWidth">
+                                <input id="challenge_name" class="formInput_fullWidth" type="text" pInputText
+                                    formControlName="challenge_name" required #input_challenge_name />
+                                <label for="challenge_name" i18n>Challenge Name</label>
+                            </p-floatLabel>
+                            <p-floatLabel class="formInput_fullWidth" style="margin-top: 3em; display: block;">
+                                <textarea id="description" maxlength="256" rows="5" formControlName="description"
+                                    class="formInput_fullWidth"></textarea>
+                                <label for="description" i18n>Description</label>
+                            </p-floatLabel>
+                        </form>
+                    </div>
+                    <div class="flex pt-4 justify-content-end" style="margin-top: 2em;">
+                        <p-button [disabled]="!input_challenge_name.validity.valid" i18m-label label="Next"
+                            icon="pi pi-arrow-right" iconPos="right" (onClick)="nextCallback.emit()" />
+                    </div>
+                </section>
+            </ng-template>
+        </p-stepperPanel>
+        <p-stepperPanel i18n-header header="Define Schedule">
+            <ng-template pTemplate="content" let-prevCallback="prevCallback" let-nextCallback="nextCallback">
+                <section class="formBox">
+                    <div class="flex justify-content-center" style="flex-direction: column;">
+                        <h2 class="section-heading">Define Schedule</h2>
+                        <form [formGroup]="scheduleForm" class="formContent">
+                            <mat-button-toggle-group formControlName="schedule_mode">
+                                <mat-button-toggle value="OneTime">One Time</mat-button-toggle>
+                                <mat-button-toggle value="Daily">Daily</mat-button-toggle>
+                                <mat-button-toggle value="Weekly">Weekly</mat-button-toggle>
+                                <mat-button-toggle value="Monthly">Monthly</mat-button-toggle>
+                            </mat-button-toggle-group>
+                            <div *ngIf="this.scheduleForm.value.schedule_mode == 'OneTime'" style="margin-top: 1em;">
+                                <mat-form-field>
+                                    <mat-label for="schedule_date">Date</mat-label>
+                                    <input matInput id="schedule_date" type="date" formControlName="schedule_date"
+                                        required>
+                                </mat-form-field>
+                            </div>
+                            <div *ngIf="this.scheduleForm.value.schedule_mode == 'Daily'" style="margin-top: 1em;"
+                                class="formInput_fullWidth">
+                                <h4>Repetition</h4>
+                                Repeat every
+                                <mat-form-field>
+                                    <input matInput type="number" min=1 formControlName="schedule_period">
+                                </mat-form-field>
+                                day(s).
+                            </div>
+                            <div *ngIf="this.scheduleForm.value.schedule_mode == 'Weekly'" style="margin-top: 1em;"
+                                class="formInput_fullWidth">
+                                <h4>Repetition</h4>
+                                Repeat every
+                                <mat-form-field>
+                                    <input matInput type="number" min=1 formControlName="schedule_period">
+                                </mat-form-field>
+                                weeks(s).
+                                <h4>Weekday selection</h4>
+                                <mat-form-field>
+                                    <mat-select formControlName="schedule_selection" multiple>
+                                        <mat-option value="Monday">Monday</mat-option>
+                                        <mat-option value="Tuesday">Tuesday</mat-option>
+                                        <mat-option value="Wednesday">Wednesday</mat-option>
+                                        <mat-option value="Thursday">Thursday</mat-option>
+                                        <mat-option value="Friday">Friday</mat-option>
+                                        <mat-option value="Saturday">Saturday</mat-option>
+                                        <mat-option value="Sunday">Sunday</mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                            </div>
+                            <div *ngIf="this.scheduleForm.value.schedule_mode == 'Monthly'" style="margin-top: 1em;"
+                                class="formInput_fullWidth">
+                                <h4>Repetition</h4>
+                                Repeat every
+                                <mat-form-field>
+                                    <input matInput type="number" min=1 formControlName="schedule_period">
+                                </mat-form-field>
+                                month(s).
+                                <h4>Day of month</h4>
+                                <mat-form-field>
+                                    <mat-select formControlName="schedule_selection" multiple>
+                                        <mat-option *ngFor="let item of [].constructor(31); let i=index"
+                                            [value]="i+1">{{i+1}}</mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="flex pt-4 justify-content-between">
+                        <p-button i18m-label label="Back" icon="pi pi-arrow-left" (onClick)="prevCallback.emit()" />
+                        <p-button i18m-label label="Next" icon="pi pi-arrow-right" iconPos="right"
+                            (onClick)="nextCallback.emit()" />
+                    </div>
+                </section>
+            </ng-template>
+        </p-stepperPanel>
+        <p-stepperPanel i18n-header header="Assign Skillpoints">
+            <ng-template pTemplate="content" let-prevCallback="prevCallback" let-nextCallback="nextCallback">
+                <section class="formBox">
+                    <div class="flex justify-content-center">
+                        <section class="formBox">
+                            <h2 class="section-heading" i18n>Assign Skills</h2>
+                            <form [formGroup]="skillForm">
+                                @for (skill of this.skills; track $index) {
+                                <div style="margin:3ex">
+                                    <label >{{skill.skill_name}} ({{this._getSkillValue(skill.skill_id)}})</label>
+                                    <p-slider [formControlName]="skill.skill_id" [step]="5"></p-slider>
+                                </div>
+                                }
+                            </form>
+                            <p>Total Skill: {{this._getTotalSkill()}}</p>
+                        </section>
+                    </div>
+                    <div class="flex pt-4 justify-content-between">
+                        <p-button i18m-label label="Back" icon="pi pi-arrow-left" (onClick)="prevCallback.emit()" />
+                        <p-button i18m-label label="Next" icon="pi pi-arrow-right" iconPos="right"
+                            (onClick)="nextCallback.emit()" />
+                    </div>
+                </section>
+            </ng-template>
+        </p-stepperPanel>
+        <p-stepperPanel i18n-header header="Challenge description">
+            <ng-template pTemplate="content" let-prevCallback="prevCallback">
+                <section class="formBox">
+                    <div class="flex justify-content-center">
+                        <section class="formBox">
+                            <h2 class="section-heading">Confirm Challenge</h2>
+                            <ul style="list-style-type: none;">
+                                <li>
+                                    <p i18n>Name: {{this.createForm.value.challenge_name}}</p>
+                                </li>
+                                <li>
+                                    <p i18n>Name: {{this.scheduleForm.value.schedule_mode}}</p>
+                                </li>
+                                <li>
+                                    <p i18n>Total skill: {{this._getTotalSkill()}}</p>
+                                </li>
+                            </ul>
+                                    
+                        </section>
+                    </div>
+                    <div class="flex pt-4 justify-content-between">
+                        <p-button i18m-label label="Back" icon="pi pi-arrow-left" (onClick)="prevCallback.emit()" />
+                        <p-button i18n-label label="Confirm" icon="pi pi-check" iconPos="right" severity="success"
+                            (onClick)="this.submitCreate()" />
+                    </div>
+                </section>
+            </ng-template>
+        </p-stepperPanel>
+    </p-stepper>
+</div>
+
+<!-- <mat-vertical-stepper linear="true" #stepper verti>
     <mat-step [stepControl]="createForm">
         <div class="formContent">
             <section class="formBox">
@@ -90,6 +248,20 @@
         </section>
     </mat-step>
     <mat-step>
+        <ng-template matStepLabel i18n>Assign Skills</ng-template>
+        <section class="formBox">
+            <h2 class="section-heading" i18n>Assign Skills</h2>
+            <form [formGroup]="skillForm">
+            @for (skill of this.skills; track $index) {
+                <div style="margin:3ex">
+                <label>{{skill.skill_name}} ({{this._getSkillValue(skill.skill_id)}})</label>
+                <p-slider [formControlName]="skill.skill_id" [step]="5"></p-slider>
+                </div>
+            }
+            </form>
+        </section>
+    </mat-step>
+    <mat-step>
         <ng-template matStepLabel>Save</ng-template>
         <section class="formBox">
             <h2 class="section-heading">Confirm Challenge</h2>
@@ -99,4 +271,4 @@
             </button>
         </section>
     </mat-step>
-</mat-vertical-stepper>
+</mat-vertical-stepper> -->

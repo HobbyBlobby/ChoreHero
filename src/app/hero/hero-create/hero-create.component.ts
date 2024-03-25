@@ -11,6 +11,7 @@ import { FloatLabelModule } from 'primeng/floatlabel';
 import { AvatarModule } from 'primeng/avatar';
 import { Hero, HeroClass } from '../../hero';
 import { HeroService } from '../hero.service';
+import heroClassData from '../../data/heroClasses.json';
 
 @Component({
   selector: 'app-hero',
@@ -32,22 +33,7 @@ import { HeroService } from '../hero.service';
 export class HeroCreateComponent {
   route: ActivatedRoute = inject(ActivatedRoute);
   group_id: number = -1;
-  static heroClasses: HeroClass[] = [{
-    class_id: 1,
-    class_name: "Fortuneteller",
-    img: "/assets/heros/fortuneteller_upperbody.png",
-    img_head: "/assets/heros/fortuneteller_head.png"
-  },{
-    class_id: 2,
-    class_name: "IT-Pro",
-    img: "/assets/heros/itpro_upperbody.png",
-    img_head: "/assets/heros/itpro_head.png"
-  },{
-    class_id: 3,
-    class_name: "Gunner",
-    img: "/assets/heros/gunner_upperbody.png" ,
-    img_head: "/assets/heros/gunner_upperbody.png"
-  }];
+  static heroClasses: HeroClass[] = heroClassData.heroClasses;
 
   heroFrom = new FormGroup({
     hero_name: new FormControl('', [Validators.required]),
