@@ -11,42 +11,42 @@ export const routes: Routes = [
     {
         path: '',
         component: LoginComponent,
-        title: 'Login'
+        title: 'ChoreHeros>Login'
     },
     {
         path: 'login/:returnTo',
         component: LoginComponent,
-        title: 'Login'
+        title: 'ChoreHeros>Login'
     },
     {
         path: 'groupList',
         component: GroupsComponent,
-        title: 'Groups Page'
+        title: 'ChoreHeros>Groups Page'
     },
     {
         path: 'createAccount',
         component: CreateAccountComponent,
-        title: 'Create Account'
+        title: 'ChoreHeros>Create Account'
     },
     {
         path: 'groupDetails/:id',
         component: GroupDetailsComponent,
-        title: 'Group Details'
+        title: 'ChoreHeros>Group Details'
     },
     {
         path: 'challengeCreate/:group_id',
         component: ChallengeCreateComponent,
-        title: 'Create a challenge'
+        title: 'ChoreHeros>Create a challenge'
     },
     {
         path: 'createHero/:group_id',
         component: HeroCreateComponent,
-        title: 'Create your Hero'
+        title: 'ChoreHeros>Create your Hero'
     },
     {
         path: 'hero/:group_id/:hero_id',
         component: HeroComponent,
-        title: 'Your Hero'
+        title: 'ChoreHeros>Your Hero'
     }
 
 ];
