@@ -12,7 +12,7 @@ import {MatSelectModule} from '@angular/material/select';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ChallengeService } from './challenge.service';
 import SkillData from '../app/data/skills.json';
-import { Skill } from '../app/challenge';
+import { Skill, SkillAssignment } from '../app/challenge';
 import { SliderModule } from 'primeng/slider';
 import { StepperModule } from 'primeng/stepper';
 import { ButtonModule } from 'primeng/button';
@@ -92,11 +92,22 @@ export class ChallengeCreateComponent {
     data = Object.assign(data, {group_id: this.groupId})
     this.challengeService.createChallenge(data).subscribe({
       next: value => {
-        console.log("Response", value);
-        this.router.navigate(['groupDetails', this.groupId]);
+        this.challengeService.updateSkills(this._prepareSkillAssignments(this.skills, value.data.newID)).subscribe({
+          next: () => this.router.navigate(['groupDetails', this.groupId]),
+          error: err => this.challengeService.handleServerError(err)
+        });
       },
       error: err => {console.log(err);}
   });
+  }
+
+  _prepareSkillAssignments(skills: Skill[], challenge_id: number) : SkillAssignment[] {
+    return skills.map<SkillAssignment>(skill => { return {
+      skill_id: skill.skill_id,
+      challenge_id: challenge_id,
+      skill_value: this._getSkillValue(skill.skill_id),
+      group_id: this.groupId
+    }});
   }
 
   loadTemplate() {

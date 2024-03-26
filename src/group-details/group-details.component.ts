@@ -5,7 +5,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button'
 import { GroupDetailsService } from './group-details.service';
 import { GroupsService } from '../groups/groups.service';
-import { GroupMember, Invitation, bottomAction, Task, groupHero } from '../app/interfaces';
+import { GroupMember, Invitation, bottomAction, Task, groupHero, taskSkill } from '../app/interfaces';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { DialogGroupInviteComponent } from './dialog-group-invite/dialog-group-invite.component';
 import { MatDialog } from '@angular/material/dialog';
@@ -18,6 +18,8 @@ import { Hero, HeroClass } from '../app/hero';
 import { HeroService } from '../app/hero/hero.service';
 import { AvatarModule } from 'primeng/avatar';
 import HeroClassData from '../app/data/heroClasses.json';
+import { Challenge, Skill, SkillAssignment } from '../app/challenge';
+import SkillData from '../app/data/skills.json';
 
 @Component({
   selector: 'app-group-details',
@@ -39,8 +41,11 @@ export class GroupDetailsComponent {
   groupInvitations: Invitation[] = [];
   heros: Hero[] = [];
   groupHeros: groupHero[] = [];
+  taskSkills: taskSkill[] = [];
+  skills: Skill[] = SkillData.skills;
   heroClasses: HeroClass[] = HeroClassData.heroClasses;
   tasks: Task[] = [];
+  challenges: Challenge[] = [];
   groupId = -1;
   account_name : string;
   today = '';
@@ -80,9 +85,33 @@ export class GroupDetailsComponent {
       error: err => this.groupsService.handleServerError(err)
     });
     this.challengeService.getTasks(this.groupId).subscribe({
-      next: tasks => {this.tasks = this._sortTasks(tasks); console.log(tasks)},
+      next: tasks => {this.tasks = this._sortTasks(tasks); this._loadAndMergeSkills()},
       error: err => this.challengeService.handleServerError(err)
-    })
+    });
+    this.challengeService.getChallenges(this.groupId).subscribe({
+      next: challenges => { this.challenges = challenges;},
+      error: err => this.challengeService.handleServerError(err)
+    });
+  }
+
+  _loadAndMergeSkills() {
+    let challenge_ids : string[] = [];
+    this.tasks.forEach(task => {
+      if(challenge_ids.find(id => task.challenge_id.toString() === id ) == undefined) {challenge_ids.push(task.challenge_id.toString())}
+    });
+    this.challengeService.getSkills(challenge_ids, this.groupId).subscribe({
+      next: skills => {this._mergeSkills(skills)},
+      error: err => this.challengeService.handleServerError(err)
+    });
+  }
+
+  _mergeSkills(skills: SkillAssignment[]) {
+    skills.forEach(skill => { skill.skill_name = this.skills.find(data => data.skill_id == skill.skill_id)?.skill_name;});
+    this.tasks.forEach(task => this.taskSkills.push({
+      task: task,
+      skills: skills.filter(skill => skill.challenge_id === task.challenge_id)
+    }));
+    console.log(this.taskSkills);
   }
 
   _loadAndMergeHeros() {

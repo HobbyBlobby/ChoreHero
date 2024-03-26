@@ -4,3 +4,24 @@ export interface Skill {
     value?: number
 }
 
+export interface SkillAssignment {
+    skill_id: number,
+    challenge_id: number,
+    skill_value: number,
+    group_id: number,
+    account_name?: string,
+    skill_name?: string
+}
+
+export interface Challenge {
+    challenge_id: number,
+    group_id: number,
+    challenge_name: string,
+    challenge_description: string,
+    schedule_mode: string, 
+    schedule_period: number,
+    schedule_selection: string, 
+    assigned_to: string,
+    needs_scheduling: string,
+    active: string
+}

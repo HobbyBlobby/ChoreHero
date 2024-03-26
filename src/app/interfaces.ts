@@ -1,3 +1,4 @@
+import { SkillAssignment } from './challenge';
 import { Hero, HeroClass } from './hero';
 
 // export interface Hero {
@@ -73,4 +74,9 @@ export interface Invitation {
     member: GroupMember,
     hero?: Hero,
     heroClass?: HeroClass
+  }
+
+  export interface taskSkill {
+    task: Task,
+    skills?: SkillAssignment[]
   }
