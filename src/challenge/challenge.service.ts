@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { WebService } from '../app/web.service';
 import { Observable } from 'rxjs';
 import { Task } from '../app/interfaces';
-import { Challenge, SkillAssignment } from '../app/challenge';
+import { Challenge, HeroSkill, SkillAssignment } from '../app/challenge';
 
 @Injectable({
   providedIn: 'root'
@@ -12,8 +12,10 @@ export class ChallengeService extends WebService {
   private challengeGetURL = this.baseURL + "challenges/challengeGet.php";
   private getTasksURL = this.baseURL + "challenges/getTasks.php";
   private updateTaskURL = this.baseURL + "challenges/updateTask.php";
+  private clearTaskURL = this.baseURL + "challenges/clearTask.php";
   private skillsUpdateURL = this.baseURL + "challenges/skillsUpdate.php";
   private skillsGetURL = this.baseURL + "challenges/skillsGet.php"
+  private heroSkillsGetURL = this.baseURL + "challenges/heroSkillsGet.php"
 
   getTasks(group_id: number): Observable<any> {
     return this.fetch_data(this.getTasksURL, {group_id: group_id});
@@ -21,6 +23,10 @@ export class ChallengeService extends WebService {
 
   updateTask(task: Task): Observable<any> {
     return this.post_data(this.updateTaskURL, {}, task);
+  }
+
+  clearTask(task: Task): Observable<any> {
+    return this.post_data(this.clearTaskURL, {}, task);
   }
 
   createChallenge(data: any) : Observable<any>{
@@ -34,6 +40,13 @@ export class ChallengeService extends WebService {
   getSkills(challenge_ids: string[], group_id: number) : Observable<SkillAssignment[]> {
     return this.fetch_data<SkillAssignment[]>(this.skillsGetURL, {
       challenges: challenge_ids.join(","),
+      group_id: group_id
+    });
+  }
+
+  getHeroSkills(hero_ids: string[], group_id: number) : Observable<HeroSkill[]> {
+    return this.fetch_data<HeroSkill[]>(this.heroSkillsGetURL, {
+      heros: hero_ids.join(","),
       group_id: group_id
     });
   }

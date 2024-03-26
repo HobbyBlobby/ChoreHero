@@ -8,6 +8,11 @@
     <img [src]="this.heroClass.img" style="border: 2px solid black; grid-row-start: 1; grid-row-end: 3;"/>
     <h2 style="border: 2px solid black">{{this.hero.hero_name}}</h2>
     <h3 style="border: 2px solid black">{{this.heroClass.class_name}}</h3>
+    <div class="flex justify-content-around" style="flex-direction: column;">
+        @for (skill of this.heroSkills; track $index) {
+            <p>{{this.skillName(skill.skill_id)}} = {{skill.skill_value}}</p>
+        }
+    </div>
     <!-- <div style="background-color: #404040; padding:.5em; border-radius: 0.5em; width: 20em;">Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</div> -->
 </div>
 }

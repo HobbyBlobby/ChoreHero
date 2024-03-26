@@ -13,6 +13,14 @@ export interface SkillAssignment {
     skill_name?: string
 }
 
+export interface HeroSkill {
+    hero_id: number, 
+    skill_id: number,
+    group_id: number,
+    account_name: string, 
+    skill_value: number
+}
+
 export interface Challenge {
     challenge_id: number,
     group_id: number,
