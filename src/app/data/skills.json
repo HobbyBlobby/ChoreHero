@@ -1,15 +1,19 @@
 {
 "skills": [{
     "skill_id": 1,
-    "skill_name": "Strength"
+    "skill_name": "Strength",
+    "skill_color": "#fbbf24"
   },{
     "skill_id": 2,
-    "skill_name": "Dexterity"
+    "skill_name": "Dexterity",
+    "skill_color": "#60a5fa"
   },{
     "skill_id": 3,
-    "skill_name": "Stamina"
+    "skill_name": "Stamina",
+    "skill_color": "#c084fc"
     },{
       "skill_id": 4,
-      "skill_name": "Precision"
-    }]
+      "skill_name": "Precision",
+      "skill_color": "#34d399"
+      }]
 }

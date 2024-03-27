@@ -1,7 +1,8 @@
 export interface Skill {
     skill_id: number, 
     skill_name: string,
-    value?: number
+    value?: number,
+    skill_color?: string
 }
 
 export interface SkillAssignment {
@@ -18,7 +19,8 @@ export interface HeroSkill {
     skill_id: number,
     group_id: number,
     account_name: string, 
-    skill_value: number
+    skill_value: number,
+    skill_level: number
 }
 
 export interface Challenge {
