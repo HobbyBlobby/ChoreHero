@@ -72,7 +72,7 @@ CREATE TABLE `Challenges` (
   KEY `fk_Challenges_Group_idx` (`group_id`),
   CONSTRAINT `fk_Challenges_Account` FOREIGN KEY (`assigned_to`) REFERENCES `Accounts` (`account_name`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_Challenges_Group` FOREIGN KEY (`group_id`) REFERENCES `Groups` (`group_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -190,7 +190,7 @@ CREATE TABLE `Skills` (
   PRIMARY KEY (`skill_id`,`challenge_id`),
   KEY `fk_Skills_Challenge_idx` (`challenge_id`),
   KEY `fk_Skills_Group_idx` (`group_id`),
-  CONSTRAINT `fk_Skills_Challenge` FOREIGN KEY (`challenge_id`) REFERENCES `Challenges` (`challenge_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_Skills_Challenge` FOREIGN KEY (`challenge_id`) REFERENCES `Challenges` (`challenge_id`) ON DELETE CASCADE ON UPDATE NO ACTION,
   CONSTRAINT `fk_Skills_Group` FOREIGN KEY (`group_id`) REFERENCES `Groups` (`group_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -213,13 +213,11 @@ CREATE TABLE `Tasks` (
   `status` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`task_id`),
   UNIQUE KEY `task_id_UNIQUE` (`task_id`),
-  KEY `fk_Tasks_Challenge_idx` (`challenge_id`),
   KEY `fk_Tasks_Group_idx` (`group_id`),
   KEY `fk_Tasks_Account_idx` (`assigned_to`),
   CONSTRAINT `fk_Tasks_Account` FOREIGN KEY (`assigned_to`) REFERENCES `Accounts` (`account_name`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `fk_Tasks_Challenge` FOREIGN KEY (`challenge_id`) REFERENCES `Challenges` (`challenge_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_Tasks_Group` FOREIGN KEY (`group_id`) REFERENCES `Groups` (`group_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=72 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=101 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -231,4 +229,4 @@ CREATE TABLE `Tasks` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-03-27 20:36:58
+-- Dump completed on 2024-03-28 22:47:34
