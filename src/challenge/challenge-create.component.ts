@@ -51,7 +51,7 @@ export class ChallengeCreateComponent {
     schedule_mode: new FormControl('OneTime'),
     schedule_date: new FormControl(Date()),
     schedule_period: new FormControl(1),
-    schedule_selection: new FormControl([])
+    schedule_selection: new FormControl([''])
   })
   skillForm = new FormGroup({});
   public menuEntries : bottomAction[] = [{
@@ -60,7 +60,8 @@ export class ChallengeCreateComponent {
     action: this.loadTemplate
   }];
   groupId = -1;
-  skills: Skill[] = SkillData.skills;
+  challenge_id : number = -1;
+  skills: Skill[] = [];
 
   constructor(
     private appService: AppService,
@@ -68,13 +69,43 @@ export class ChallengeCreateComponent {
     private challengeService: ChallengeService
   ) {
     this.appService.emitChangeActions(this.menuEntries);
-    this.groupId = this.route.snapshot.params['group_id']
+    this.groupId = this.route.snapshot.params['group_id'];
+    this.challenge_id = this.route.snapshot.params['challenge_id'] || -1;
   }
 
   ngOnInit(): void {
-    this.skills.forEach(skill => {
-      this.skillForm.addControl(skill.skill_id.toString(), new FormControl(30));
-    });    
+    if(this.challenge_id >= 0) {
+      this.challengeService.getChallenge(this.groupId, this.challenge_id).subscribe({
+        next: data => {
+          this.createForm.setValue({
+            challenge_name: data[0].challenge_name,
+            description: data[0].challenge_description
+          });
+          this.scheduleForm.setValue({
+            schedule_mode: data[0].schedule_mode,
+            schedule_date: data[0].schedule_date,
+            schedule_period: data[0].schedule_period,
+            schedule_selection: data[0].schedule_selection.split(",")
+          });
+        },
+        error: err => this.challengeService.handleServerError(err)
+      });
+      this.challengeService.getSkills([this.challenge_id.toString()], this.groupId).subscribe({
+        next: skills => {
+          skills.forEach(skill => { 
+            let skillFromData = SkillData.skills.find(dataSkill => dataSkill.skill_id == skill.skill_id);
+            if(skillFromData) this.skills.push(skillFromData);
+            this.skillForm.addControl(skill.skill_id.toString(), new FormControl(parseInt(skill.skill_value.toString())))
+          });
+        },
+        error: err => this.challengeService.handleServerError(err)
+      });
+    } else { // pre-populate skills from skill data
+      this.skills = SkillData.skills;
+      this.skills.forEach(skill => {
+        this.skillForm.addControl(skill.skill_id.toString(), new FormControl(30));
+      });    
+  }
   }
 
   _getSkillValue(skill_id: number) : number {
@@ -93,6 +124,19 @@ export class ChallengeCreateComponent {
     this.challengeService.createChallenge(data).subscribe({
       next: value => {
         this.challengeService.updateSkills(this._prepareSkillAssignments(this.skills, value.data.newID)).subscribe({
+          next: () => this.router.navigate(['groupDetails', this.groupId]),
+          error: err => this.challengeService.handleServerError(err)
+        });
+      },
+      error: err => {console.log(err);}
+  });
+  }
+  submitUpdate() {
+    let data = Object.assign(this.createForm.value, this.scheduleForm.value);
+    data = Object.assign(data, {group_id: this.groupId, challenge_id: this.challenge_id})
+    this.challengeService.updateChallenge(data).subscribe({
+      next: value => {
+        this.challengeService.updateSkills(this._prepareSkillAssignments(this.skills, this.challenge_id)).subscribe({
           next: () => this.router.navigate(['groupDetails', this.groupId]),
           error: err => this.challengeService.handleServerError(err)
         });

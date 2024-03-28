@@ -136,7 +136,7 @@
                                     <p i18n>Name: {{this.createForm.value.challenge_name}}</p>
                                 </li>
                                 <li>
-                                    <p i18n>Name: {{this.scheduleForm.value.schedule_mode}}</p>
+                                    <p i18n>Schedule: {{this.scheduleForm.value.schedule_mode}}</p>
                                 </li>
                                 <li>
                                     <p i18n>Total skill: {{this._getTotalSkill()}}</p>
@@ -147,9 +147,14 @@
                     </div>
                     <div class="flex pt-4 justify-content-between">
                         <p-button i18m-label label="Back" icon="pi pi-arrow-left" (onClick)="prevCallback.emit()" />
-                        <p-button i18n-label label="Confirm" icon="pi pi-check" iconPos="right" severity="success"
+                        @if (this.challenge_id < 0) {
+                            <p-button i18n-label label="Confirm" icon="pi pi-check" iconPos="right" severity="success"
                             (onClick)="this.submitCreate()" />
-                    </div>
+                        } @else {
+                            <p-button i18n-label label="Update" icon="pi pi-check" iconPos="right" severity="success"
+                            (onClick)="this.submitUpdate()" />
+                        }
+                        </div>
                 </section>
             </ng-template>
         </p-stepperPanel>

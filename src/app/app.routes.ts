@@ -6,6 +6,7 @@ import { GroupDetailsComponent } from '../group-details/group-details.component'
 import { ChallengeCreateComponent } from '../challenge/challenge-create.component';
 import { HeroCreateComponent } from './hero/hero-create/hero-create.component';
 import { HeroComponent } from  './hero/hero.component';
+import { ChallengeListComponent } from '../challenge/challenge-list.component';
 
 export const routes: Routes = [
     {
@@ -39,6 +40,11 @@ export const routes: Routes = [
         title: 'ChoreHeros>Create a challenge'
     },
     {
+        path: 'challengeEdit/:group_id/:challenge_id',
+        component: ChallengeCreateComponent,
+        title: 'ChoreHeros>Change a challenge'
+    },
+    {
         path: 'createHero/:group_id',
         component: HeroCreateComponent,
         title: 'ChoreHeros>Create your Hero'
@@ -47,6 +53,10 @@ export const routes: Routes = [
         path: 'hero/:group_id/:hero_id',
         component: HeroComponent,
         title: 'ChoreHeros>Your Hero'
+    },
+    {
+        path: 'challengeManage/:group_id',
+        component: ChallengeListComponent,
+        title: 'ChoreHeros>Manage Challenges'
     }
-
 ];

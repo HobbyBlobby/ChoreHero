@@ -15,13 +15,20 @@ if(empty($_GET["group_id"])) {
     return;
 }
 
-if($result = db_select("Challenges", [
+$whereObject = [
     "group_id" => $_GET["group_id"]
-])) {
+];
+
+if(array_key_exists('challenge_id', $_GET) && !empty($_GET["challenge_id"])) {
+    $whereObject["challenge_id"] = $_GET["challenge_id"];
+}
+
+if($result = db_select("Challenges", $whereObject)) {
     echo json_encode($result);
     return;
 } else {
-    json_encode($error);
+    if(empty($error)) {return;} // no challenges could be the case in a new groupd > this isn't an error
+    echo json_encode($error);
     http_response_code(500);
 }
 

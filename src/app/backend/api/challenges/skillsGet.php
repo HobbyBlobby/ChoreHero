@@ -20,7 +20,8 @@ if($result = _doSelect($sql)) {
     echo json_encode($result);
     return;
 } else {
-    json_encode($error);
+    if(empty($error)) {return;}
+    echo json_encode($error);
     http_response_code(500);
 }
 

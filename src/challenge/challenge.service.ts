@@ -9,7 +9,9 @@ import { Challenge, HeroSkill, SkillAssignment } from '../app/challenge';
 })
 export class ChallengeService extends WebService {
   private challengeCreateURL = this.baseURL + "challenges/challengeCreate.php";
+  private challengeUpdateURL = this.baseURL + "challenges/challengeUpdate.php";
   private challengeGetURL = this.baseURL + "challenges/challengeGet.php";
+  private challengeDeleteURL = this.baseURL + "challenges/challengeDelete.php";
   private getTasksURL = this.baseURL + "challenges/getTasks.php";
   private updateTaskURL = this.baseURL + "challenges/updateTask.php";
   private clearTaskURL = this.baseURL + "challenges/clearTask.php";
@@ -32,6 +34,22 @@ export class ChallengeService extends WebService {
   createChallenge(data: any) : Observable<any>{
     return this.post_data(this.challengeCreateURL, {}, data);
   }
+  updateChallenge(data: any) : Observable<any>{
+    return this.post_data(this.challengeUpdateURL, {}, data);
+  }
+  getChallenges(group_id: number) : Observable<Challenge[]>{
+    return this.fetch_data<Challenge[]>(this.challengeGetURL, {group_id : group_id});
+  }
+  getChallenge(group_id: number, challenge_id: number) : Observable<Challenge[]>{
+    return this.fetch_data<Challenge[]>(this.challengeGetURL, {group_id : group_id, challenge_id: challenge_id});
+  }
+  deleteChallenge(group_id: number, challenge_id: number, withTasks : boolean = false) : Observable<any>{
+    return this.fetch_data(this.challengeDeleteURL, {
+      group_id: group_id,
+      challenge_id: challenge_id,
+      withTasks: withTasks
+    });
+  }
 
   updateSkills(data: SkillAssignment[]) : Observable<any> {
     return this.post_data(this.skillsUpdateURL, {}, data);
@@ -49,9 +67,5 @@ export class ChallengeService extends WebService {
       heros: hero_ids.join(","),
       group_id: group_id
     });
-  }
-
-  getChallenges(group_id: number) : Observable<Challenge[]>{
-    return this.fetch_data<Challenge[]>(this.challengeGetURL, {group_id : group_id});
   }
 }

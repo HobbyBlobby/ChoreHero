@@ -29,6 +29,7 @@ export interface Challenge {
     challenge_name: string,
     challenge_description: string,
     schedule_mode: string, 
+    schedule_date: string,
     schedule_period: number,
     schedule_selection: string, 
     assigned_to: string,

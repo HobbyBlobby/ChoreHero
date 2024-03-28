@@ -51,7 +51,8 @@ export class GroupDetailsComponent {
   today = '';
   route: ActivatedRoute = inject(ActivatedRoute);
   public menuEntries : bottomAction[] = [
-    {text: 'Create Challenge', action: this.createGroupChallenge.bind(this), icon: 'add'}
+    {text: 'Create Challenge', action: this.createGroupChallenge.bind(this), icon: 'add'},
+    {text: 'Manage Challenges', action: this.manageChallenges.bind(this), icon: 'list'}
   ];
 
   constructor(
@@ -99,6 +100,7 @@ export class GroupDetailsComponent {
     this.tasks.forEach(task => {
       if(challenge_ids.find(id => task.challenge_id.toString() === id ) == undefined) {challenge_ids.push(task.challenge_id.toString())}
     });
+    if(challenge_ids.length == 0) {return;}
     this.challengeService.getSkills(challenge_ids, this.groupId).subscribe({
       next: skills => {this._mergeSkills(skills)},
       error: err => this.challengeService.handleServerError(err)
@@ -106,6 +108,7 @@ export class GroupDetailsComponent {
   }
 
   _mergeSkills(skills: SkillAssignment[]) {
+    if(!skills) return;
     skills.forEach(skill => { skill.skill_name = this.skills.find(data => data.skill_id == skill.skill_id)?.skill_name;});
     this.tasks.forEach(task => this.taskSkills.push({
       task: task,
@@ -129,7 +132,7 @@ export class GroupDetailsComponent {
       groupHero.heroClass = this.heroClasses.find(heroClass => heroClass.class_id == groupHero.hero?.class_id);
       this.groupHeros.push(groupHero);
     });
-    console.log(this.groupHeros);
+    // console.log(this.groupHeros);
   }
 
   _sortTasks(tasks: Task[]): Task[] {
@@ -163,6 +166,10 @@ export class GroupDetailsComponent {
 
   createGroupChallenge() {
     this.router.navigate(['challengeCreate', this.groupId]);
+  }
+
+  manageChallenges() {
+    this.router.navigate(['challengeManage', this.groupId]);
   }
 
   removeMember(member: GroupMember): void {
