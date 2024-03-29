@@ -102,7 +102,9 @@ function _doInsert($sql) {
 }
 
 function _doUpdate($sql) {
+  openlog("myScriptLog", LOG_PID | LOG_PERROR, LOG_LOCAL0);
   syslog(LOG_WARNING, "$sql");
+  closelog();
   global $error;
   if ($result = mysqli_query(connect(), $sql)) {
     return ["status" => "success"];

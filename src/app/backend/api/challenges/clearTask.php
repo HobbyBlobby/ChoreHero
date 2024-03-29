@@ -48,8 +48,11 @@ if($taskSkills = db_select("Skills", [
     "challenge_id" => $DATA["challenge_id"]
 ])) {
     foreach($taskSkills as $skill) {
-        if($heroSkill = hasSkill($heroSkills, $skill["skill_id"])) { // existing skill > add
+        if($heroSkill = hasSkill($heroSkills, $skill["skill_id"])) { // existing skill > add skill values
             $heroSkill["skill_value"] += $skill["skill_value"];
+            if(!$heroSkill["skill_level"]) {
+                $heroSkill["skill_level"] = 0;
+            }
             $updateSkills[] = $heroSkill;
         } else { // new skill > init value
             $insertSkills[] = [
