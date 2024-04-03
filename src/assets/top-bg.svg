@@ -26,80 +26,102 @@
      inkscape:pagecheckerboard="0"
      inkscape:deskcolor="#d1d1d1"
      inkscape:document-units="mm"
-     inkscape:zoom="0.38039422"
-     inkscape:cx="917.46925"
-     inkscape:cy="189.27732"
+     inkscape:zoom="1.5215769"
+     inkscape:cx="832.36018"
+     inkscape:cy="107.78292"
      inkscape:window-width="1880"
      inkscape:window-height="1052"
      inkscape:window-x="0"
      inkscape:window-y="0"
      inkscape:window-maximized="1"
-     inkscape:current-layer="layer1" />
+     inkscape:current-layer="layer1"
+     showgrid="false" />
   <defs
-     id="defs1" />
+     id="defs1">
+    <filter
+       inkscape:collect="always"
+       style="color-interpolation-filters:sRGB"
+       id="filter10"
+       x="-0.042221892"
+       y="-0.26189005"
+       width="1.0844438"
+       height="1.5237801">
+      <feGaussianBlur
+         inkscape:collect="always"
+         stdDeviation="4.7538298"
+         id="feGaussianBlur10" />
+    </filter>
+  </defs>
   <g
      inkscape:label="Layer 1"
      inkscape:groupmode="layer"
      id="layer1">
     <circle
-       style="fill:#f5fd00;fill-opacity:0.147882;stroke-width:1.2;stroke-linecap:round;stroke-linejoin:round"
+       style="fill:#f7db00;fill-opacity:0.04994262;stroke-width:1.2;stroke-linecap:round;stroke-linejoin:round"
        id="path1"
        cx="203.24025"
        cy="31.596832"
        r="9.5358982" />
     <circle
-       style="fill:#f5fd00;fill-opacity:0.147882;stroke-width:1.2;stroke-linecap:round;stroke-linejoin:round"
+       style="fill:#f7db00;fill-opacity:0.04994262;stroke-width:1.2;stroke-linecap:round;stroke-linejoin:round"
        id="circle1"
        cx="199.97102"
        cy="6.5388203"
        r="9.5358982" />
     <circle
-       style="fill:#f5fd00;fill-opacity:0.147882;stroke-width:1.2;stroke-linecap:round;stroke-linejoin:round"
+       style="fill:#f7db00;fill-opacity:0.04994262;stroke-width:1.2;stroke-linecap:round;stroke-linejoin:round"
        id="circle2"
        cx="257.67929"
        cy="42.648388"
        r="9.5358982" />
     <circle
-       style="fill:#f5fd00;fill-opacity:0.147882;stroke-width:1.2;stroke-linecap:round;stroke-linejoin:round"
+       style="fill:#f7db00;fill-opacity:0.04994262;stroke-width:1.2;stroke-linecap:round;stroke-linejoin:round"
        id="circle3"
        cx="189.0195"
        cy="32.919331"
        r="9.5358982" />
     <circle
-       style="fill:#f5fd00;fill-opacity:0.147882;stroke-width:1.2;stroke-linecap:round;stroke-linejoin:round"
+       style="fill:#f7db00;fill-opacity:0.04994262;stroke-width:1.2;stroke-linecap:round;stroke-linejoin:round"
        id="circle4"
        cx="288.1395"
        cy="31.758493"
        r="9.5358982" />
     <circle
-       style="fill:#fd8d00;fill-opacity:0.147882;stroke-width:1.2;stroke-linecap:round;stroke-linejoin:round"
+       style="fill:#f7db00;fill-opacity:0.04994262;stroke-width:1.2;stroke-linecap:round;stroke-linejoin:round"
        id="circle5"
        cx="196.82677"
        cy="20.182203"
        r="9.5358982" />
     <circle
-       style="fill:#f5fd00;fill-opacity:0.147882;stroke-width:1.2;stroke-linecap:round;stroke-linejoin:round"
+       style="fill:#f7db00;fill-opacity:0.04994262;stroke-width:1.2;stroke-linecap:round;stroke-linejoin:round"
        id="circle6"
        cx="245.47386"
        cy="6.2610507"
        r="9.5358982" />
     <circle
-       style="fill:#f5fd00;fill-opacity:0.147882;stroke-width:1.2;stroke-linecap:round;stroke-linejoin:round"
+       style="fill:#f7db00;fill-opacity:0.04994262;stroke-width:1.2;stroke-linecap:round;stroke-linejoin:round"
        id="circle7"
        cx="237.55656"
        cy="8.9493322"
        r="9.5358982" />
     <circle
-       style="fill:#fd8d00;fill-opacity:0.147882;stroke-width:1.2;stroke-linecap:round;stroke-linejoin:round"
+       style="fill:#f7db00;fill-opacity:0.04994262;stroke-width:1.2;stroke-linecap:round;stroke-linejoin:round"
        id="circle8"
        cx="252.56929"
        cy="21.682663"
        r="9.5358982" />
     <circle
-       style="fill:#fd8d00;fill-opacity:0.147882;stroke-width:1.2;stroke-linecap:round;stroke-linejoin:round"
+       style="fill:#f7db00;fill-opacity:0.04994262;stroke-width:1.2;stroke-linecap:round;stroke-linejoin:round"
        id="circle9"
        cx="249.20973"
        cy="38.200626"
        r="9.5358982" />
+    <ellipse
+       style="fill:#f5fd00;fill-opacity:0.11959305;stroke-width:6.82679;stroke-linecap:round;stroke-linejoin:round;filter:url(#filter10)"
+       id="circle10"
+       cx="255.42914"
+       cy="0.77820188"
+       rx="135.10991"
+       ry="21.782408" />
   </g>
 </svg>
