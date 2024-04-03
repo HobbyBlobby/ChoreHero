@@ -1,7 +1,8 @@
 /* You can add global styles to this file, and also import other style files */
 @use '@angular/material' as mat;
 // @import '@angular/material/prebuilt-themes/purple-green.css';
-@import "primeng/resources/themes/lara-dark-blue/theme.css";
+// @import "primeng/resources/themes/lara-dark-blue/theme.css";
+@import "assets/themes/mytheme/theme.scss";
 @import "primeng/resources/primeng.css";
 @import "primeicons/primeicons.css";
 @import 'primeflex/primeflex.scss';
@@ -38,26 +39,6 @@ body {
     width: 100%;
 }
 
-.full-width {
-    width: 100%;
-}
-
-.flex {
-    display:flex;
-    width: 100%;
-}
-.justify-content-center{
-    justify-content: center;
-}
-.justify-content-end{
-    justify-content: end;
-}
-.justify-content-between{
-    justify-content: space-between;
-}
-.justify-content-around{
-    justify-content: space-around;
-}
 
 /**
 * Generated theme by Material Theme Generator
