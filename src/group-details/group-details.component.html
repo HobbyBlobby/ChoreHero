@@ -43,7 +43,7 @@
 </div>
 
 <mat-tab-group>
-    <mat-tab label="Members">
+    <!-- <mat-tab label="Members">
         <section>
             <h2>Members</h2>
             <mat-list>
@@ -71,14 +71,14 @@
                         }
                     </h4>
                     <p matListItemLine>{{hero.member.group_role}}</p>
-                    <!-- <button matListItemMeta mat-mini-fab color="primary" [matMenuTriggerFor]="memberMenu">
+                     <button matListItemMeta mat-mini-fab color="primary" [matMenuTriggerFor]="memberMenu">
                         <mat-icon>menu</mat-icon>
                     </button>
                     <mat-menu #memberMenu>
                         <button mat-menu-item (click)="this.removeMember(hero.member)">Remove</button>
-                    </mat-menu> -->
+                    </mat-menu> 
                 </mat-list-item>
-                <!-- <mat-divider [inset]="true"></mat-divider> -->
+                 <mat-divider [inset]="true"></mat-divider> 
                 }
             </mat-list>
             <button mat-button color="accent" (click)="this.openInviteDialog()">Add Member</button>
@@ -92,11 +92,11 @@
                     <h4 matListItemTitle>{{invite.account_name}}</h4>
                     <p matListItemLine>{{invite.invitation_code}}</p>
                 </mat-list-item>
-                <!-- <mat-divider [inset]="true"></mat-divider> -->
+                 <mat-divider [inset]="true"></mat-divider> 
                 }
             </mat-list>
         </section>
-    </mat-tab>
+    </mat-tab> -->
     <mat-tab label="Tasks">
         <h2>Todays tasks</h2>
         <mat-accordion>
