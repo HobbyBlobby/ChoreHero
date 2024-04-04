@@ -21,6 +21,11 @@ import HeroClassData from '../app/data/heroClasses.json';
 import { Challenge, Skill, SkillAssignment } from '../app/challenge';
 import SkillData from '../app/data/skills.json';
 
+import { TabViewModule } from 'primeng/tabview';
+import { CardModule } from 'primeng/card';
+import { ButtonModule } from 'primeng/button';
+
+
 @Component({
   selector: 'app-group-details',
   standalone: true,
@@ -32,7 +37,10 @@ import SkillData from '../app/data/skills.json';
     MatButtonModule,
     MatMenuModule,
     AvatarModule,
-    MatExpansionModule],
+    MatExpansionModule,
+    CardModule,
+    ButtonModule,
+    TabViewModule],
   templateUrl: './group-details.component.html',
   styleUrl: './group-details.component.scss'
 })
@@ -51,8 +59,8 @@ export class GroupDetailsComponent {
   today = '';
   route: ActivatedRoute = inject(ActivatedRoute);
   public menuEntries : bottomAction[] = [
-    {text: 'Create Challenge', action: this.createGroupChallenge.bind(this), icon: 'add'},
-    {text: 'Manage Challenges', action: this.manageChallenges.bind(this), icon: 'list'}
+    {text: 'Create Challenge', action: this.createGroupChallenge.bind(this), icon: 'pi-plus'},
+    {text: 'Manage Challenges', action: this.manageChallenges.bind(this), icon: 'pi-list'}
   ];
 
   constructor(
@@ -130,6 +138,15 @@ export class GroupDetailsComponent {
       let groupHero: groupHero = {member: member};
       groupHero.hero = this.heros.find(hero => member.account_name === hero.account_name);
       groupHero.heroClass = this.heroClasses.find(heroClass => heroClass.class_id == groupHero.hero?.class_id);
+      if(!groupHero.heroClass) {
+        groupHero.heroClass = {
+          class_id : -1,
+          class_name : 'No hero created yet.',
+          img : '/assets/heros/dummy_placeholder.png',
+          img_full : '/assets/heros/dummy_placeholder.png',
+          img_head : '/assets/heros/dummy_placeholder.png'
+        }
+      }
       this.groupHeros.push(groupHero);
     });
     // console.log(this.groupHeros);

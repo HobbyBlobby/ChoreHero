@@ -1,3 +1,47 @@
+<div class="p-5">
+    <p-tabView>
+        <p-tabPanel i18n-header header="Group Heros">
+            <h2 i81n>Members</h2>
+            <div class="flex flex-wrap gap-3">
+                @for (hero of this.groupHeros; track $index) {
+                <p-card [header]="hero.hero?.hero_name" [subheader]="hero.heroClass?.class_name"
+                    [style]="{ width: '360px' }">
+                    <ng-template pTemplate="header">
+                        <img alt="Avatar" [src]="hero.heroClass?.img"
+                            [style]="{'height': '200px', 'object-fit': 'cover', 'object-position': '0% 0%'}" />
+                    </ng-template>
+                        <span>{{hero.member.group_role}}</span>
+                    <ng-template pTemplate="footer">
+                        <div class="flex flex-row justify-content-between">
+                            @if(!hero.hero && hero.member.account_name == this.account_name) {
+                        <button color="accent" mat-button [routerLink]="['/createHero', this.groupId]">
+                            <span>Create your Hero</span>
+                            <mat-icon>add</mat-icon>
+                        </button>
+                        }
+                        @if (hero.hero) {
+                        <button color="accent" mat-button [routerLink]="['/hero',this.groupId, hero.hero.hero_id]">
+                            <span>Show Hero</span>
+                            <mat-icon>arrow_right</mat-icon>
+                        </button>
+                        }
+                        <button matListItemMeta mat-mini-fab color="primary" [matMenuTriggerFor]="memberMenu">
+                            <mat-icon>menu</mat-icon>
+                        </button>
+                        <mat-menu #memberMenu>
+                            <button mat-menu-item (click)="this.removeMember(hero.member)">Remove</button>
+                        </mat-menu>
+                        </div>
+                    </ng-template>
+                </p-card>
+                }
+            </div>
+        </p-tabPanel>
+        <p-tabPanel i18n-header header="Tasks">
+        </p-tabPanel>
+    </p-tabView>
+</div>
+
 <mat-tab-group>
     <mat-tab label="Members">
         <section>
@@ -6,13 +50,13 @@
                 @for (hero of this.groupHeros; track hero) {
                 <mat-list-item>
                     @if (hero.heroClass) {
-                        <p-avatar shape="circle" matListItemIcon>
-                            <img [src]="hero.heroClass.img_head">
-                        </p-avatar>
+                    <p-avatar shape="circle" matListItemIcon>
+                        <img [src]="hero.heroClass.img_head">
+                    </p-avatar>
                     } @else {
-                        <mat-icon matListItemIcon>person_3</mat-icon>
+                    <mat-icon matListItemIcon>person_3</mat-icon>
                     }
-                        <h4 matListItemTitle>{{hero.member.account_name}}
+                    <h4 matListItemTitle>{{hero.member.account_name}}
                         @if(!hero.hero && hero.member.account_name == this.account_name) {
                         <button color="accent" mat-button [routerLink]="['/createHero', this.groupId]">
                             <span>Create your Hero</span>
@@ -24,14 +68,15 @@
                             <span>Show Hero</span>
                             <mat-icon>arrow_right</mat-icon>
                         </button>
-                        }</h4>
+                        }
+                    </h4>
                     <p matListItemLine>{{hero.member.group_role}}</p>
-                    <button matListItemMeta mat-mini-fab color="primary" [matMenuTriggerFor]="memberMenu">
+                    <!-- <button matListItemMeta mat-mini-fab color="primary" [matMenuTriggerFor]="memberMenu">
                         <mat-icon>menu</mat-icon>
                     </button>
                     <mat-menu #memberMenu>
                         <button mat-menu-item (click)="this.removeMember(hero.member)">Remove</button>
-                    </mat-menu>
+                    </mat-menu> -->
                 </mat-list-item>
                 <!-- <mat-divider [inset]="true"></mat-divider> -->
                 }
@@ -131,7 +176,7 @@
                     <div style="width: 40em; display: flex; flex-direction: column;">
                         <span>{{task.task.task_description}}</span>
                         @for (skill of task.skills; track $index) {
-                            <span>{{skill.skill_name}} = {{skill.skill_value}}</span>
+                        <span>{{skill.skill_name}} = {{skill.skill_value}}</span>
                         }
                     </div>
                     <button mat-raised-button [matMenuTriggerFor]="assignMember">
