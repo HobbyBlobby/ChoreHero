@@ -8,6 +8,9 @@ import { bottomAction } from './app/interfaces';
 export class AppService {
   private bottomActionsChanged = new Subject<bottomAction[]>();
   changeOnActions$ = this.bottomActionsChanged.asObservable();
+  
+  private hideToolbar = new Subject<boolean>();
+  changeOnHideToolbar = this.hideToolbar.asObservable();
 
   constructor() { }
 
@@ -15,4 +18,10 @@ export class AppService {
     this.bottomActionsChanged.next(change);
   }
 
+  emitShowToolbar() {
+    this.hideToolbar.next(false);
+  }
+  emitHideToolbar() {
+    this.hideToolbar.next(true);
+  }
 }

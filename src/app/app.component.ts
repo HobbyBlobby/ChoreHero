@@ -47,22 +47,26 @@ import { MenuItem } from 'primeng/api';
 export class AppComponent {
   title = 'angular-test';
   // @ViewChild(MatSidenav) sidenav!: MatSidenav;
+  private hideToolbarEvent: Observable<boolean>;
   public menuEntries : Observable<bottomAction[]>;
   public bottomActions : bottomAction[];
   public sidebarVisible : boolean = false;
   mainMenu: MenuItem[] | undefined;
-  
+  public showToolbar: boolean = true;
+
   constructor(
     private snackBar: MatSnackBar,
     private activatedRoute: ActivatedRoute, 
     private router: Router,
     private loginService: LoginService,
     private location: Location,
-    private appService: AppService,
+    private appService: AppService
 ) {
   this.bottomActions = [];
   this.menuEntries = this.appService.changeOnActions$; //.subscribe(value => {this.menuEntries = value;});
   this.menuEntries.subscribe(actions => this.bottomActions = actions || []);
+  this.hideToolbarEvent = this.appService.changeOnHideToolbar;
+  this.hideToolbarEvent.subscribe(hide => this.showToolbar = !hide);
 
   window.onscroll = function() {
     console.log("Scroll");

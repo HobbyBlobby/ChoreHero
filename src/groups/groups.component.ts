@@ -38,6 +38,7 @@ export class GroupsComponent {
     private appService: AppService
 ) {
   this.appService.emitChangeActions(this.menuEntries);
+  this.appService.emitShowToolbar();
 }
 
   ngOnInit(): void {

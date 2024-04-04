@@ -1,10 +1,6 @@
 import { Component } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { LoginService } from './login.service';
-import { MatSidenavModule } from '@angular/material/sidenav'
-import {MatInputModule} from '@angular/material/input';
-import {MatFormFieldModule} from '@angular/material/form-field';
-import {MatButtonModule} from '@angular/material/button';
 import { ActivatedRoute, Router } from '@angular/router';
 import { LoginResponse, bottomAction } from '../app/interfaces';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -12,10 +8,16 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Location } from '@angular/common';
 import { AppService } from '../app.service';
 
+import { InputTextModule } from 'primeng/inputtext';
+import {ButtonModule} from 'primeng/button';
+
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [ReactiveFormsModule, MatSidenavModule, MatFormFieldModule, MatInputModule, MatButtonModule],
+  imports: [
+    ReactiveFormsModule, 
+    InputTextModule,
+    ButtonModule],
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss'
 })
@@ -35,6 +37,7 @@ export class LoginComponent {
     private location: Location,
     private appService: AppService) {
       this.appService.emitChangeActions(this.menuEntries);
+      this.appService.emitHideToolbar();
     }
 
   ngOnInit(): void {

@@ -12,7 +12,7 @@
         </li>
       </ul>
     </p-sidebar>
-    <p-toolbar class="top-toolbar" [style]="{'background': 'inherit', 'border': '0px'}">
+    <p-toolbar *ngIf="showToolbar" class="top-toolbar" [style]="{'background': 'inherit', 'border': '0px'}">
       <div class="p-toolbar-group-start">
         <p-button (click)="sidebarVisible = true" icon="pi pi-bars"></p-button>
       </div>

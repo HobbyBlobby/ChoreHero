@@ -1,23 +1,19 @@
-<!-- <div class="content"> -->
-    <!-- <mat-sidenav-container class="sidenav-container"> -->
-        <!-- <mat-sidenav-content> -->
-            <section class="formBox">
-                <h2 class="section-heading">Login</h2>
-                <form [formGroup]="loginForm" (submit)="submitLogin()" class="loginForm">
-                    <mat-form-field>
-                        <mat-label for="account">Account Name</mat-label>
-                        <input matInput id="acount" type="text" formControlName="account">
-                    </mat-form-field>
-                    <mat-form-field>
-                        <mat-label for="passphrase">Passwort</mat-label>
-                        <input matInput id="passphrase" type="password" formControlName="passphrase">
-                    </mat-form-field>
-                    <button mat-raised-button color="primary" type="submit">Login</button>
-                </form>
-                <div style="margin-top:2em">
-                    <button mat-button color="primary" (click)="clickCreateAccount()" type="submit">No account? Create a new</button>
-                </div>
-            </section>
-        <!-- </mat-sidenav-content> -->
-    <!-- </mat-sidenav-container> -->
-<!-- </div> -->
+<div class="flex flex-column gap-3 m-auto max-w-min">
+    <h2 i18n>Login</h2>
+    <form [formGroup]="loginForm" (submit)="submitLogin()" class="loginForm">
+        <span class="p-float-label">
+            <input pInputText id="acount" type="text" formControlName="account">
+            <label for="account" i18n>Account Name</label>
+        </span>
+        <span class="p-float-label mt-4">
+            <input pInputText id="passphrase" type="password" formControlName="passphrase">
+            <label for="passphrase" i18n>Password</label>
+        </span>
+        <div class="mt-3">
+            <p-button type="submit" severity="primary" i18n-label label="Login"></p-button>
+        </div>
+    </form>
+    <div class="mt-4">
+        <p-button type="submit" [text]="true" i18n-label label="No account? Click here to create" (click)="this.clickCreateAccount()"></p-button>
+    </div>
+</div>
