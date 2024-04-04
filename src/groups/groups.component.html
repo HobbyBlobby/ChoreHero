@@ -1,26 +1,47 @@
-<h2>My Groups</h2>
-<div fxLayout="col wrap" fxLayoutAlign="center space-between">
-    @for (group of this.groupList; track group) {
-    <mat-card fxFlex style="padding: 5px;width: 45%; margin:20px" [routerLink]="['/groupDetails', group.group_id]">
-        <mat-card-header>{{group.group_name}}</mat-card-header>
-        <mat-card-content>
-            <!-- <div color="accent">
-                <span>Mitglieder</span>
-            </div> -->
-        </mat-card-content>
-        <mat-card-actions>
-            <button color="accent" mat-button aria-label="Button to open group details"
-                (click)="this.onToGroupDetails(group.group_id)">
-                <span>Open Group</span>
-                <mat-icon>arrow_forward</mat-icon>
-            </button>
-        </mat-card-actions>
-        <mat-card-footer>ID: {{group.group_id}}</mat-card-footer>
-    </mat-card>
+<div class="p-5">
+    @if (this.groupList.length > 0) {
+    <h2 i18n>My Groups</h2>
+    <div class="flex flex-wrap">
+        @for (group of this.groupList; track $index) {
+        <p-card [header]="group.group_name" subheader="ID: {{group.group_id}}" [style]="{ width: '360px' }"
+            styleClass="p-3">
+            <ng-template pTemplate="header">
+                <p-avatarGroup styleClass="mb-3">
+                    @for (hero of this._avatarsForGroup(group.group_id); track $index) {
+                    <p-avatar [image]="hero.img_head" size="large" shape="circle"
+                        [style]="{ 'background-color': 'var(--primary-color)'}"></p-avatar>
+                    }
+                </p-avatarGroup>
+            </ng-template>
+            <ng-template pTemplate="footer">
+                <p-button label="Goto group" icon="pi pi-arrow-right" severity="primary" [text]="true"
+                    (click)="this.onToGroupDetails(group.group_id)"></p-button>
+                <!-- <p-button label="Cancel" icon="pi pi-times" styleClass="p-button-secondary" [style]="{ 'margin-left': '.5em' }"></p-button> -->
+            </ng-template>
+        </p-card>
+        }
+    </div>
+    }
+    @if (this.invitations.length > 0) {
+    <h2 i18n>My Invitations</h2>
+    <div class="flex flex-wrap">
+        @for (invite of this.invitations; track $index) {
+        <p-card header="You are invitated to {{invite.group_name}}" subheader="Code: {{invite.invitation_code}}"
+            [style]="{ width: '360px' }" styleClass="p-3">
+            <ng-template pTemplate="header">
+            </ng-template>
+            <ng-template pTemplate="footer">
+                <p-button i18n-label label="Accept invite" icon="pi pi-check" severity="success" [text]="true"
+                    (click)="this.onInviteAccept(invite.invitation_code)"></p-button>
+                <p-button i18n-label label="Reject invite" icon="pi pi-times" severity="danger" [text]="true"
+                    (click)="this.onInviteAccept(invite.invitation_code)"></p-button>
+            </ng-template>
+        </p-card>
+        }
+    </div>
     }
 </div>
-<h2>My Invitations</h2>
-<div fxLayout="col wrap" fxLayoutAlign="center space-between">
+<!-- <div fxLayout="col wrap" fxLayoutAlign="center space-between">
     @for (invite of this.invitations; track invite) {
     <mat-card fxFlex style="padding: 5px;width: 45%; margin:20px">
         <mat-card-header>You are invited to {{invite.group_name}}</mat-card-header>
@@ -42,4 +63,4 @@
         <mat-card-footer></mat-card-footer>
     </mat-card>
     }
-</div>
+</div> -->

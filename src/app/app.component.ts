@@ -1,11 +1,8 @@
-import { ChangeDetectionStrategy, Component, Inject, ViewChild } from '@angular/core';
+import { Component } from '@angular/core';
 import { RouterModule, RouterOutlet } from '@angular/router';
-// import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatIconModule } from  '@angular/material/icon';
-// import {MatButtonModule} from '@angular/material/button';
 import {HttpClientModule} from '@angular/common/http';
 import {MatListModule} from '@angular/material/list'
-// import {MatSidenavModule, MatSidenav} from '@angular/material/sidenav';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
 import { LoginService } from '../login/login.service';
