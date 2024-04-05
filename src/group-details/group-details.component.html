@@ -7,30 +7,36 @@
                 <p-card [header]="hero.hero?.hero_name" [subheader]="hero.heroClass?.class_name"
                     [style]="{ width: '360px' }">
                     <ng-template pTemplate="header">
-                        <img alt="Avatar" [src]="hero.heroClass?.img"
-                            [style]="{'height': '200px', 'object-fit': 'cover', 'object-position': '0% 0%'}" />
+                        <div class="relative" [style]="{'height':'200px'}">
+                            <div class="absolute top-0 left-0 w-full">
+                                <img alt="Avatar" [src]="hero.heroClass?.img"
+                                    [style]="{'height': '200px', 'object-fit': 'cover', 'object-position': '0% 0%'}" />
+                            </div>
+                            <div class="absolute top-0 left-0 p-2">
+                                <button matListItemMeta mat-mini-fab color="primary" [matMenuTriggerFor]="memberMenu">
+                                    <mat-icon>menu</mat-icon>
+                                </button>
+                                <mat-menu #memberMenu>
+                                    <button mat-menu-item (click)="this.removeMember(hero.member)">Remove</button>
+                                </mat-menu>
+                            </div>
+                        </div>
                     </ng-template>
-                        <span>{{hero.member.group_role}}</span>
+                    <span>{{hero.member.group_role}}</span>
                     <ng-template pTemplate="footer">
                         <div class="flex flex-row justify-content-between">
                             @if(!hero.hero && hero.member.account_name == this.account_name) {
-                        <button color="accent" mat-button [routerLink]="['/createHero', this.groupId]">
-                            <span>Create your Hero</span>
-                            <mat-icon>add</mat-icon>
-                        </button>
-                        }
-                        @if (hero.hero) {
-                        <button color="accent" mat-button [routerLink]="['/hero',this.groupId, hero.hero.hero_id]">
-                            <span>Show Hero</span>
-                            <mat-icon>arrow_right</mat-icon>
-                        </button>
-                        }
-                        <button matListItemMeta mat-mini-fab color="primary" [matMenuTriggerFor]="memberMenu">
-                            <mat-icon>menu</mat-icon>
-                        </button>
-                        <mat-menu #memberMenu>
-                            <button mat-menu-item (click)="this.removeMember(hero.member)">Remove</button>
-                        </mat-menu>
+                            <button color="accent" mat-button [routerLink]="['/createHero', this.groupId]">
+                                <span>Create your Hero</span>
+                                <mat-icon>add</mat-icon>
+                            </button>
+                            }
+                            @if (hero.hero) {
+                            <button color="accent" mat-button [routerLink]="['/hero',this.groupId, hero.hero.hero_id]">
+                                <span>Show Hero</span>
+                                <mat-icon>arrow_right</mat-icon>
+                            </button>
+                            }
                         </div>
                     </ng-template>
                 </p-card>
@@ -38,6 +44,82 @@
             </div>
         </p-tabPanel>
         <p-tabPanel i18n-header header="Tasks">
+            <p-table #tasksTable [value]="this.tasks" [tableStyle]="{ 'min-width': '50rem' }"
+                [globalFilterFields]="['assigned_to']">
+                <ng-template pTemplate="caption">
+                    <div class="flex">
+                        <button pButton label="Clear" class="p-button-outlined" icon="pi pi-filter-slash"
+                            (click)="tasksTable.clear()"></button>
+                        <button pButton label="Show my tasks" class="p-button-outlined" icon="pi pi-filter-slash"
+                            (click)="tasksTable.filter(this.account_name, 'assigned_to', 'equals')"></button>
+                        <!-- <span class="p-input-icon-left ml-auto">
+                            <i class="pi pi-search"></i>
+                            <input pInputText type="text" (input)="dt1.filterGlobal($event.target.value, 'contains')" placeholder="Search keyword" />
+                        </span> -->
+                    </div>
+                </ng-template>
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th>Task</th>
+                        <th pSortableColumn="due_date">Date <p-sortIcon field="due_date"></p-sortIcon></th>
+                        <th style="min-width:15rem">
+                            <div class="flex align-items-center">
+                                Assigned Hero
+                                <p-columnFilter field="assigned_to" matchMode="in" display="menu"
+                                    [showMatchModes]="false" [showOperator]="false" [showAddButton]="false">
+                                    <ng-template pTemplate="header">
+                                        <div class="px-3 pt-3 pb-0">
+                                            <span class="font-bold">Assigned Hero</span>
+                                        </div>
+                                    </ng-template>
+                                    <ng-template pTemplate="filter" let-value let-filter="filterCallback">
+                                        <p-multiSelect
+                                            [ngModel]="value" [filter]="false" [options]="this.groupHeroFilter"
+                                            placeholder="Any" (onChange)="filter($event.value)">
+                                            <ng-template let-option pTemplate="item">
+                                                <div class="inline-block vertical-align-middle">
+                                                    <img [alt]="option"
+                                                        src="{{this.getHeroFromFilter(option)?.heroClass?.img_head}}" width="24"
+                                                        class="vertical-align-middle" />
+                                                    <span class="ml-1 mt-1">{{ option }}</span>
+                                                    <span *ngIf="option.hero"
+                                                        class="ml-1 mt-1">({{this.getHeroFromFilter(option)?.hero?.hero_name}})</span>
+                                                </div>
+                                            </ng-template>
+                                        </p-multiSelect>
+                                        <!-- <p-multiSelect
+                                            [ngModel]="value" [filter]="false" [options]="this.groupHeros"
+                                            placeholder="Any" (onChange)="filter($event.value)"
+                                            optionLabel="member.account_name" optionValue="member.account_name">
+                                            <ng-template let-option pTemplate="item">
+                                                <div class="inline-block vertical-align-middle">
+                                                    <img [alt]="option.member.account_name"
+                                                        src="{{option.heroClass.img_head}}" width="24"
+                                                        class="vertical-align-middle" />
+                                                    <span class="ml-1 mt-1">{{ option.member.account_name }}</span>
+                                                    <span *ngIf="option.hero"
+                                                        class="ml-1 mt-1">({{option.hero.hero_name}})</span>
+                                                </div>
+                                            </ng-template>
+                                        </p-multiSelect> -->
+                                    </ng-template>
+                                </p-columnFilter>
+                            </div>
+                        </th>
+                        <th>Status</th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-task>
+                    <tr>
+                        <td>{{ task.task_name }}</td>
+                        <td>{{ task.due_date }}</td>
+                        <td>{{task.assigned_to}}</td>
+                        <td><i class="pi"
+                                [ngClass]="{ 'text-green-500 pi-check-circle': task.status == 'done', 'text-red-500 pi-times-circle': task.status != 'done' }"></i>
+                        </td>
+                    </tr>
+                </ng-template>
+            </p-table>
         </p-tabPanel>
     </p-tabView>
 </div>

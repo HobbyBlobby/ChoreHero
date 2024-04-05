@@ -24,12 +24,17 @@ import SkillData from '../app/data/skills.json';
 import { TabViewModule } from 'primeng/tabview';
 import { CardModule } from 'primeng/card';
 import { ButtonModule } from 'primeng/button';
-
+import { TableModule } from 'primeng/table';
+import { CommonModule } from '@angular/common';
+import { MultiSelectModule } from 'primeng/multiselect';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-group-details',
   standalone: true,
   imports: [
+    CommonModule,
+    FormsModule,
     MatTabsModule,
     RouterModule,
     MatListModule,
@@ -40,7 +45,9 @@ import { ButtonModule } from 'primeng/button';
     MatExpansionModule,
     CardModule,
     ButtonModule,
-    TabViewModule],
+    MultiSelectModule,
+    TabViewModule,
+    TableModule],
   templateUrl: './group-details.component.html',
   styleUrl: './group-details.component.scss'
 })
@@ -49,6 +56,7 @@ export class GroupDetailsComponent {
   groupInvitations: Invitation[] = [];
   heros: Hero[] = [];
   groupHeros: groupHero[] = [];
+  groupHeroFilter: string[] = [];
   taskSkills: taskSkill[] = [];
   skills: Skill[] = SkillData.skills;
   heroClasses: HeroClass[] = HeroClassData.heroClasses;
@@ -148,8 +156,8 @@ export class GroupDetailsComponent {
         }
       }
       this.groupHeros.push(groupHero);
+      this.groupHeroFilter.push(member.account_name);
     });
-    // console.log(this.groupHeros);
   }
 
   _sortTasks(tasks: Task[]): Task[] {
@@ -179,6 +187,21 @@ export class GroupDetailsComponent {
         error: err => {this.challengeService.handleServerError(err); if(task) task.status = "open";}
       });
     }
+  }
+
+  getFilterFromHero(data: groupHero[]) : string[] {
+    let filter : string[] = [];
+    data.forEach(hero => filter.push(hero.member.account_name));
+    return filter;
+  }
+
+  setAssignFilter(assigned_to: string) : void {
+    let select = document.getElementById("assignSelect");
+    console.log(select);
+  }
+
+  getHeroFromFilter(account_name: string = this.account_name) : groupHero | undefined {
+    return this.groupHeros.find(hero => account_name === hero.member.account_name);
   }
 
   createGroupChallenge() {
