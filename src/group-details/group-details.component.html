@@ -45,7 +45,7 @@
         </p-tabPanel>
         <p-tabPanel i18n-header header="Tasks">
             <p-table #tasksTable [value]="this.tasks" [tableStyle]="{ 'min-width': '50rem' }"
-                [globalFilterFields]="['assigned_to']">
+                [globalFilterFields]="['assigned_to']" dataKey="task_id">
                 <ng-template pTemplate="caption">
                     <div class="flex">
                         <button pButton label="Clear" class="p-button-outlined" icon="pi pi-filter-slash"
@@ -60,6 +60,7 @@
                 </ng-template>
                 <ng-template pTemplate="header">
                     <tr>
+                        <th style="width: 5rem"></th> <!-- placeholder for expand arrow -->
                         <th>Task</th>
                         <th pSortableColumn="due_date">Date <p-sortIcon field="due_date"></p-sortIcon></th>
                         <th style="min-width:15rem">
@@ -73,14 +74,14 @@
                                         </div>
                                     </ng-template>
                                     <ng-template pTemplate="filter" let-value let-filter="filterCallback">
-                                        <p-multiSelect
-                                            [ngModel]="value" [filter]="false" [options]="this.groupHeroFilter"
-                                            placeholder="Any" (onChange)="filter($event.value)">
+                                        <p-multiSelect [ngModel]="value" [filter]="false"
+                                            [options]="this.groupHeroFilter" placeholder="Any"
+                                            (onChange)="filter($event.value)">
                                             <ng-template let-option pTemplate="item">
                                                 <div class="inline-block vertical-align-middle">
                                                     <img [alt]="option"
-                                                        src="{{this.getHeroFromFilter(option)?.heroClass?.img_head}}" width="24"
-                                                        class="vertical-align-middle" />
+                                                        src="{{this.getHeroFromFilter(option)?.heroClass?.img_head}}"
+                                                        width="24" class="vertical-align-middle" />
                                                     <span class="ml-1 mt-1">{{ option }}</span>
                                                     <span *ngIf="option.hero"
                                                         class="ml-1 mt-1">({{this.getHeroFromFilter(option)?.hero?.hero_name}})</span>
@@ -109,8 +110,13 @@
                         <th>Status</th>
                     </tr>
                 </ng-template>
-                <ng-template pTemplate="body" let-task>
+                <ng-template pTemplate="body" let-task let-expanded="expanded">
                     <tr>
+                        <td>
+                            <button type="button" pButton pRipple [pRowToggler]="task"
+                                class="p-button-text p-button-rounded p-button-plain"
+                                [icon]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'"></button>
+                        </td>
                         <td>{{ task.task_name }}</td>
                         <td>{{ task.due_date }}</td>
                         <td>{{task.assigned_to}}</td>
@@ -119,12 +125,42 @@
                         </td>
                     </tr>
                 </ng-template>
+                <ng-template pTemplate="rowexpansion" let-task>
+                    <tr>
+                        <td colspan="3">
+                            <div class="m-3">
+                                <p>{{task.task_description}}</p>
+                            </div>
+                        </td>
+                        <td>
+                            <button mat-raised-button [matMenuTriggerFor]="assignMember">
+                                <mat-icon>assignment</mat-icon>
+                                Assign task
+                            </button>
+                            <mat-menu #assignMember>
+                                @for (hero of this.groupMembers; track hero) {
+                                <button mat-menu-item (click)="this.assignTask(task.task_id, hero.account_name)">
+                                    {{hero.account_name}}
+                                </button>
+                                }
+                            </mat-menu>
+                        </td>
+                        <td>
+                            @if (task.status === 'open') {
+                            <button mat-mini-fab color="accent" style="margin-left: auto;"
+                                (click)="this.clearTask(task.task_id)">
+                                <mat-icon style="color: black;">done</mat-icon>
+                            </button>
+                            }
+                        </td>
+                    </tr>
+                </ng-template>
             </p-table>
         </p-tabPanel>
     </p-tabView>
 </div>
 
-<mat-tab-group>
+<!-- <mat-tab-group> -->
     <!-- <mat-tab label="Members">
         <section>
             <h2>Members</h2>
@@ -179,7 +215,7 @@
             </mat-list>
         </section>
     </mat-tab> -->
-    <mat-tab label="Tasks">
+    <!-- <mat-tab label="Tasks">
         <h2>Todays tasks</h2>
         <mat-accordion>
             @for (task of this.tasks; track $index) {
@@ -283,7 +319,7 @@
             }
             }
         </mat-accordion>
-        <!-- <mat-list>
+        <mat-list>
             @for (task of this.tasks; track $index) {
             @if (task.due_date > this.today) {
             <mat-list-item>
@@ -295,6 +331,6 @@
             </mat-list-item>
             }
             }
-        </mat-list> -->
+        </mat-list>
     </mat-tab>
-</mat-tab-group>
+</mat-tab-group> -->

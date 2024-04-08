@@ -182,6 +182,7 @@ export class GroupDetailsComponent {
         return;
       }
       task.status = "done";
+      console.log(task);
       this.challengeService.clearTask(task).subscribe({
         next: () => {if(task) this.challengeService.updateTask(task).subscribe();},
         error: err => {this.challengeService.handleServerError(err); if(task) task.status = "open";}

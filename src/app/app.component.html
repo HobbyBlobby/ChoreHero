@@ -21,13 +21,24 @@
         <p-button (click)="navBack()" icon="pi pi-arrow-left"></p-button>
       </div>
     </p-toolbar>
-    <div class="dock-window" [style]="{'z-index':'1000'}">
-      <p-dock *ngIf="this.bottomActions.length>0" [model]="this.bottomActions" position="bottom">
-        <ng-template pTemplate="item" let-item>
-          <p-button (click)="this.callFunction(item.action)" icon="pi {{item.icon}}"></p-button>
-        </ng-template>
-      </p-dock>
-    </div>
+    <!-- <div class="dock-window" [style]="{'z-index':'1000'}"> -->
+      <p-toolbar *ngIf="this.bottomActions.length>0" class="bottom-toolbar" [style]="{'background': 'inherit', 'border': '0px'}">
+        <!-- <ng-template pTemplate="item" let-item> -->
+          <div class="p-toolbar-group-start"></div>
+              <div class="p-toolbar-group-center">
+                <div class="w-max p-3 border-round top-toolbar-blur" [style]="{'background-color': 'rgba(200,200,200,0.6)'}">
+            @for (item of this.bottomActions; track $index) {
+            <p-button (click)="this.callFunction(item.action)" class="p-button-text p-button-rounded p-button-plain p-2" icon="pi {{item.icon}}"></p-button>
+            }
+          </div>
+          </div>
+          <div class="p-toolbar-group-end"></div>
+    
+        <!-- </ng-template> -->
+      </p-toolbar>
+        <!-- <p-dock *ngIf="" [model]="this.bottomActions" position="bottom"> -->
+      <!-- </p-dock> -->
+    <!-- </div> -->
     <section class="content">
       <router-outlet></router-outlet>
     </section>
