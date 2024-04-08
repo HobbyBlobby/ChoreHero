@@ -1,0 +1,20 @@
+{
+"roles": [
+    { "id": 1,
+      "name": "Unknown",
+      "level": 0
+    },
+    { "id": 2,
+      "name": "Member",
+      "level": 5
+    },
+    { "id": 3,
+      "name": "Leader",
+      "level": 10
+    },
+    { "id": 4,
+      "name": "Founder",
+      "level": 15
+    }
+  ]
+}

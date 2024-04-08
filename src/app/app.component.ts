@@ -47,6 +47,8 @@ export class AppComponent {
   private hideToolbarEvent: Observable<boolean>;
   public menuEntries : Observable<bottomAction[]>;
   public bottomActions : bottomAction[];
+  private groupLevelEvent: Observable<number>;
+  public groupLevel: number = -1;
   public sidebarVisible : boolean = false;
   mainMenu: MenuItem[] | undefined;
   public showToolbar: boolean = true;
@@ -61,12 +63,13 @@ export class AppComponent {
 ) {
   this.bottomActions = [];
   this.menuEntries = this.appService.changeOnActions$; //.subscribe(value => {this.menuEntries = value;});
-  this.menuEntries.subscribe(actions => this.bottomActions = actions || []);
+  this.menuEntries.subscribe(actions => this.bottomActions = this.filterActionsByLevel(actions) || []);
   this.hideToolbarEvent = this.appService.changeOnHideToolbar;
   this.hideToolbarEvent.subscribe(hide => this.showToolbar = !hide);
+  this.groupLevelEvent = this.appService.changeOnGroupLevel$;
+  this.groupLevelEvent.subscribe(level => {this.groupLevel = level; this.bottomActions = this.filterActionsByLevel(this.bottomActions)});
 
   window.onscroll = function() {
-    console.log("Scroll");
     document.getElementsByClassName("top-toolbar").item(0)?.classList.toggle("top-toolbar-blur", document.documentElement.scrollTop > 50);
     // document.getElementsByClassName("top-toolbar").item(0)?.classList.add("myToolbar")
   };
@@ -86,6 +89,14 @@ export class AppComponent {
           ]
       }];
     }
+
+    filterActionsByLevel(actions: bottomAction[] | undefined ): bottomAction[] {
+      console.log("Filter", actions, this.groupLevel);
+      if(!actions) return [];
+      if(this.groupLevel < 0) {return actions}
+      return actions.filter(action => !action.requiredLevel || action.requiredLevel <= this.groupLevel );
+    }
+
 
   toggleMenu(): void {
     // this.sidenav.toggle();

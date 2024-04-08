@@ -20,6 +20,7 @@ import { AvatarModule } from 'primeng/avatar';
 import HeroClassData from '../app/data/heroClasses.json';
 import { Challenge, Skill, SkillAssignment } from '../app/challenge';
 import SkillData from '../app/data/skills.json';
+import RoleData from '../app/data/hero_roles.json'
 
 import { TabViewModule } from 'primeng/tabview';
 import { CardModule } from 'primeng/card';
@@ -64,11 +65,12 @@ export class GroupDetailsComponent {
   challenges: Challenge[] = [];
   groupId = -1;
   account_name : string;
+  account_role: {role_name: string, role_level: number} | undefined = undefined;
   today = '';
   route: ActivatedRoute = inject(ActivatedRoute);
   public menuEntries : bottomAction[] = [
-    {text: 'Create Challenge', action: this.createGroupChallenge.bind(this), icon: 'pi-plus'},
-    {text: 'Manage Challenges', action: this.manageChallenges.bind(this), icon: 'pi-list'}
+    {text: 'Create Challenge', action: this.createGroupChallenge.bind(this), icon: 'pi-plus', requiredLevel: 10},
+    {text: 'Manage Challenges', action: this.manageChallenges.bind(this), icon: 'pi-list', requiredLevel: 10}
   ];
 
   constructor(
@@ -90,11 +92,31 @@ export class GroupDetailsComponent {
     this.loadData();
   }
 
+  _debugLog(data: any) : void {
+    console.log(data);
+  }
+
+  requiredLevel(requiredLevel: number) : boolean {
+    if(!this.account_role) return false;
+    return this.account_role.role_level >= requiredLevel;
+  }
+
+  _setMyGroupRole() : void {
+    let role_name = this.groupMembers.find(member => member.account_name === this.account_name)?.group_role || '';
+    if(role_name) {
+      this.account_role = {
+        role_name: role_name,
+        role_level: RoleData.roles.find(role => role.name === role_name)?.level || 0
+      }
+      this.appService.emitGroupLevelChanged(this.account_role?.role_level);
+    }
+  }
+
   loadData(): void {
     const today = new Date();
     this.today = today.getFullYear() + "-" + (today.getMonth()+1).toString().padStart(2, '0') + "-" + today.getDate().toString().padStart(2, '0');
     this.groupDetailService.getGroupMembers(this.groupId).subscribe({
-      next: members => {this.groupMembers = members; this._loadAndMergeHeros()},
+      next: members => {this.groupMembers = members; this._setMyGroupRole(); this._loadAndMergeHeros()},
       error: err => this.groupDetailService.handleServerError(err)
     });
     this.groupsService.getAllInvitations(this.groupId).subscribe({
@@ -109,6 +131,10 @@ export class GroupDetailsComponent {
       next: challenges => { this.challenges = challenges;},
       error: err => this.challengeService.handleServerError(err)
     });
+  }
+
+  changeRoleClicked(member: GroupMember) : void {
+    console.log("Change Role popup for", member);
   }
 
   _loadAndMergeSkills() {

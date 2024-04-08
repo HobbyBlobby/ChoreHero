@@ -56,7 +56,8 @@ export interface Invitation {
   export interface bottomAction {
     text: string,
     icon: string,
-    action: Function
+    action: Function,
+    requiredLevel?: number
   }
 
   export interface Task {

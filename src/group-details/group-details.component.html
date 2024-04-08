@@ -12,12 +12,13 @@
                                 <img alt="Avatar" [src]="hero.heroClass?.img"
                                     [style]="{'height': '200px', 'object-fit': 'cover', 'object-position': '0% 0%'}" />
                             </div>
-                            <div class="absolute top-0 left-0 p-2">
+                            <div class="absolute top-0 left-0 p-2" *ngIf="requiredLevel(10)">
                                 <button matListItemMeta mat-mini-fab color="primary" [matMenuTriggerFor]="memberMenu">
                                     <mat-icon>menu</mat-icon>
                                 </button>
                                 <mat-menu #memberMenu>
                                     <button mat-menu-item (click)="this.removeMember(hero.member)">Remove</button>
+                                    <button mat-menu-item (click)="this.changeRoleClicked(hero.member)">Change Role</button>
                                 </mat-menu>
                             </div>
                         </div>
@@ -50,14 +51,21 @@
                     <div class="flex">
                         <button pButton label="Clear" class="p-button-outlined" icon="pi pi-filter-slash"
                             (click)="tasksTable.clear()"></button>
-                        <button pButton label="Show my tasks" class="p-button-outlined" icon="pi pi-filter-slash"
-                            (click)="tasksTable.filter(this.account_name, 'assigned_to', 'equals')"></button>
+                        <button pButton label="Show my tasks" class="p-button-outlined" icon="pi pi-user"
+                            (click)="tasksTable.filterGlobal([this.account_name], 'equals')"></button>
                         <!-- <span class="p-input-icon-left ml-auto">
                             <i class="pi pi-search"></i>
                             <input pInputText type="text" (input)="dt1.filterGlobal($event.target.value, 'contains')" placeholder="Search keyword" />
                         </span> -->
                     </div>
                 </ng-template>
+                <!-- <ng-template pTemplate="groupheader" let-task>
+                    <tr pRowGroupHeader>
+                        <td colspan="2">
+                            <span class="font-bold ml-2">{{task.due_date}}</span>
+                        </td>
+                    </tr>
+                </ng-template> -->
                 <ng-template pTemplate="header">
                     <tr>
                         <th style="width: 5rem"></th> <!-- placeholder for expand arrow -->
@@ -73,7 +81,7 @@
                                             <span class="font-bold">Assigned Hero</span>
                                         </div>
                                     </ng-template>
-                                    <ng-template pTemplate="filter" let-value let-filter="filterCallback">
+                                    <ng-template pTemplate="filter" let-value let-filter="filterCallback" >
                                         <p-multiSelect [ngModel]="value" [filter]="false"
                                             [options]="this.groupHeroFilter" placeholder="Any"
                                             (onChange)="filter($event.value)">

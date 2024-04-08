@@ -12,6 +12,9 @@ export class AppService {
   private hideToolbar = new Subject<boolean>();
   changeOnHideToolbar = this.hideToolbar.asObservable();
 
+  private groupLevelChanged = new Subject<number>();
+  changeOnGroupLevel$ = this.groupLevelChanged.asObservable();
+
   constructor() { }
 
   emitChangeActions(change: bottomAction[]) {
@@ -24,4 +27,9 @@ export class AppService {
   emitHideToolbar() {
     this.hideToolbar.next(true);
   }
+
+  emitGroupLevelChanged(level: number) {
+    this.groupLevelChanged.next(level);
+  }
+
 }

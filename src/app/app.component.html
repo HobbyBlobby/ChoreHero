@@ -26,9 +26,9 @@
         <!-- <ng-template pTemplate="item" let-item> -->
           <div class="p-toolbar-group-start"></div>
               <div class="p-toolbar-group-center">
-                <div class="w-max p-3 border-round top-toolbar-blur" [style]="{'background-color': 'rgba(200,200,200,0.6)'}">
+                <div class="w-max p-2 border-round top-toolbar-blur shadow-8" [style]="{'background-color': 'rgba(200,200,200,0.6)'}">
             @for (item of this.bottomActions; track $index) {
-            <p-button (click)="this.callFunction(item.action)" class="p-button-text p-button-rounded p-button-plain p-2" icon="pi {{item.icon}}"></p-button>
+            <p-button (click)="this.callFunction(item.action)" [raised]="true" class="p-button-text p-button-rounded p-button-plain pl-2 pr-2" icon="pi {{item.icon}}"></p-button>
             }
           </div>
           </div>
