@@ -72,6 +72,7 @@ export class GroupDetailsComponent {
     {text: 'Create Challenge', action: this.createGroupChallenge.bind(this), icon: 'pi-plus', requiredLevel: 10},
     {text: 'Manage Challenges', action: this.manageChallenges.bind(this), icon: 'pi-list', requiredLevel: 10}
   ];
+  activeFilter = { "myTasks" : false }
 
   constructor(
     private snackBar: MatSnackBar,

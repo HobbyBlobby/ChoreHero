@@ -46,26 +46,15 @@
         </p-tabPanel>
         <p-tabPanel i18n-header header="Tasks">
             <p-table #tasksTable [value]="this.tasks" [tableStyle]="{ 'min-width': '50rem' }"
-                [globalFilterFields]="['assigned_to']" dataKey="task_id">
+                 [globalFilterFields]="['assigned_to']" dataKey="task_id"> <!--rowGroupMode="subheader" groupRowsBy="assigned_to" -->
                 <ng-template pTemplate="caption">
                     <div class="flex">
                         <button pButton label="Clear" class="p-button-outlined" icon="pi pi-filter-slash"
-                            (click)="tasksTable.clear()"></button>
-                        <button pButton label="Show my tasks" class="p-button-outlined" icon="pi pi-user"
-                            (click)="tasksTable.filterGlobal([this.account_name], 'equals')"></button>
-                        <!-- <span class="p-input-icon-left ml-auto">
-                            <i class="pi pi-search"></i>
-                            <input pInputText type="text" (input)="dt1.filterGlobal($event.target.value, 'contains')" placeholder="Search keyword" />
-                        </span> -->
+                            (click)="tasksTable.clear(); activeFilter.myTasks = false;"></button>
+                        <p-button label="Show my tasks" [raised]="true" icon="pi pi-user" [outlined]="!activeFilter.myTasks"
+                            (click)="tasksTable.filter([this.account_name], 'assigned_to', 'equals'); activeFilter.myTasks = !activeFilter.myTasks"></p-button>
                     </div>
                 </ng-template>
-                <!-- <ng-template pTemplate="groupheader" let-task>
-                    <tr pRowGroupHeader>
-                        <td colspan="2">
-                            <span class="font-bold ml-2">{{task.due_date}}</span>
-                        </td>
-                    </tr>
-                </ng-template> -->
                 <ng-template pTemplate="header">
                     <tr>
                         <th style="width: 5rem"></th> <!-- placeholder for expand arrow -->
@@ -118,7 +107,16 @@
                         <th>Status</th>
                     </tr>
                 </ng-template>
-                <ng-template pTemplate="body" let-task let-expanded="expanded">
+                <!-- <ng-template pTemplate="groupheader" let-task>
+                    <tr pRowGroupHeader>
+                        <td colspan="5">
+                            <span class="font-bold ml-2">{{task.assigned_to}}</span>
+                        </td>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="groupfooter" let-customer>
+                </ng-template> -->
+                <ng-template pTemplate="body" let-task let-expanded="expanded" let-rowIndex="rowIndex">
                     <tr>
                         <td>
                             <button type="button" pButton pRipple [pRowToggler]="task"

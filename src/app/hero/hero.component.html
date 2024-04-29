@@ -3,35 +3,74 @@
     <div style="background-color: #404040; padding:.5em; border-radius: 0.5em; position: absolute; top:6em; right:2em; width: 50ex; z-index: 10">Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</div>
 </div> -->
 @if (this.hero && this.heroClass) {
-<!-- <div fxLayout="col wrap" fxLayoutAlign="center space-between"> -->
-<div style="display: inline-grid; grid-auto-flow: row;">
-    <h2 >{{this.hero.hero_name}}</h2>
-    <h3 >{{this.heroClass.class_name}}</h3>
-    <img [src]="this.heroClass.img" style="grid-column-start: 1; grid-column-end: 3;" />
-    <div class="flex justify-content-around" style="flex-direction: column;">
+<div class="surface-card p-4 shadow-4 border-round max-w-max mx-auto relative">
+    <div style="max-height: 450px;" class="p-4 border-round min-w-max z-0">
+        <div class="absolute text-3xl font-medium text-900 mb-3 z-1 text-surface-900">{{this.hero.hero_name}}</div>
+        <img [src]="this.heroClass.img" class="top-0 left-0" />
+    </div>
+    <div class="font-medium text-800 mb-3 z-5 p-3 border-round">{{hero.account_name}} is our
+        {{heroClass.class_name}}</div>
+    <!-- <div style="height: 150px" class="border-2 border-dashed surface-border"> -->
+    <div class="flex justify-content-around surface-800 p-3 border-round" style="flex-direction: column;">
         @for (skill of this.heroSkills; track $index) {
         @if (this.levelValues) {
-        <p-meterGroup [value]="levelValues[skill.skill_id]" labelPosition="start">
-            <ng-template pTemplate="label">
-                <div class="flex flex-wrap gap-3" style="margin-top: 1em;">
-                    <ng-container *ngFor="let meterItem of levelValues[skill.skill_id]; let index = index">
-                        <div class="flex justify-content-between" style="flex-direction: row;">
-                            <div style="display: inline;">
-                                <span
-                                    [style]="{'height':'1ex', 'width': '1ex', 'border-radius': '50%', 'background-color': meterItem.color, 'margin': 'auto 1ex', 'display': 'inline-block'}"></span>
-                                <span class="text-secondary">{{ meterItem.label }} (Level {{meterItem.currLevel}})</span>
+        <div class="surface-100 border-round mb-2 p-1"> <!-- style="margin-left: {{2*$index + 'em'}} -->
+            <p-meterGroup [value]="levelValues[skill.skill_id]" labelPosition="start">
+                <ng-template pTemplate="label">
+                    <div class="flex flex-wrap gap-1" style="margin-top: 0em;">
+                        <ng-container *ngFor="let meterItem of levelValues[skill.skill_id]; let index = index">
+                            <div class="flex justify-content-between" style="flex-direction: row;">
+                                <div style="display: inline;">
+                                    <span
+                                        [style]="{'height':'1ex', 'width': '1ex', 'border-radius': '50%', 'background-color': meterItem.color, 'margin': 'auto 1ex', 'display': 'inline-block'}"></span>
+                                    <span class="text-secondary">{{ meterItem.label }} (Level
+                                        {{meterItem.currLevel}})</span>
+                                </div>
+                                <span> ({{meterItem.skill_value}} von {{meterItem.valueForNextLevel}})</span>
                             </div>
-                            <span> ({{meterItem.skill_value}} von {{meterItem.valueForNextLevel}})</span>
-                        </div>
-                    </ng-container>
-                </div>
-            </ng-template>
-        </p-meterGroup>
+                        </ng-container>
+                    </div>
+                </ng-template>
+            </p-meterGroup>
+        </div>
         } @else {
         <p>{{this.skillName(skill.skill_id)}} = {{skill.skill_value}}</p>
         }
         }
     </div>
-    <!-- <div style="background-color: #404040; padding:.5em; border-radius: 0.5em; width: 20em;">Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</div> -->
+    <!-- </div> -->
 </div>
+
+<!-- <div fxLayout="col wrap" fxLayoutAlign="center space-between"> -->
+<!-- <div style="display: inline-grid; grid-auto-flow: row;">
+        <h2>{{this.hero.hero_name}}</h2>
+        <h3>{{this.heroClass.class_name}}</h3>
+        <img [src]="this.heroClass.img" style="grid-column-start: 1; grid-column-end: 3;" />
+        <div class="flex justify-content-around" style="flex-direction: column;">
+            @for (skill of this.heroSkills; track $index) {
+            @if (this.levelValues) {
+            <p-meterGroup [value]="levelValues[skill.skill_id]" labelPosition="start">
+                <ng-template pTemplate="label">
+                    <div class="flex flex-wrap gap-3" style="margin-top: 1em;">
+                        <ng-container *ngFor="let meterItem of levelValues[skill.skill_id]; let index = index">
+                            <div class="flex justify-content-between" style="flex-direction: row;">
+                                <div style="display: inline;">
+                                    <span
+                                        [style]="{'height':'1ex', 'width': '1ex', 'border-radius': '50%', 'background-color': meterItem.color, 'margin': 'auto 1ex', 'display': 'inline-block'}"></span>
+                                    <span class="text-secondary">{{ meterItem.label }} (Level
+                                        {{meterItem.currLevel}})</span>
+                                </div>
+                                <span> ({{meterItem.skill_value}} von {{meterItem.valueForNextLevel}})</span>
+                            </div>
+                        </ng-container>
+                    </div>
+                </ng-template>
+            </p-meterGroup>
+            } @else {
+            <p>{{this.skillName(skill.skill_id)}} = {{skill.skill_value}}</p>
+            }
+            }
+        </div> -->
+<!-- <div style="background-color: #404040; padding:.5em; border-radius: 0.5em; width: 20em;">Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</div> -->
+<!-- </div> -->
 }

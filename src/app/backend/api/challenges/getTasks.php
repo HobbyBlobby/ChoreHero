@@ -51,7 +51,20 @@ function scheduleChallenge($challenge)
 //  3. else: schedule tasks starting from latest due_date until scheduled date is > 1 week ahead
 //  4. write tasks into Tasks table > re-read table and deliver data
 
-    $schedule_for = 7; //days
+    $schedule_for = 1; //days > default for one time 
+    switch ($challenge['schedule_mode']) {
+        case 'Daily':
+            $schedule_for = $challenge['schedule_period'];
+            break;
+        case 'Weekly':
+            $schedule_for = 7; // one week
+            break;
+        case 'Monthly':
+            $schedule_for = 31; // one month
+        default:
+            break;
+    }
+
     $schedule_until = date('Y-m-d', strtotime("now + $schedule_for days"));
     $latest = [];
 // 1.
@@ -60,6 +73,7 @@ function scheduleChallenge($challenge)
         "group_id" => $challenge["group_id"]
     ])) {
         $latest = $exist_tasks[0];
+        $latestPastDate = '1900-01-01';
         foreach($exist_tasks as $key=>$task) {
             // first set the latest task
             if($task["due_date"] > $latest["due_date"]) {
@@ -69,6 +83,15 @@ function scheduleChallenge($challenge)
             if($task["status"] == "done" && $task["due_date"] < date("Y-m-d")) {
                 unset($exist_tasks[$key]);
                 continue;
+            }
+            // remove all overdue tasks except the latest in past > remember corresponding date
+            if($task["status"] == "open" && date("Y-m-d") > $task["due_date"] && $task["due_date"] > $latestPastDate ) {
+                $latestPastDate = $task["due_date"];
+            }
+        }
+        foreach($exist_tasks as $key=>$task) {
+            if($task["status"] == "open" && $task["due_date"] < $latestPastDate) {
+                unset($exist_tasks[$key]);
             }
         }
 // 2. 
